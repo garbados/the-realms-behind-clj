@@ -47,11 +47,11 @@ Quick facts:
     - [Ranged](#ranged): Aptitude with ranged weapons.
     - [Resilience](#resilience): Health and constitution.
 - Mind
-    - [Lore](#lore) (subject): Specialized knowledge in a particular field.
     - [Craft](#craft): Making things.
     - [Deception](#deception): Lying.
     - [Diplomacy](#diplomacy): Making nice.
     - [Insight](#insight): Putting the clues together.
+    - [Lore](#lore) (subject): Specialized knowledge in a particular field.
     - [Medicine](#medicine): Affects mundane and magical healing.
     - [Streetwise](#streetwise): Knowledge of and experience with cities.
     - [Survival](#survival): Knowledge of and experience with wilderness.

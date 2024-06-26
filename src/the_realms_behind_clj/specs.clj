@@ -1,31 +1,12 @@
-(ns the-realms-behind-clj.core
-  (:require [clojure.java.io :as io]
-            [clojure.edn :as edn]
-            [clojure.spec.alpha :as s]))
-
-(defn walk-resource [dir]
-  (flatten
-   (for [file (file-seq (io/file (str "resources/" dir)))
-         :when (and (not (.isDirectory file))
-                    (re-find #"edn$" (.getName file)))]
-     (edn/read-string (slurp file)))))
-
-(def FEATS
-  (delay
-    (walk-resource "feats")))
-
-(defn feats [] @FEATS)
-
-(def EQUIPMENT
-  (delay
-    (walk-resource "equipment")))
-
-(defn equipment [] @EQUIPMENT)
+(ns the-realms-behind-clj.specs
+  (:require [clojure.spec.alpha :as s]))
 
 (s/def ::id keyword?)
 (s/def ::name string?)
 (s/def ::description string?)
 (s/def ::tags set?)
+
+;; CONTENT DEFINITIONS
 
 (s/def ::base-definition
   (s/keys :req-un [::id
@@ -101,3 +82,90 @@
          :armor ::armor
          :pack ::pack
          :item ::item)))
+
+;; CHARACTER DEFINITIONS
+
+(def attributes #{:body :mind :spirit :luck})
+(s/def ::attribute attributes)
+
+(def skills #{:acrobatics
+              :athletics
+              :awareness
+              :craft
+              :deception
+              :diplomacy
+              :insight
+              :lore
+              :medicine
+              :melee
+              :might
+              :performance
+              :presence
+              :ranged
+              :resilience
+              :resolve
+              :sorcery
+              :stealth
+              :streetwise
+              :survival
+              :theurgy})
+(s/def ::skill skills)
+
+(s/def ::attributes (s/map-of ::attribute nat-int?))
+(s/def ::skills (s/map-of ::skill nat-int?))
+
+(s/def ::equipped ::equipment)
+(s/def ::inventory ::equipment)
+
+(s/def ::health
+  (s/tuple nat-int? nat-int?))
+(s/def ::will nat-int?)
+(s/def ::fortune nat-int?)
+(s/def ::draw nat-int?)
+(s/def ::speed nat-int?)
+(s/def ::initiative nat-int?)
+
+(s/def ::parry nat-int?)
+(s/def ::dodge nat-int?)
+(s/def ::body nat-int?)
+(s/def ::mind nat-int?)
+(s/def ::spirit nat-int?)
+(s/def ::luck nat-int?)
+(s/def ::defenses
+  (s/keys :req-un [::parry
+                   ::dodge
+                   ::body
+                   ::mind
+                   ::spirit
+                   ::luck]))
+
+(s/def ::stats
+  (s/keys :req-un [::health
+                   ::will
+                   ::fortune
+                   ::draw
+                   ::speed
+                   ::initiative
+                   ::defenses]))
+
+(s/def ::player string?)
+(s/def ::bio
+  (s/keys :req-un [::name
+                   ::player
+                   ::description]))
+
+(s/def ::effects (s/map-of keyword? any?))
+
+(s/def ::character
+  (s/keys :req-un [::bio
+                   ::effects
+                   ::attributes
+                   ::skills
+                   ::feats
+                   ::equipped
+                   ::inventory
+                   ::stats]))
+
+(s/def ::defense
+  (s/or :attribute ::attribute
+        :melee #{:parry :dodge}))
