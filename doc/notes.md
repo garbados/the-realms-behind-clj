@@ -1,0 +1,117 @@
+## Notes
+
+- Worldbuilding:
+    - You play as a mortal who has come into contact with the Fae Queen, whether by dream or misadventure.
+    - The Fae Queen spans the Realms Behind, like something between a warlord and a magnetic axis.
+    - The Realms Behind are a system of higher-dimensional planes where timeless spirits conduct a War in Heaven through manipulation of mortal agents.
+        - The nature of the War in Heaven is ineffable, and everything that any mortal understands about it is partial and relative. It is every struggle against every struggle in every configuration, across all possible realities. Mortals often become tangled up with spirits whose motives in the War they can roughly comprehend or relate to, but it works the other way around too: a military commander beset by haunting visions gains strange insights from beings eager to use his acumen in their designs, while the commander believes he is using these spirits to pursue his own goals. Both things are true.
+        - Mortals perceive the Realms Behind in a very dream-like fashion. It is not a physical plane and thus all its physical qualities are strictly projected from mortal pretentions. A group stuck in the Realms Behind together will experience the same surroundings, but those surroundings are shaped by their collective character.
+    - Your brief encounter has disjointed you from your home reality, granting access to mythic arcana (sorcery, theurgy, talents and techniques).
+    - Spirits may call you back to the Realms Behind, or you may travel there voluntarily. They may bestow you with geas, shunt you into parallel realities, or capture you within pocket dimensions. You may also encounter spiritual influence in the mundane world, which may lead you back to the Realms Behind.
+        - Voluntary travel: Entering the Realms Behind is not easy or obvious. There may be physical gates in your world, or you may have access to a fickle portal spell. Without a firm connection to traverse, you can at best touch the veil, but not cross it. Even the gates you can access may be firmly controlled by some or another coalition of spirits, who have their own interests!
+    - What world you come from is indeterminate, but the system is designed for medieval fantasy. You may even come from an entirely different reality, as a result of your first encounter with the Fae.
+    - Mortals can be roughly divided into Mundanes and Wildlings. Mundanes tend to be cityfolk humanoids, who have become alienated from the mystic's practical realities. Wildlings tend to be beast-people who subsist as nomads and foragers; their enduring shamanism unnerves the staid. (The actual differences between these groups are very world-specific! Maybe all the catfolk are metropolitans actually!)
+- Attributes:
+    - Body (Hearts)
+    - Mind (Spades)
+    - Spirit (Clubs)
+    - Luck (Diamonds)
+- Skills:
+    - Body
+        - Acrobatics: Balance, Tumble, etc.
+        - Athletics: Climb, Swim, etc.
+        - Melee: Aptitude in close combat.
+        - Might: Carrying capacity.
+        - Ranged: Aptitude with ranged weapons.
+        - Resilience: Health and constitution.
+    - Mind
+        - Lore (subject): Specialized knowledge in a particular field.
+        - Craft: Making things. (Access specialist recipes with talents!)
+        - Deception: Lying.
+        - Diplomacy: Making nice.
+        - Insight: Putting the clues together.
+        - Medicine: Affects mundane and magical healing.
+        - Streetwise: Knowledge of and experience with cities.
+        - Survival: Knowledge of and experience with wilderness.
+    - Spirit
+        - Awareness: Alert senses.
+        - Performance: Doot doot doot doot.
+        - Presence: Influence via bearing, stature, conviction.
+        - Resolve: Will to power.
+        - Sorcery: Madness to focus ethereal winds.
+        - Stealth: Sneaking, hiding, and generally avoiding notice.
+    - Luck
+        - Theurgy: Madness to call down divinity.
+- Stats:
+    - Health: N x Resilience (BODY)
+    - Will: N x Resolve (SPIRIT)
+    - Fortune: N x Theurgy (LUCK)
+    - Draw: N x Insight (MIND)
+    - Speed: N x Athletics (BODY)
+    - Initiative: N x Awareness (SPIRIT)
+    - Parry: N x Melee (BODY)
+    - Dodge: N x Acrobatics (BODY)
+    - N.B.: What about Vital Defense, etc.?
+        - Specific skills are used as defenses.
+        - Body / Constitution: Resilience
+        - Mind / Lying, Enchantment: Insight
+        - Spirit / Will, Coercion: Resolve
+        - Luck / Plain Bad Luck: Theurgy
+        - Dodge applies equipment effects to Acrobatics. Parry does this to Melee.
+- Fungibles:
+    - Health: [use FQ's shallow/deep system]
+    - Hand: When the day begins, draw {Draw} cards; this is your hand. When you run out of cards in hand, you're Exhausted, and can only play cards from the top of your deck. If you run out of a deck, you're Stupefied, and automatically fail any checks you are forced to make.
+    - Will: Spend a Will point to discard up to {Insight} cards, drawing that many plus one.
+    - Fortune: Spend a Fortune point to gain Good Luck on a check, or to counter Bad Luck.
+        - Good Luck: You may play another card from your hand OR play a card from the top of your deck. Its suit is added to the suit pool, and you may choose to use its rank instead of another card.
+        - Bad Luck: Play another card from the top of your deck. You must use its rank if it is lowest among all cards played.
+        - Good Luck and Bad Luck cancel each other out. One Good Luck + two Bad Luck = one Bad Luck.
+    - Madness: A form of unbalanced mystic residue which progressively causes insanity as well as temporal and spatial flux. At any time, you may spend one Will to remove one Madness. When resolving a check, first sift cards equal to your current Madness, adding them to the suit pool. This is primarily caused by using magic, but can also be afflicted. If you have more Madness than Health, you become Stupefied.
+- Checks:
+    - As FQ, but *some checks may demand a response in a specific suit!*
+        - Ex: A poison check may demand a response in Hearts. An enchantment may demand a response in Spades.
+        - If you do not have that suit in hand, you must discard the top card of your deck until you find an applicable suit or you become Stupefied. None of these discarded cards apply to the suit pool.
+        - You may spend a Fortune to respond in any suit.
+- Days & Rest:
+    - "A Day": All time between long rests is considered "a day". If you're forced to stay awake for 72 hours, that's a day.
+    - Short Rest: The party may take up to two short rests during a day. These each represent about an hour of downtime, to patch up, meditate, etc. Restore {Resolve} Will and {Theurgy} Fortune after a Short Rest. Also, draw {Insight} cards, and remove {Resilience} Madness.
+    - Long Rest: The party concludes their day with 8-10 hours of sleep and preparations. This behaves as "A Full Night's Rest" in FQ. Will and Fortune are both restored after a Long Rest. Madness is reset to zero.
+- Talents & Techniques
+    - {Name}, {Level}, {When Learned}, {Effect}, {Requirements}, {Tags}
+        - "When Learned" encapsulates whatever happens or must be decided when the talent or technique is first learned.
+        - "Tags" incl. "Talent", "Technique", "Duplicate", "Buildable", etc.
+        - Talents and Techniques with the "Background" tag may only be selected during character creation! They apply things that pertain to physiology and upbringing. (A GM may allow you to earmark a background to be purchased at earliest convenience, applying only aesthetically until then. A catfolk may have claws, but not know how to use them *yet*.)
+    - Talents: Passive qualities.
+        - "Effect" always applies.
+    - Techniques: Active abilities.
+        - "Effect" applies when the technique is used.
+        - Also {Action}, {Cost}
+    - Example:
+        - "The Pagliacci Sequence" (War Magic, Level 2; Technique, Spell)
+            - Tormenting Curse (0), Barraging (1), Frigid (1), Abjuring (1), Wild Magic (1)
+            - Aces, twos, threes, fives, and eights apply their suit *twice*. (2)
+- Equipment
+    - As FQ, pretty much entirely.
+- Modifying your Deck:
+    - As each player has a deck, so too does the GM keep the Fae Queen's deck. This deck is not used by NPCs but only for modifying player decks.
+    - You may experience a Dancing Dream during a Long Rest, which allows you to remove a card from your deck, unburdening you of your mortality's more vexing aspects. This removed card is added to the Fae Queen's deck.
+    - You may Sublimate a Fraction (experience a Fractional Sublimation) when encountering certain spirits, taking some portion of them into yourself. The GM shuffles the Fae Queen's deck and deals ten cards. You must select one of them and add it to your deck.
+
+    - Both Dancing Dreams and Fractional Sublimation take experience! You cannot buy them without ready access to the Realms Behind and a willing spirit-patron, who eats your dreams and feeds you fractions. Generally, they will be *afflicted upon you* and incur an experience debt that must be paid before experience can be spent any other way.
+    - **Make sure to update your deck list whenever you modify it!** That way, it can be reconstructed if your cards go flying or whatever.
+        - A deck list can be expressed as a series of events. 52-card base state, with plus and minus events signifying what was added and removed when. This allows reconstructing the deck at any state with only incremental notation. The Fae Queen's deck can thus be reconstructed by replaying the events recorded by players.
+- Misc:
+    - Status Effects, organized by Suit:
+        - Body, Hearts:
+            - Bleeding
+            - Crippled
+            - Harried
+            - Healing
+        - Mind, Spades:
+            - Necrosis
+            - Exposed / Warded
+        - Spirit, Clubs:
+            - Frightened
+            - Slowed / Hasted
+        - Luck, Diamonds:
+            - Vulnerable / Protected

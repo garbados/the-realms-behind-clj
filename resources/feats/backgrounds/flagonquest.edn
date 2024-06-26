@@ -1,0 +1,36 @@
+[{:id :creator
+  :name "Creator"
+  :description
+  "Your people are famed craftsfolk.
+   You start the game the Artisinal Training feat."
+  :when-gained
+  {:gain-feats [:artisinal-training]}
+  :tags #{:background :talent :flagon-quest}}
+ {:id :discoverer
+  :name "Discoverer"
+  :description
+  "You start the game with a Climber's Kit,
+   Adventurer's Belt, and 2 Medicinal Supplies."
+  :when-gained
+  {:gain-items [:climbers-kit :adventurers-belt
+                :medicinal-supplies :medicinal-supplies]}
+  :tags #{:background :talent :flagon-quest}}
+ {:id :dilettante
+  :name "Dilettante"
+  :description
+  "You start the game with a Disguise Kit, Tinker's Kit,
+   and two sets of Basic Clothing in a style or outfit of your choice."
+  :when-gained
+  {:gain-items [:disguise-kit :tinkers-kit
+                :basic-clothing :basic-clothing]}
+  :tags #{:background :talent :flagon-quest}}
+ {:id :journeyman
+  :name "Journeyman"
+  :description
+  "You start the game with a Crafting Toolset
+   and a total of 9 Level 1 Wood, Leather, Cloth,
+   and/or Metal raw materials."
+  :when-gained
+  {:gain-items [:crafting-toolset]
+   :choose-items [9 #{:wood :leather :cloth :metal}]}
+  :tags #{:background :talent :flagon-quest}}]

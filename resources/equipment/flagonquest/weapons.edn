@@ -1,0 +1,100 @@
+[{:id :1h-light-melee
+  :type :weapon
+  :name "One-handed light melee weapon"
+  :description ""
+  :level 1
+  :accuracy 1
+  :damage 3
+  :defense 1
+  :range :close
+  :might 0}
+ {:id :1h-heavy-melee
+  :type :weapon
+  :name "One-handed heavy melee weapon"
+  :description ""
+  :level 1
+  :accuracy 0
+  :damage 4
+  :defense 0
+  :range :close
+  :might 4}
+ {:id :2h-light-melee
+  :type :weapon
+  :name "Two-handed light melee weapon"
+  :description ""
+  :level 1
+  :accuracy 1
+  :damage 4
+  :defense 1
+  :range :close
+  :might 0}
+ {:id :2h-heavy-melee
+  :type :weapon
+  :name "Two-handed heavy melee weapon"
+  :description ""
+  :level 1
+  :accuracy 0
+  :damage 5
+  :defense 1
+  :range :close
+  :might 6}
+ {:id :light-thrown
+  :type :weapon
+  :name "Light thrown weapon"
+  :description ""
+  :level 1
+  :accuracy 1
+  :damage 3
+  :defense 0
+  :range [:close [:body 3]]
+  :might 0}
+ {:id :heavy-thrown
+  :type :weapon
+  :name "Heavy thrown weapon"
+  :description ""
+  :level 1
+  :accuracy 0
+  :damage 4
+  :defense 0
+  :range [:close [:body 3]]
+  :might 4}
+ {:id :light-bow
+  :type :weapon
+  :name "Light bow"
+  :description ""
+  :level 1
+  :accuracy 1
+  :damage 3
+  :defense 0
+  :range 15
+  :might 0}
+ {:id :heavy-bow
+  :type :weapon
+  :name "Heavy bow"
+  :description ""
+  :level 1
+  :accuracy 0
+  :damage 4
+  :defense 0
+  :range 20
+  :might 6}
+ {:id :unarmed
+  :type :weapon
+  :name "Unarmed"
+  :description ""
+  :level 1
+  :accuracy 2
+  :damage 2
+  :defense 1
+  :range :close
+  :might 0}
+ {:id :shield
+  :type :weapon
+  :name "Shield"
+  :description ""
+  :level 1
+  :accuracy 0
+  :damage 2
+  :defense 2
+  :range :close
+  :might 0}]
