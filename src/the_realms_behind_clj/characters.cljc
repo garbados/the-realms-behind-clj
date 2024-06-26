@@ -7,7 +7,6 @@
    :mind   :spades
    :spirit :clubs
    :luck   :diamonds})
-(def suits #{:hearts :spades :clubs :diamonds})
 
 (def skill->attribute
   {:acrobatics  :body
@@ -34,8 +33,8 @@
 
 (defn character-skill [character skill]
   (let [attribute (skill->attribute skill)]
-    (+ (get-in character [:attributes attribute])
-       (get-in character [:skills skill]))))
+    (+ (get-in character [:attributes attribute] 0)
+       (get-in character [:skills skill] 0))))
 
 (s/fdef character-skill
   :args (s/cat :character ::specs/character
@@ -60,7 +59,7 @@
   :ret nat-int?)
 
 (defn base-stats [character]
-  (let [get-attr #(get-in character [:attributes %])
+  (let [get-attr #(get-in character [:attributes %] 0)
         get-skill (partial character-skill character)
         get-defense (partial character-defense character)]
     {:health
@@ -76,5 +75,16 @@
       (fn [defenses defense]
         (assoc defenses defense (get-defense defense)))
       {}
-      (keys defense->skill))}))
+      (keys defense->skill))
+     :madness 0}))
 
+(s/fdef base-stats
+  :args (s/cat :character ::specs/character)
+  :ret ::specs/stats)
+
+(defn group-equipment [equipment]
+  (group-by :slot equipment))
+
+(s/fdef group-equipment
+  :args (s/cat :equipment ::specs/equipment)
+  :ret (s/map-of ::specs/slot ::specs/equipment))

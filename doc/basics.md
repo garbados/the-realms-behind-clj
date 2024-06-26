@@ -8,7 +8,7 @@ At the beginning of each day, players draw cards from their deck. They spend the
 
 Checks pit the rank of the highest revealed card, plus any modifiers, against a threshold, such as a creature's defenses or a lock's complexity. Modifiers include the relevant skill, circumstantial bonuses, suit bonuses, and so on. If the rank plus the modifiers meets or exceeds the threshold, the check succeeds.
 
-Some checks may demand a response in a certain suit. Ex: A poison check may demand a response in Hearts. An enchantment may demand a response in Spades. If you do not have that suit in hand, you must reveal the top card of your deck until you find an applicable suit or you become Stupefied. None of these discarded cards apply to the suit pool. You may spend a Fortune to respond in any suit.
+Some checks may demand a response in a certain suit. Ex: A poison check may demand a response in Hearts. An enchantment spell may demand a response in Spades. If you do not have that suit in hand, you must reveal the top card of your deck until you find an applicable suit or you become Stupefied. None of these discarded cards apply to the suit pool. You may spend a Fortune to respond in any suit.
 
 ### Advantage and Disadvantage
 

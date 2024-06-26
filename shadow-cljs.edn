@@ -1,0 +1,6 @@
+;; shadow-cljs configuration
+{:lein {:profile "+cljs"}
+ :builds
+ {:web
+  {:target :browser
+   :modules {:main {:entries [the-realms-behind-clj.web.core]}}}}}

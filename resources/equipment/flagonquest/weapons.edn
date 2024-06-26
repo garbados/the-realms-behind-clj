@@ -1,5 +1,5 @@
 [{:id :1h-light-melee
-  :type :weapon
+  :slot :weapon
   :name "One-handed light melee weapon"
   :description ""
   :level 1
@@ -7,9 +7,10 @@
   :damage 3
   :defense 1
   :range :close
+  :bulk 1
   :might 0}
  {:id :1h-heavy-melee
-  :type :weapon
+  :slot :weapon
   :name "One-handed heavy melee weapon"
   :description ""
   :level 1
@@ -17,9 +18,10 @@
   :damage 4
   :defense 0
   :range :close
+  :bulk 2
   :might 4}
  {:id :2h-light-melee
-  :type :weapon
+  :slot :weapon
   :name "Two-handed light melee weapon"
   :description ""
   :level 1
@@ -27,9 +29,10 @@
   :damage 4
   :defense 1
   :range :close
+  :bulk 2
   :might 0}
  {:id :2h-heavy-melee
-  :type :weapon
+  :slot :weapon
   :name "Two-handed heavy melee weapon"
   :description ""
   :level 1
@@ -37,9 +40,10 @@
   :damage 5
   :defense 1
   :range :close
+  :bulk 3
   :might 6}
  {:id :light-thrown
-  :type :weapon
+  :slot :weapon
   :name "Light thrown weapon"
   :description ""
   :level 1
@@ -47,9 +51,10 @@
   :damage 3
   :defense 0
   :range [:close [:body 3]]
+  :bulk :light
   :might 0}
  {:id :heavy-thrown
-  :type :weapon
+  :slot :weapon
   :name "Heavy thrown weapon"
   :description ""
   :level 1
@@ -57,9 +62,10 @@
   :damage 4
   :defense 0
   :range [:close [:body 3]]
+  :bulk 1
   :might 4}
  {:id :light-bow
-  :type :weapon
+  :slot :weapon
   :name "Light bow"
   :description ""
   :level 1
@@ -67,9 +73,10 @@
   :damage 3
   :defense 0
   :range 15
+  :bulk 1
   :might 0}
  {:id :heavy-bow
-  :type :weapon
+  :slot :weapon
   :name "Heavy bow"
   :description ""
   :level 1
@@ -77,9 +84,10 @@
   :damage 4
   :defense 0
   :range 20
+  :bulk 2
   :might 6}
  {:id :unarmed
-  :type :weapon
+  :slot :weapon
   :name "Unarmed"
   :description ""
   :level 1
@@ -87,14 +95,16 @@
   :damage 2
   :defense 1
   :range :close
+  :bulk 0
   :might 0}
  {:id :shield
-  :type :weapon
-  :name "Shield"
+  :slot :weapon
+  :name "Shield Bash"
   :description ""
   :level 1
   :accuracy 0
   :damage 2
   :defense 2
   :range :close
+  :bulk 1
   :might 0}]

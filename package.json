@@ -1,0 +1,8 @@
+{
+  "name": "the-realms-behind-clj",
+  "private": true,
+  "scripts": {},
+  "devDependencies": {
+    "shadow-cljs": "^2.28.10"
+  }
+}

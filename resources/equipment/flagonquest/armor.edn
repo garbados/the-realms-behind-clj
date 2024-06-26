@@ -1,16 +1,18 @@
 [{:id :light-armor
-  :type :armor
+  :slot :armor
   :name "Light armor"
   :description ""
   :level 1
   :resists {:physical 1}
   :inertia 0
+  :bulk 1
   :might 3}
  {:id :heavy-armor
-  :type :armor
+  :slot :armor
   :name "Heavy armor"
   :description ""
   :level 1
-  :resists {:physical 2}
-  :inertia 1
-  :might 6}]
+  :resists {:physical 3}
+  :inertia 2
+  :bulk 3
+  :might 8}]

@@ -1,0 +1,77 @@
+[{:id :extra-hearts-damage
+  :name "Brutal Strikes"
+  :description
+  "Hearts in your suit pool add an additional damage,
+   when their being there would already do so."
+  :tags #{:talent}
+  :effect
+  {:extra-suit-damage :hearts}
+  :requirements
+  {:skills {:melee 5}}}
+ {:id :extra-hearts-healing
+  :name "Potent Mending"
+  :description
+  "Hearts in your Suit Pool heal an additional health,
+   when their being there would already do so."
+  :tags #{:talent}
+  :effect
+  {:extra-suit-healing :hearts}
+  :requirements
+  {:skills {:medicine 5}}}
+ {:id :light-weapon-spirit-damage
+  :name "Keen Volition"
+  :level 1
+  :description
+  "You may use Spirit insteady of Body
+   as a modifier to damage.
+   Clubs in your Suit Pool add damage like Hearts,
+   excluding extra damage from other feats."
+  :tags #{:talent}
+  :effect
+  {:keen-attribute :spirit}
+  :requirements
+  {:attributes {:spirit 3}}}
+ {:id :deep-debuffs-hearts
+  :name "Crippling Strikes"
+  :description
+  "Hearts add an extra level of any debuff they would apply."
+  :tags #{:talent}
+  :effect
+  {:deep-debuffs :hearts}
+  :requirements
+  {:attributes {:body 2}}}
+ {:id :deep-debuffs-spades
+  :name "Despoiling Influence"
+  :description
+  "Spades add an extra level of any debuff they would apply."
+  :tags #{:talent}
+  :effect
+  {:deep-debuffs :spades}
+  :requirements
+  {:attributes {:mind 2}}}
+ {:id :deep-debuffs-clubs
+  :name "Faltering Eminence"
+  :description
+  "Clubs add an extra level of any debuff they would apply."
+  :tags #{:talent}
+  :effect
+  {:deep-debuffs :clubs}
+  :requirements
+  {:attributes {:spirit 2}}}
+ {:id :deep-debuffs-diamonds
+  :name "Heavenly Spite"
+  :description
+  "Diamonds add an extra level of any debuff they would apply."
+  :tags #{:talent}
+  :effect
+  {:deep-debuffs :diamonds}
+  :requirements
+  {:attributes {:luck 2}}}
+ {:id :bardic-lore
+  :name "Bardic Lore"
+  :description
+  "You may use Performance instead of Lore,
+   even for accessing Lore talents."
+  :tags #{:talent}
+  :effects
+  {:use-skill-as {:performance :lore}}}]

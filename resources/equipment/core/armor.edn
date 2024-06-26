@@ -1,0 +1,18 @@
+[{:id :medium-armor
+  :slot :armor
+  :name "Medium armor"
+  :description ""
+  :level 1
+  :resists {:physical 2}
+  :inertia 1
+  :bulk 2
+  :might 5}
+ {:id :juggernaut-armor
+  :slot :armor
+  :name "Juggernaut armor"
+  :description ""
+  :level 1
+  :resists {:physical 4}
+  :inertia 4
+  :bulk 5
+  :might 11}]
