@@ -1,7 +1,6 @@
 {
   "name": "the-realms-behind-clj",
   "private": true,
-  "scripts": {},
   "devDependencies": {
     "react-dom": "^18.3.1",
     "react-markdown": "^9.0.1",

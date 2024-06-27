@@ -10,7 +10,8 @@
             [the-realms-behind-clj.resources :as resources]
             [the-realms-behind-clj.specs :as specs]))
 
-(def intro-url "https://github.com/garbados/the-realms-behind-clj/blob/main/doc/intro.md")
+(def source-url "https://github.com/garbados/the-realms-behind-clj/")
+(def intro-url (str source-url "blob/main/doc/intro.md"))
 
 (def current-view (r/atom nil))
 
@@ -44,7 +45,8 @@
       "Welcome"]]
     [:div.level-item
      [:a.button.is-primary.is-light
-      {:href intro-url}
+      {:href intro-url
+       :target "_blank"}
       "Introduction"]]
     [:div.level-item
      [:a.button.is-info
@@ -65,7 +67,12 @@
    [:div.level-right
     [:div.level-item
      [:p.subtitle
-      [:strong "Made with love by DFB"]]]]])
+      [:strong "Made with love by DFB"]]]
+    [:div.level-item
+     [:a.button.is-info.is-light
+      {:href source-url
+       :target "_blank"}
+      "Source 👩‍💻"]]]])
 
 (defn- index-view []
   [:div.box>div.content
