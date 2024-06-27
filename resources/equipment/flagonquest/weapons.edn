@@ -101,10 +101,10 @@
   :slot :weapon
   :name "Shield Bash"
   :description ""
-  :level 1
+  :level 0
   :accuracy 0
   :damage 2
   :defense 2
   :range :close
-  :bulk 1
+  :bulk 0
   :might 0}]

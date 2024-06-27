@@ -23,9 +23,17 @@
       (is (empty? (remove specs/attributes (vals characters/skill->attribute)))
           "Errant attributes in map!"))))
 
+(deftest validate-sample-characters
+  (doseq [character (vals characters/sample-characters)]
+    (testing (str "Validate: " (:name character))
+      (is (s/valid? ::specs/character character)
+          (s/explain-str ::specs/character character)))))
+
 (deftest spec-tests
   (spec-test-syms
    [`characters/character-skill
     `characters/character-defense
     `characters/base-stats
-    `characters/group-equipment]))
+    `characters/base-xp
+    `characters/carrying
+    `characters/carrying-bulk]))

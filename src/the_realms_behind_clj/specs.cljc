@@ -79,11 +79,10 @@
                    ::deep-debuffs
                    ::use-skill-as]))
 
-(s/def ::feats (s/coll-of keyword? :kind set?))
 (s/def ::requirements
   (s/keys :opt-un [::attributes
                    ::skills
-                   ::feats]))
+                   :character/feats]))
 
 (s/def ::feat
   (s/merge ::base-definition
@@ -102,7 +101,6 @@
                             ::bulk])))
 (s/def ::accuracy nat-int?)
 (s/def ::damage nat-int?)
-(s/def ::defense nat-int?)
 (s/def ::range-expr
   (s/or :melee #{:close}
         :ranged nat-int?
@@ -163,6 +161,7 @@
 ;; CHARACTER SPECS
 
 (s/def ::equipped ::equipment)
+(s/def ::at-hand ::equipment)
 (s/def ::inventory ::equipment)
 
 (s/def ::health
@@ -172,20 +171,12 @@
 (s/def ::draw nat-int?)
 (s/def ::speed nat-int?)
 (s/def ::initiative nat-int?)
-
-(s/def ::parry nat-int?)
-(s/def ::dodge nat-int?)
-(s/def ::body nat-int?)
-(s/def ::mind nat-int?)
-(s/def ::spirit nat-int?)
-(s/def ::luck nat-int?)
+(s/def ::defense
+  (s/or :attribute ::attribute
+        :melee #{:parry :dodge}))
 (s/def ::defenses
-  (s/keys :req-un [::parry
-                   ::dodge
-                   ::body
-                   ::mind
-                   ::spirit
-                   ::luck]))
+  (s/map-of ::defense nat-int?))
+(s/def ::carrying-capacity nat-int?)
 (s/def ::madness nat-int?)
 (s/def ::stats
   (s/keys :req-un [::health
@@ -195,26 +186,26 @@
                    ::speed
                    ::initiative
                    ::defenses
+                   ::carrying-capacity
                    ::madness]))
 
 (s/def ::player string?)
+(s/def ::image-url string?)
 (s/def ::bio
   (s/keys :req-un [::name
                    ::player
-                   ::description]))
+                   ::description
+                   ::image-url]))
 
-(s/def ::effects (s/map-of keyword? any?))
-
+(s/def ::experience nat-int?)
+(s/def :character/feats ::links)
 (s/def ::character
   (s/keys :req-un [::bio
-                   ::effects
+                   ::experience
                    ::attributes
                    ::skills
-                   ::feats
+                   :character/feats
                    ::equipped
-                   ::inventory
-                   ::stats]))
-
-(s/def ::defense
-  (s/or :attribute ::attribute
-        :melee #{:parry :dodge}))
+                   ::at-hand
+                   ::inventory]
+          :opt-un [::stats]))

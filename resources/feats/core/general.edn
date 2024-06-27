@@ -1,7 +1,8 @@
 [{:id :extra-hearts-damage
   :name "Brutal Strikes"
+  :level 1
   :description
-  "Hearts in your suit pool add an additional damage,
+  "Hearts in your Suit Pool add an additional damage,
    when their being there would already do so."
   :tags #{:talent}
   :effect
@@ -10,6 +11,7 @@
   {:skills {:melee 5}}}
  {:id :extra-hearts-healing
   :name "Potent Mending"
+  :level 1
   :description
   "Hearts in your Suit Pool heal an additional health,
    when their being there would already do so."
@@ -33,6 +35,7 @@
   {:attributes {:spirit 3}}}
  {:id :deep-debuffs-hearts
   :name "Crippling Strikes"
+  :level 1
   :description
   "Hearts add an extra level of any debuff they would apply."
   :tags #{:talent}
@@ -42,6 +45,7 @@
   {:attributes {:body 2}}}
  {:id :deep-debuffs-spades
   :name "Despoiling Influence"
+  :level 1
   :description
   "Spades add an extra level of any debuff they would apply."
   :tags #{:talent}
@@ -51,6 +55,7 @@
   {:attributes {:mind 2}}}
  {:id :deep-debuffs-clubs
   :name "Faltering Eminence"
+  :level 1
   :description
   "Clubs add an extra level of any debuff they would apply."
   :tags #{:talent}
@@ -60,6 +65,7 @@
   {:attributes {:spirit 2}}}
  {:id :deep-debuffs-diamonds
   :name "Heavenly Spite"
+  :level 1
   :description
   "Diamonds add an extra level of any debuff they would apply."
   :tags #{:talent}
@@ -69,9 +75,12 @@
   {:attributes {:luck 2}}}
  {:id :bardic-lore
   :name "Bardic Lore"
+  :level 1
   :description
   "You may use Performance instead of Lore,
    even for accessing Lore talents."
   :tags #{:talent}
   :effects
-  {:use-skill-as {:performance :lore}}}]
+  {:use-skill-as {:performance :lore}}
+  :requirements
+  {:skills {:performance 5}}}]

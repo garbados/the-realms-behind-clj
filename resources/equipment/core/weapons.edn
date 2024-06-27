@@ -1,0 +1,11 @@
+[{:id :innate-weapon
+  :slot :weapon
+  :name "Innate melee weapon"
+  :description ""
+  :level 0
+  :accuracy 1
+  :damage 4
+  :defense 1
+  :range :close
+  :bulk 0
+  :might 0}]

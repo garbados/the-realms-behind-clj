@@ -1,10 +1,13 @@
 [{:id :creator
   :name "Creator"
   :description
-  "Your people are famed craftsfolk.
-   You start the game the Artisinal Training feat."
+  "Your people are famed craftsfolk,
+   or you apprenticed with a capable artisan or guild.
+   You start the game with the Artisinal Training feat,
+   and a Crafting Toolset."
   :when-gained
-  {:gain-feats [:artisinal-training]}
+  {:gain-feats [:artisinal-training]
+   :gain-items [:crafting-toolset]}
   :tags #{:background :talent :flagon-quest}}
  {:id :discoverer
   :name "Discoverer"
@@ -23,14 +26,4 @@
   :when-gained
   {:gain-items [:disguise-kit :tinkers-kit
                 :basic-clothing :basic-clothing]}
-  :tags #{:background :talent :flagon-quest}}
- {:id :journeyman
-  :name "Journeyman"
-  :description
-  "You start the game with a Crafting Toolset
-   and a total of 9 Level 1 Wood, Leather, Cloth,
-   and/or Metal raw materials."
-  :when-gained
-  {:gain-items [:crafting-toolset]
-   :choose-items [9 #{:wood :leather :cloth :metal}]}
   :tags #{:background :talent :flagon-quest}}]

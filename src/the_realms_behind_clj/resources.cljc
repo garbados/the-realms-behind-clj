@@ -3,8 +3,17 @@
              :include-macros true
              :refer [walk-resource]]))
 
-(def FEATS `(walk-resource "resources/feats"))
-(def EQUIPMENT `(walk-resource "resources/equipment"))
+(def FEATS (macroexpand-1 '(walk-resource "resources/feats")))
+(def EQUIPMENT (macroexpand-1 '(walk-resource "resources/equipment")))
 
 (defn feats [] FEATS)
 (defn equipment [] EQUIPMENT)
+
+(def id->content
+  (let [content (concat (feats)
+                        (equipment))
+        ids (map :id content)]
+    (zipmap ids content)))
+
+;; hash-map acts as resolver
+(def resolve-link id->content)
