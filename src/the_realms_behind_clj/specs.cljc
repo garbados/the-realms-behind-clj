@@ -48,7 +48,7 @@
                    ::rank]))
 
 (s/def ::base-deck (s/coll-of ::card :distinct true :count 52))
-(s/def ::deck (s/coll-of ::card :max-count 104))
+(s/def ::deck (s/coll-of ::card))
 
 ;; CONTENT DEFINITION SPECS
 
