@@ -3,6 +3,8 @@
   "private": true,
   "scripts": {},
   "devDependencies": {
+    "react-dom": "^18.3.1",
+    "react-markdown": "^9.0.1",
     "shadow-cljs": "^2.28.10"
   }
 }

@@ -1,8 +1,8 @@
-(defproject the-realms-behind-clj "0.1.0-SNAPSHOT"
-  :description "FIXME: write description"
-  :url "http://example.com/FIXME"
-  :license {:name "EPL-2.0 OR GPL-2.0-or-later WITH Classpath-exception-2.0"
-            :url "https://www.eclipse.org/legal/epl-2.0/"}
+(defproject the-realms-behind-clj "1.0.0"
+  :description "A d13 tabletop roleplaying game, with tooling!"
+  :url "https://garbados.github.io/the-realms-behind-clj/"
+  :license {:name "CC BY-NC-SA 4.0"
+            :url "https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en"}
   :dependencies [[org.clojure/clojure "1.11.1"]]
   :repl-options {:init-ns the-realms-behind-clj.core}
   :plugins [[lein-cloverage "1.2.2"]]

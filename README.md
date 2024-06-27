@@ -1,22 +1,13 @@
 # the-realms-behind-clj
 
-A Clojure library designed to ... well, that part is up to you.
+The project home of the tabletop roleplaying game, *The Realms Behind*. It contains data files for its core content as well as a web app for players and GMs to manage custom content.
 
-## Usage
+To learn more about the game, see the [intro](./doc/intro.md).
 
-FIXME
+To use the web app, go [here](https://garbados.github.io/the-realms-behind-clj/).
 
 ## License
 
-Copyright © 2024 FIXME
+Software, licensed like a game? My, my!
 
-This program and the accompanying materials are made available under the
-terms of the Eclipse Public License 2.0 which is available at
-http://www.eclipse.org/legal/epl-2.0.
-
-This Source Code may also be made available under the following Secondary
-Licenses when the conditions for such availability set forth in the Eclipse
-Public License, v. 2.0 are satisfied: GNU General Public License as published by
-the Free Software Foundation, either version 2 of the License, or (at your
-option) any later version, with the GNU Classpath Exception which is available
-at https://www.gnu.org/software/classpath/license.html.
+[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)

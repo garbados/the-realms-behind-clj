@@ -30,3 +30,4 @@ First you asked yourself in alarm, "What did She do to me?" But the question fad
 - [Encounters](./encounters.md)
 - [Setting](./setting.md)
 - [Notes](./notes.md)
+- [Credits](./credits.md)
