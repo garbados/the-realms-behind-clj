@@ -53,7 +53,7 @@ jobs:
           key: cljdeps-${{ hashFiles('**/package.json') }}-${{ hashFiles('**/project.clj') }}
           restore-keys: cljdeps-
       
-      - run: npm run release
+      - run: npx shadow-cljs release web
 
       - name: Setup Pages
         uses: actions/configure-pages@v3
