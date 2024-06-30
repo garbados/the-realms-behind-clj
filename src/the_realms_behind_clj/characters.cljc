@@ -86,8 +86,10 @@
   :ret ::specs/stats)
 
 (defn xp-cost [base-cost level]
-  (if (> 2 level)
-    base-cost
+  (cond
+    (zero? level) 0
+    (= 1 level) base-cost
+    :else
     (+ (* level base-cost) (xp-cost base-cost (dec level)))))
 
 (s/fdef xp-cost
@@ -95,11 +97,16 @@
                :level nat-int?)
   :ret nat-int?)
 
+(def attr-xp-cost (partial xp-cost 2))
+(def skill-xp-cost (partial xp-cost 1))
+(def feat-xp-cost (partial xp-cost 3))
+
+
 (defn base-xp [{:keys [attributes skills feats]}]
   (->>
-   [(map #(xp-cost 2 %) (vals attributes))
-    (map #(xp-cost 1 %) (vals skills))
-    (map #(xp-cost 3 %)
+   [(map attr-xp-cost (vals attributes))
+    (map skill-xp-cost (vals skills))
+    (map feat-xp-cost
          (->> feats
               (map (comp :level resources/resolve-link))
               (filter some?)))]
@@ -128,7 +135,7 @@
   :args (s/cat :character ::specs/character)
   :ret nat-int?)
 
-(defn hydrate-character [character]
+(defn resolve-character [character]
   (-> character
       (update :equipped #(map resources/resolve-link %))
       (update :at-hand #(map resources/resolve-link %))
@@ -136,7 +143,7 @@
 
 (def sample-characters
   (->> (resources/characters)
-       (map hydrate-character)
+       (map resolve-character)
        (reduce
         (fn [all character]
           (assoc all (:id character) character))

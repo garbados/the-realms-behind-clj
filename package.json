@@ -2,6 +2,7 @@
   "name": "the-realms-behind-clj",
   "private": true,
   "devDependencies": {
+    "pouchdb": "^9.0.0",
     "react-dom": "^18.3.1",
     "react-markdown": "^9.0.1",
     "shadow-cljs": "^2.28.10"
