@@ -22,7 +22,7 @@
   :resilience 2
   :resolve 1
   :stealth 1
-  :survival 1
+  :nature 1
   :theurgy 2}
  :feats
  #{:extra-hearts-damage

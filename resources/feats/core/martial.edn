@@ -1,1 +1,22 @@
-[{:id :martial-technique}]
+[{:id :maneuver
+  :name "Combat Maneuver"
+  :description ""
+  :level 1
+  :effect
+  {:features #{:maneuver}}
+  :cost {:ap 2}
+  :tags #{:technique :buildable}
+  :requirements
+  {:or [{:skills {:melee 3}}
+        {:skills {:ranged 3}}]}}
+ {:id :stance
+  :name "Battle Stance"
+  :description ""
+  :level 1
+  :effect
+  {:features #{:stance}}
+  :cost {:ap 1}
+  :tags #{:technique :buildable}
+  :requirements
+  {:attributes {:body 2
+                :spirit 2}}}]
