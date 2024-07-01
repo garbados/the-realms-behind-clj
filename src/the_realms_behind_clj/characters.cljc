@@ -22,14 +22,16 @@
    :melee       :body
    :might       :body
    :performance :spirit
+   :arcana      :mind
+   :nature      :mind
    :presence    :spirit
    :ranged      :body
+   :religion    :mind
    :resilience  :body
    :resolve     :spirit
    :sorcery     :spirit
    :stealth     :spirit
    :streetwise  :mind
-   :survival    :mind
    :theurgy     :luck})
 
 (defn character-skill [character skill]

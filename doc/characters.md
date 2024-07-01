@@ -47,14 +47,16 @@ Quick facts:
     - [Ranged](#ranged): Aptitude with ranged weapons.
     - [Resilience](#resilience): Health and constitution.
 - Mind
+    - [Arcana](#arcana): Knowledge of magical matters.
     - [Craft](#craft): Making things.
     - [Deception](#deception): Lying.
     - [Diplomacy](#diplomacy): Making nice.
     - [Insight](#insight): Putting the clues together.
     - [Lore](#lore) (subject): Specialized knowledge in a particular field.
     - [Medicine](#medicine): Affects mundane and magical healing.
+    - [Nature](#nature): Knowledge of and experience with wilderness.
+    - [Religion](#religion): Knowledge of divine matters, such as the undead.
     - [Streetwise](#streetwise): Knowledge of and experience with cities.
-    - [Survival](#survival): Knowledge of and experience with wilderness.
 - Spirit
     - [Awareness](#awareness): Alert senses.
     - [Performance](#performance): Doot doot doot doot.
@@ -82,6 +84,7 @@ Quoting *FlagonQuest*:
 ### Medicine
 ### Melee
 ### Might
+### Nature
 ### Performance
 ### Presence
 ### Ranged
@@ -90,7 +93,6 @@ Quoting *FlagonQuest*:
 ### Sorcery
 ### Stealth
 ### Streetwise
-### Survival
 ### Theurgy
 
 ## Feats

@@ -14,6 +14,7 @@
 (s/def ::attributes (s/map-of ::attribute nat-int?))
 
 (def skills #{:acrobatics
+              :arcana
               :athletics
               :awareness
               :craft
@@ -24,15 +25,16 @@
               :medicine
               :melee
               :might
+              :nature
               :performance
               :presence
               :ranged
+              :religion
               :resilience
               :resolve
               :sorcery
               :stealth
               :streetwise
-              :survival
               :theurgy})
 (s/def ::skill skills)
 

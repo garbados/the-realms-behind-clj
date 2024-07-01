@@ -1,10 +1,21 @@
 (ns the-realms-behind-clj.web.db
   (:require [clojure.edn :as edn]
+            [the-realms-behind-clj.characters :as characters]
+            [the-realms-behind-clj.resources :as resources]
             ["pouchdb" :as pouchdb]))
 
 (def CHARACTERS "character")
 (def EQUIPMENT "equipment")
 (def FEATS "feat")
+
+(defn all-characters []
+  characters/sample-characters)
+
+(defn all-equipment []
+  (resources/equipment))
+
+(defn all-feats []
+  (resources/feats))
 
 (defn init-db
   ([name]

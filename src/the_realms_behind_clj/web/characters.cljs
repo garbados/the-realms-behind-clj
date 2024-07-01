@@ -1,8 +1,10 @@
 (ns the-realms-behind-clj.web.characters 
   (:require [reagent.core :as r]
             [the-realms-behind-clj.characters :as characters]
+            [the-realms-behind-clj.feats :as feats]
             [the-realms-behind-clj.resources :as resources]
             [the-realms-behind-clj.specs :as specs]
+            [the-realms-behind-clj.web.db :as db]
             [the-realms-behind-clj.web.equipment :refer [print-equipment]]
             [the-realms-behind-clj.web.feats :refer [print-feat]]
             [the-realms-behind-clj.web.text :refer [norm prompt-text
@@ -10,6 +12,73 @@
 
 (def active-character (r/atom nil))
 (def editing-character? (r/atom false))
+
+(defn- print-attributes [character]
+  [:div.content
+   [:h5 "Attributes:"]
+   [:table.table
+    [:thead
+     [:tr
+      [:th "Body"]
+      [:th "Mind"]
+      [:th "Spirit"]
+      [:th "Luck"]]]
+    [:tbody
+     [:tr
+      (for [attr [:body :mind :spirit :luck]]
+        ^{:key attr}
+        [:td (get-in character [:attributes attr])])]]]
+   [:h5 "Skills:"]
+   [:table.table
+    [:thead
+     [:tr
+      [:th "X"]
+      [:th "Skill"]
+      [:th "Formula"]]]
+    [:tbody
+     (for [skill (sort specs/skills)
+           :let [skill-name (norm skill)
+                 base-skill (get-in character [:skills skill] 0)
+                 attr (characters/skill->attribute skill)
+                 x (characters/character-skill character skill)]]
+       ^{:key skill}
+       [:tr
+        [:td x]
+        [:td skill-name]
+        [:td [:em (norm attr) " + " base-skill]]])]]])
+
+(defn- print-stats [character]
+  [:div.content
+   [:h5 "Stats"]
+   (let [stats (:stats character (characters/base-stats character))]
+     [:<>
+      [:ul
+       (let [{:keys [health max-health]} stats
+             [shallow deep] health
+             [shallow* deep*] max-health]
+         [:li "Health: " shallow " / " shallow* " || " deep " / " deep*])
+       (for [[stat x] (select-keys stats [:will :fortune :draw :speed :initiative])]
+         ^{:key stat}
+         [:li (norm stat) ": " x])
+       (let [carrying-bulk (characters/carrying-bulk character)
+             carry-limit (:carrying-capacity stats)]
+         [:li "Carrying: " carrying-bulk " / " carry-limit])]
+      [:h5 "Defenses"]
+      [:table.table
+       [:thead
+        [:tr
+         [:th "X"]
+         [:th "Defense"]
+         [:th "Skill"]]]
+       [:tbody
+        (for [[defense x] (:defenses stats)
+              :let [defense-name (norm defense)
+                    skill (characters/defense->skill defense)]]
+          ^{:key defense}
+          [:tr
+           [:td x]
+           [:td defense-name]
+           [:td [:em (norm skill)]]])]]])])
 
 (defn- character-sheet [character]
   [:div.box
@@ -28,69 +97,10 @@
         [:figure.image.is-128x128
          [:img {:src image-url}]]])]]
    [:div.columns
-    [:div.column.is-3>div.content
-     [:h5 "Attributes:"]
-     [:table.table
-      [:thead
-       [:tr
-        [:th "Body"]
-        [:th "Mind"]
-        [:th "Spirit"]
-        [:th "Luck"]]]
-      [:tbody
-       [:tr
-        (for [attr [:body :mind :spirit :luck]]
-          ^{:key attr}
-          [:td (get-in character [:attributes attr])])]]]
-     [:h5 "Skills:"]
-     [:table.table
-      [:thead
-       [:tr
-        [:th "X"]
-        [:th "Skill"]
-        [:th "Formula"]]]
-      [:tbody
-       (for [skill (sort specs/skills)
-             :let [skill-name (norm skill)
-                   base-skill (get-in character [:skills skill] 0)
-                   attr (characters/skill->attribute skill)
-                   x (characters/character-skill character skill)]]
-         ^{:key skill}
-         [:tr
-          [:td x]
-          [:td skill-name]
-          [:td [:em (norm attr) " + " base-skill]]])]]]
-    [:div.column.is-3>div.content
-     [:h5 "Stats"]
-     (let [stats (:stats character (characters/base-stats character))]
-       [:<>
-        [:ul
-         (let [{:keys [health max-health]} stats
-               [shallow deep] health
-               [shallow* deep*] max-health]
-           [:li "Health: " shallow " / " shallow* " || " deep " / " deep*])
-         (for [[stat x] (select-keys stats [:will :fortune :draw :speed :initiative])]
-           ^{:key stat}
-           [:li (norm stat) ": " x])
-         (let [carrying-bulk (characters/carrying-bulk character)
-               carry-limit (:carrying-capacity stats)]
-           [:li "Carrying: " carrying-bulk " / " carry-limit])]
-        [:h5 "Defenses"]
-        [:table.table
-         [:thead
-          [:tr
-           [:th "X"]
-           [:th "Defense"]
-           [:th "Skill"]]]
-         [:tbody
-          (for [[defense x] (:defenses stats)
-                :let [defense-name (norm defense)
-                      skill (characters/defense->skill defense)]]
-            ^{:key defense}
-            [:tr
-             [:td x]
-             [:td defense-name]
-             [:td [:em (norm skill)]]])]]])]
+    [:div.column.is-3
+     [print-attributes character]]
+    [:div.column.is-3
+     [print-stats character]]
     (let [{:keys [equipped at-hand inventory]} character]
       [:div.column.is-3>div.content
        [:h5 "Equipped (" (reduce + (map :bulk equipped)) ")"]
@@ -112,6 +122,106 @@
                  trimmed (select-keys details [:name :description])]]
        ^{:key feat}
        [print-feat trimmed])]]])
+
+(defn- edit-attributes [-character]
+  [:<>
+   [:div.content>h3 "Attributes"]
+   [:table.table.is-fullwidth
+    [:thead
+     [:tr
+      [:th "Name"]
+      [:th "Level"]
+      [:th "Take"]
+      [:th "Sell"]
+      [:th "Buy"]
+      [:th "Give"]]]
+    [:tbody
+     (for [attr [:body :mind :spirit :luck]
+           :let [x (get-in @-character [:attributes attr] 0)
+                 cost (* x 2)
+                 cost+1 (+ cost 2)]]
+       ^{:key attr}
+       [:tr
+        [:td (norm attr)]
+        [:td x]
+        [:td
+         [:button.button.is-fullwidth.is-danger
+          {:disabled (not (pos-int? x))
+           :on-click
+           #(swap! -character update-in [:attributes attr] dec)}
+          "Take (-" cost ")"]]
+        [:td
+         [:button.button.is-fullwidth.is-warning
+          {:disabled (not (pos-int? x))
+           :on-click
+           #(do
+              (swap! -character update-in [:attributes attr] dec)
+              (swap! -character update :experience + cost))}
+          "Sell"]]
+        [:td
+         [:button.button.is-fullwidth.is-success
+          {:disabled (< (:experience @-character 0) cost+1)
+           :on-click
+           #(do
+              (swap! -character update-in [:attributes attr] inc)
+              (swap! -character update :experience - cost+1))}
+          "Buy"]]
+        [:td
+         [:button.button.is-fullwidth.is-info
+          {:on-click
+           #(swap! -character update-in [:attributes attr] inc)}
+          "Give (+" cost+1 ")"]]])]]])
+
+(defn- edit-skills [-character]
+  [:div.content>h3 "Skills"]
+  [:table.table.is-fullwidth
+   [:thead
+    [:tr
+     [:th "Name"]
+     [:th "Level"]
+     [:th "Take"]
+     [:th "Sell"]
+     [:th "Buy"]
+     [:th "Give"]]]
+   [:tbody
+    (for [skill (sort specs/skills)
+          :let [x (get-in @-character [:skills skill] 0)
+                attr (characters/skill->attribute skill)
+                x* (+ (get-in @-character [:attributes attr] 0)
+                      x)
+                cost x
+                cost+1 (inc x)]]
+      ^{:key skill}
+      [:tr
+       [:td (norm skill) " " [:strong "(" (norm attr) ")"]]
+       [:td x " " [:strong "(" x* ")"]]
+       [:td
+        [:button.button.is-fullwidth.is-danger
+         {:disabled (not (pos-int? x))
+          :on-click
+          #(swap! -character update-in [:skills skill] dec)}
+         "Take (-" cost ")"]]
+       [:td
+        [:button.button.is-fullwidth.is-warning
+         {:disabled (not (pos-int? x))
+          :on-click
+          #(do
+             (swap! -character update-in [:skills skill] dec)
+             (swap! -character update :experience + cost))}
+         "Sell"]]
+       [:td
+        [:button.button.is-fullwidth.is-success
+         {:disabled (< (:experience @-character 0) cost+1)
+          :on-click
+          #(do
+             (swap! -character update-in [:skills skill] inc)
+             (swap! -character update :experience - cost+1))}
+         "Buy"]]
+       [:td
+        [:button.button.is-fullwidth.is-info
+         {:on-click
+          #(swap! -character update-in [:skills skill] inc)}
+         "Give (+" cost+1 ")"]]])]])
 
 (defn- edit-character [-character]
   (let [-name (r/atom (get-in @-character [:bio :name] ""))
@@ -140,102 +250,14 @@
      [:p.subtitle "XP Free: " (:experience @-character 0)]
      [:div.columns
       [:div.column.is-6
-       [:div.content>h3 "Attributes"]
-       [:table.table.is-fullwidth
-        [:thead
-         [:tr
-          [:th "Name"]
-          [:th "Level"]
-          [:th "Take"]
-          [:th "Sell"]
-          [:th "Buy"]
-          [:th "Give"]]]
-        [:tbody
-         (for [attr [:body :mind :spirit :luck]
-               :let [x (get-in @-character [:attributes attr] 0)
-                     cost (* x 2)
-                     cost+1 (+ cost 2)]]
-           ^{:key attr}
-           [:tr
-            [:td (norm attr)]
-            [:td x]
-            [:td
-             [:button.button.is-fullwidth.is-danger
-              {:disabled (not (pos-int? x))
-               :on-click
-               #(swap! -character update-in [:attributes attr] dec)}
-              "Take (-" cost ")"]]
-            [:td
-             [:button.button.is-fullwidth.is-warning
-              {:disabled (not (pos-int? x))
-               :on-click
-               #(do
-                  (swap! -character update-in [:attributes attr] dec)
-                  (swap! -character update :experience + cost))}
-              "Sell"]]
-            [:td
-             [:button.button.is-fullwidth.is-success
-              {:disabled (< (:experience @-character 0) cost+1)
-               :on-click
-               #(do
-                  (swap! -character update-in [:attributes attr] inc)
-                  (swap! -character update :experience - cost+1))}
-              "Buy"]]
-            [:td
-             [:button.button.is-fullwidth.is-info
-              {:on-click
-               #(swap! -character update-in [:attributes attr] inc)}
-              "Give (+" cost+1 ")"]]])]]
-
-       [:div.content>h3 "Skills"]
-       [:table.table.is-fullwidth
-        [:thead
-         [:tr
-          [:th "Name"]
-          [:th "Level"]
-          [:th "Take"]
-          [:th "Sell"]
-          [:th "Buy"]
-          [:th "Give"]]]
-        [:tbody
-         (for [skill (sort specs/skills)
-               :let [x (get-in @-character [:skills skill] 0)
-                     attr (characters/skill->attribute skill)
-                     x* (+ (get-in @-character [:attributes attr] 0)
-                           x)
-                     cost x
-                     cost+1 (inc x)]]
-           ^{:key skill}
-           [:tr
-            [:td (norm skill) " " [:strong "(" (norm attr) ")"]]
-            [:td x " " [:strong "(" x* ")"]]
-            [:td
-             [:button.button.is-fullwidth.is-danger
-              {:disabled (not (pos-int? x))
-               :on-click
-               #(swap! -character update-in [:skills skill] dec)}
-              "Take (-" cost ")"]]
-            [:td
-             [:button.button.is-fullwidth.is-warning
-              {:disabled (not (pos-int? x))
-               :on-click
-               #(do
-                  (swap! -character update-in [:skills skill] dec)
-                  (swap! -character update :experience + cost))}
-              "Sell"]]
-            [:td
-             [:button.button.is-fullwidth.is-success
-              {:disabled (< (:experience @-character 0) cost+1)
-               :on-click
-               #(do
-                  (swap! -character update-in [:skills skill] inc)
-                  (swap! -character update :experience - cost+1))}
-              "Buy"]]
-            [:td
-             [:button.button.is-fullwidth.is-info
-              {:on-click
-               #(swap! -character update-in [:skills skill] inc)}
-              "Give (+" cost+1 ")"]]])]]]]]))
+       [edit-attributes -character]
+       [edit-skills -character]]
+      [:div.column-is-6
+       [:div.content
+        [:h3 "Feats"]
+        (for [feat (db/all-feats)]
+          ^{:key (:id feat)}
+          [print-feat feat])]]]]))
 
 (defn characters-view [characters]
   [:div.columns
@@ -258,7 +280,7 @@
           (reset! editing-character? true))}
       "New Character"]]]
    [:div.column
-    (when-let [character @active-character]
+    (when-let [character (and (not @editing-character?)
+                              @active-character)]
       [character-sheet character])
-    (let [-character (r/atom @active-character)]
-      [edit-character -character])]])
+    [edit-character active-character]]])

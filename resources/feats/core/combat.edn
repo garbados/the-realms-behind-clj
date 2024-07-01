@@ -1,0 +1,20 @@
+[{:id :calculated-attacks
+  :name "Calculated Attacks"
+  :description
+  "May use Insight instead of Melee with light weapons."
+  :level 1
+  :effect
+  {:as-light-melee :insight}
+  :requirements
+  {:skills {:insight 5}}
+  :tags #{:talent}}
+ {:id :driven-strikes
+  :name "Driven Strikes"
+  :description
+  "May use Spirit instead of Body for damage with light weapons."
+  :level 1
+  :effect
+  {:as-light-damage :spirit}
+  :requirements
+  {:attributes {:spirit 3}}
+  :tags #{:talent}}]

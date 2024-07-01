@@ -4,8 +4,6 @@
             [reitit.coercion.spec :as rss]
             [reitit.frontend :as rf]
             [reitit.frontend.easy :as rfe]
-            [the-realms-behind-clj.characters :as characters]
-            [the-realms-behind-clj.resources :as resources]
             [the-realms-behind-clj.web.characters :refer [characters-view]]
             [the-realms-behind-clj.web.db :as db]
             [the-realms-behind-clj.web.equipment :refer [equipment-view]]
@@ -14,24 +12,9 @@
 (def source-url "https://github.com/garbados/the-realms-behind-clj/")
 (def intro-url (str source-url "blob/main/doc/intro.md"))
 
-(defonce db (db/init-db "spellbook"))
+(defonce db (db/init-db "the-realms-behind"))
 
 (def current-view (r/atom :loading))
-(def custom-feats (r/atom []))
-(def custom-equipment (r/atom []))
-(def custom-characters (r/atom {}))
-
-(defn all-characters []
-  (merge characters/sample-characters
-         @custom-characters))
-
-(defn all-equipment []
-  (concat (resources/equipment)
-          @custom-equipment))
-
-(defn all-feats []
-  (concat (resources/feats)
-          @custom-feats))
 
 (defn- navbar []
   [:div.level
@@ -105,13 +88,13 @@
      :view index-view}]
    ["/feats"
     {:name ::feats
-     :view (fn [] (feats-view (all-feats)))}]
+     :view (fn [] (feats-view (db/all-feats)))}]
    ["/equipment"
     {:name ::equipment
-     :view (fn [] (equipment-view (all-equipment)))}]
+     :view (fn [] (equipment-view (db/all-equipment)))}]
    ["/characters"
     {:name ::characters
-     :view (fn [] (characters-view (vals (all-characters))))}]
+     :view (fn [] (characters-view (vals (db/all-characters))))}]
    #_["/npc-manager"
       {:name ::npc-manager
        :view npc-manager-view}]])

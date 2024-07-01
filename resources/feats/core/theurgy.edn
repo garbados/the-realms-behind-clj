@@ -1,0 +1,34 @@
+[{:id :blessing
+  :name "Divine Blessing"
+  :description
+  "Call down the Heavens themselves,
+   channeling them with crackling will."
+  :level 1
+  :effect
+  {:features #{:blessing}}
+  :cost {:ap 2 :madness 1}
+  :tags #{:technique :buildable}
+  :requirements
+  {:skills {:theurgy 2}}}
+ {:id :curse
+  :name "Sacred Curse"
+  :description
+  "Beseech hateful spirits to weaken your foes."
+  :level 1
+  :effect
+  {:features #{:curse}}
+  :cost {:ap 2 :madness 1}
+  :tags #{:technique :buildable}
+  :requirements
+  {:skills {:theurgy 2}}}
+ {:id :healing
+  :name "Spirit Healing"
+  :description
+  "Stitch flesh with life-aligned force."
+  :level 1
+  :effect
+  {:features #{:healing}}
+  :cost {:ap 2 :madness 1}
+  :tags #{:technique :buildable}
+  :requirements
+  {:skills {:theurgy 2}}}]

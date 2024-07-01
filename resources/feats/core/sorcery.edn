@@ -1,0 +1,32 @@
+[{:id :evocation
+  :name "Evocation"
+  :description
+  "Call planar and elemental forces
+   to smash, burn, fling, bind,
+   and generally harm your enemies."
+  :level 1
+  :effect
+  {:features #{:evocation}}
+  :cost {:ap 2 :madness 1}
+  :tags #{:technique :buildable}
+  :requirements
+  {:skills {:sorcery 2}}}
+ {:id :conjuration
+  :name "Conjuration"
+  :description
+  "Summon materials and even beings from Possibility."
+  :level 1
+  :effect
+  {:features #{:conjuration}}
+  :cost {:ap 2 :madness 1}
+  :tags #{:technique :buildable}}
+ {:id :abjuration
+  :name "Abjuration"
+  :description
+  "Work sacred mysteries to exert force
+   or apply strangeness to oneself or allies."
+  :level 1
+  :effect
+  {:features #{:abjuration}}
+  :cost {:ap 2 :madness 1}
+  :tags #{:technique :buildable}}]

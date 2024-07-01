@@ -5,6 +5,7 @@
    or you apprenticed with a capable artisan or guild.
    You start the game with the Artisinal Training feat,
    and a Crafting Toolset."
+  :level 1
   :when-gained
   {:gain-feats [:artisinal-training]
    :gain-items [:crafting-toolset]}
@@ -14,6 +15,7 @@
   :description
   "You start the game with a Climber's Kit,
    Adventurer's Belt, and 2 Medicinal Supplies."
+  :level 1
   :when-gained
   {:gain-items [:climbers-kit :adventurers-belt
                 :medicinal-supplies :medicinal-supplies]}
@@ -23,6 +25,7 @@
   :description
   "You start the game with a Disguise Kit, Tinker's Kit,
    and two sets of Basic Clothing in a style or outfit of your choice."
+  :level 1
   :when-gained
   {:gain-items [:disguise-kit :tinkers-kit
                 :basic-clothing :basic-clothing]}

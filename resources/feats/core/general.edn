@@ -80,7 +80,29 @@
   "You may use Performance instead of Lore,
    even for accessing Lore talents."
   :tags #{:talent}
-  :effects
+  :effect
   {:use-skill-as {:performance :lore}}
   :requirements
-  {:skills {:performance 5}}}]
+  {:skills {:performance 5}}}
+ {:id :silver-tongue
+  :name "Silver Tongue"
+  :level 3
+  :description
+  "Checks using social skills (Deception, Diplomacy, Insight, Performance, Presence)
+   gain one advantage."
+  :effect
+  {:skill-advantage #{:deception :diplomacy :insight
+                      :performance :presence}}
+  :tags #{:talent}}
+ {:id :imposing-figure
+  :name "Imposing Figure"
+  :level 1
+  :description
+  "May use Body instead of Spirit for Presence checks."
+  :effect
+  {:use-attr-as-with
+   {:body [:spirit :presence]}}
+  :requirements
+  {:attributes {:body 3}
+   :skills {:presence 2}}
+  :tags #{:talent}}]
