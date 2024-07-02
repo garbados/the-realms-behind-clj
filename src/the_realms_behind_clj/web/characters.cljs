@@ -308,29 +308,34 @@
    [:div.column.is-6
     [:div.content
      [:h3 "Available equipment"]
-     [:div
-      overflow-area
-      (for [single-equipment
-            (sort
-             characters/sort-equipment
-             (db/all-equipment))]
-        ^{:key (:id single-equipment)}
-        [print-equipment single-equipment
-         (let [cost (characters/wealth-cost
-                     (:level single-equipment))]
-           [:div.level
-            [:div.level-item
-             [:button.button.is-fullwidth.is-success
-              #_{:on-click
-                 #(swap! -character update :feats disj feat)}
-              "Buy"]]
-            [:div.level-item
-             [:button.button.is-fullwidth.is-info
-              #_{:on-click
-                 #(do
-                    (swap! -character update :experience + cost)
-                    (swap! -character update :feats conj feat))}
-              "Give (+" cost ")"]]])])]]]])
+     (for [[group equipment]
+           (->> (db/all-equipment)
+                (group-by :slot)
+                (seq)
+                (sort-by first))]
+       ^{:key group}
+       [:<>
+        [:h5 "Slot: " (norm group)]
+        [:div
+         overflow-area
+         (for [single-equipment (sort-by :name equipment)]
+           ^{:key (:id single-equipment)}
+           [print-equipment single-equipment
+            (let [cost (characters/wealth-cost
+                        (:level single-equipment))]
+              [:div.level
+               [:div.level-item
+                [:button.button.is-fullwidth.is-success
+                 #_{:on-click
+                    #(swap! -character update :feats disj feat)}
+                 "Buy"]]
+               [:div.level-item
+                [:button.button.is-fullwidth.is-info
+                 #_{:on-click
+                    #(do
+                       (swap! -character update :experience + cost)
+                       (swap! -character update :feats conj feat))}
+                 "Give (+" cost ")"]]])])]])]]])
 
 (defn- edit-character [-character]
   (let [-name (r/atom (get-in @-character [:bio :name] ""))
