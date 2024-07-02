@@ -1,27 +1,21 @@
 (ns the-realms-behind-clj.web.db
-  (:require [clojure.edn :as edn]
+  (:require ["pouchdb" :as pouchdb]
+            [clojure.edn :as edn]
+            [reagent.core :as r]
             [the-realms-behind-clj.characters :as characters]
-            [the-realms-behind-clj.resources :as resources]
-            ["pouchdb" :as pouchdb]))
+            [the-realms-behind-clj.resources :as resources]))
 
 (def CHARACTERS "character")
 (def EQUIPMENT "equipment")
 (def FEATS "feat")
-
-(defn all-characters []
-  characters/sample-characters)
-
-(defn all-equipment []
-  (resources/equipment))
-
-(defn all-feats []
-  (resources/feats))
 
 (defn init-db
   ([name]
    (new pouchdb name))
   ([name opts]
    (new pouchdb name opts)))
+
+(def db (init-db "the-realms-behind"))
 
 (defn unmarshal-doc [doc]
   (edn/read-string (:-value (js->clj doc :keywordize-keys true))))
@@ -78,14 +72,35 @@
   (fn do-typed-fetch
     ([db] (do-typed-fetch db {}))
     ([db opts]
-     (->> opts
-          (merge
-           {:startkey type-name
-            :endkey (str type-name "\uffff")
-            :include_docs true})
-          (fetch-docs db)
-          (map :doc)))))
+     (.then (fetch-docs
+             db
+             (merge
+              {:startkey type-name
+               :endkey (str type-name "\uffff")
+               :include_docs true}
+              opts))
+            #(map (comp :-value :doc) %)))))
 
 (def fetch-characters (typed-fetch CHARACTERS))
 (def fetch-equipment (typed-fetch EQUIPMENT))
 (def fetch-feats (typed-fetch FEATS))
+
+
+
+(defn all-characters []
+  (.then (fetch-characters db)
+         #(vals
+           (reduce
+            (fn [characters doc]
+              (let [uuid (:id doc)
+                    character doc]
+                (assoc characters uuid character)))
+            characters/sample-characters
+            %))))
+
+(defn all-equipment []
+  (resources/equipment))
+
+(defn all-feats []
+  (.then (fetch-feats db)
+         #(concat (resources/feats) %)))

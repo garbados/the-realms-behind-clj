@@ -5,15 +5,11 @@
             [reitit.frontend :as rf]
             [reitit.frontend.easy :as rfe]
             [the-realms-behind-clj.web.characters :refer [characters-view]]
-            [the-realms-behind-clj.web.db :as db]
             [the-realms-behind-clj.web.equipment :refer [equipment-view]]
-            [the-realms-behind-clj.web.feats :refer [feats-view]]
-            [the-realms-behind-clj.characters :as characters]))
+            [the-realms-behind-clj.web.feats :refer [feats-view]]))
 
 (def source-url "https://github.com/garbados/the-realms-behind-clj/")
 (def intro-url (str source-url "blob/main/doc/intro.md"))
-
-(defonce db (db/init-db "the-realms-behind"))
 
 (def current-view (r/atom :loading))
 

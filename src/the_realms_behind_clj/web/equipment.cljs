@@ -147,3 +147,36 @@
          (for [armor sorted-armor]
            ^{:key (:id armor)}
            [print-equipment armor])])]]]))
+
+(defn print-equipment-short [equipment & extra]
+  [:div.box
+   [:p
+    [:strong (:name equipment)]
+    " "
+    [:em "(level " (:level equipment) ")"]]
+   [:p (:description equipment)]
+   (let [eq-headers
+         [:slot :bulk
+          :accuracy :damage :defense
+          :range :might :resists
+          :inertia :stowage]]
+     [:ul
+      (for [header eq-headers
+            :let [value (get equipment header)
+                  pr-value
+                  (cond
+                    (keyword? value)
+                    (norm value)
+                    (map? value)
+                    (string/join
+                     ", "
+                     (map
+                      (fn [[k v]]
+                        (str (norm k) " " v))
+                      value))
+                    :else
+                    value)]
+            :when (some? value)]
+        ^{:key header}
+        [:li [:strong (norm header)] ": " pr-value])])
+   extra])

@@ -119,15 +119,15 @@
   :args (s/cat :character ::specs/character)
   :ret nat-int?)
 
-(defn carrying [character]
+(defn carried-equipment [character]
   (flatten (vals (select-keys character [:equipped :at-hand :inventory]))))
 
-(s/fdef carrying
+(s/fdef carried-equipment
   :args (s/cat :character ::specs/character)
   :ret ::specs/equipment)
 
 (defn carrying-bulk [character]
-  (->> (carrying character)
+  (->> (carried-equipment character)
        (map :bulk)
        (map #(if (= :light %) 0.1 %))
        (reduce +)
@@ -162,6 +162,7 @@
 (def base-character
   {:bio {}
    :experience 0
+   :gold 0
    :attributes
    (reduce
     #(assoc %1 %2 0)
@@ -222,14 +223,28 @@
     :else (+ (* 3 level)
              (wealth-cost (dec level)))))
 
-(defn carried-equipment [character]
-  (->> (select-keys character [:equipped :at-hand :inventory])
-       (map second)
-       (reduce concat [])))
-
 (defn sort-equipment [eq1 eq2]
   (cond
     (= (:slot eq1) (:slot eq2))
     (< (:name eq1) (:name eq2))
     :else
     (< (:slot eq1) (:slot eq2))))
+
+(defn get-max-bulk [character group]
+  (let [carrying-capacity (or (get-in character [:stats :carrying-capacity])
+                              (:carrying-capacity
+                               (base-stats character)))]
+    (case group
+      :equipped carrying-capacity
+      :at-hand (min carrying-capacity
+                    (:stowage
+                     (first
+                      (filter #(= (:slot %) :belt)
+                              (:equipped character)))
+                     0))
+      :inventory (min (* 2 carrying-capacity)
+                      (:stowage
+                       (first
+                        (filter #(= (:slot %) :pack)
+                                (:equipped character)))
+                       0)))))

@@ -1,0 +1,64 @@
+[{:id :adventurers-belt
+  :name "Adventurer's Belt"
+  :description
+  "A sturdy belt with pouches for easy access
+   to all manner of adventuring goods."
+  :level 1
+  :bulk :light
+  :might 1
+  :stowage 4
+  :slot :belt}
+ {:id :bandolier
+  :name "Bandolier"
+  :description
+  "Several pocketed belts worm across the torso,
+   capable of carrying many useful things."
+  :level 1
+  :bulk :light
+  :might 3
+  :stowage 6
+  :slot :belt}
+ {:id :knapsack
+  :name "Knapsack"
+  :description
+  "A small pack worn over the shoulder,
+   large enough to carry a few kits,
+   toolsets, and some spare equipment."
+  :level 1
+  :bulk :light
+  :might 1
+  :stowage 4
+  :slot :pack}
+ {:id :backpack
+  :name "Backpack"
+  :description
+  "A typical pack for carrying useful things."
+  :level 1
+  :bulk :light
+  :might 3
+  :stowage 6
+  :slot :pack}
+ {:id :rucksack
+  :name "Rucksack"
+  :description
+  "A larger pack suitable for carrying
+   more kits, tools, and equipment."
+  :level 1
+  :bulk :light
+  :might 5
+  :stowage 8
+  :slot :pack}
+ {:id :survivalists-pack
+  :name "Survivalist's Pack"
+  :description
+  "A great pack, larger than a child,
+   with multiple reinforced straps
+   to allow it to be carried.
+   Several hooks and loops on the outside
+   allow almost an entire group's worth of armaments
+   to be strapped to the outside."
+  :level 2
+  :bulk 1
+  :might 8
+  :stowage 15
+  :slot :pack}]

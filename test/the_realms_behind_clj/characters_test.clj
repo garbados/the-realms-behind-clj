@@ -37,6 +37,6 @@
     `characters/character-defense
     `characters/base-stats
     `characters/base-xp
-    `characters/carrying
+    `characters/carried-equipment
     `characters/carrying-bulk
     `characters/can-use?]))

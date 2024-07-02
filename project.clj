@@ -5,7 +5,8 @@
             :url "https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en"}
   :dependencies [[org.clojure/clojure "1.11.1"]]
   :repl-options {:init-ns the-realms-behind-clj.core}
-  :plugins [[lein-cloverage "1.2.2"]]
+  :plugins [[lein-cloverage "1.2.2"]
+            [com.github.clj-kondo/lein-clj-kondo "0.2.5"]]
   :profiles
   {:dev {:dependencies [[org.clojure/test.check "1.1.1"]]}
    :cljs
