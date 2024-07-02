@@ -10,7 +10,7 @@
   :cost {:ap 2 :madness 1}
   :tags #{:technique :buildable}
   :requirements
-  {:skills {:sorcery 2}}}
+  {:skills {:sorcery 3}}}
  {:id :conjuration
   :name "Conjuration"
   :description
@@ -19,7 +19,9 @@
   :effect
   {:features #{:conjuration}}
   :cost {:ap 2 :madness 1}
-  :tags #{:technique :buildable}}
+  :tags #{:technique :buildable}
+  :requirements
+  {:skills {:sorcery 3}}}
  {:id :abjuration
   :name "Abjuration"
   :description
@@ -29,4 +31,6 @@
   :effect
   {:features #{:abjuration}}
   :cost {:ap 2 :madness 1}
-  :tags #{:technique :buildable}}]
+  :tags #{:technique :buildable}
+  :requirements
+  {:skills {:sorcery 3}}}]

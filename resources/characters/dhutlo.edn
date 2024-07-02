@@ -5,6 +5,7 @@
   :player "DFB"
   :image-url "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fstevelees.photography%2Fwp-content%2Fuploads%2FSteve-Lees-Photography-Australian-Lizard-3.jpg&f=1&nofb=1&ipt=a0fd2cd1803e6eb766d5d8d908643e07cb24c9b06e858e0f469390c7fa091438&ipo=images"}
  :experience 0
+ :gold 7
  :attributes
  {:body 3
   :mind 1
@@ -15,7 +16,7 @@
   :athletics 2
   :awareness 1
   :insight 1
-  :medicine 2
+  :medicine 4
   :melee 3
   :might 2
   :presence 2

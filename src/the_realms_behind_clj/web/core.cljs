@@ -7,7 +7,8 @@
             [the-realms-behind-clj.web.characters :refer [characters-view]]
             [the-realms-behind-clj.web.db :as db]
             [the-realms-behind-clj.web.equipment :refer [equipment-view]]
-            [the-realms-behind-clj.web.feats :refer [feats-view]]))
+            [the-realms-behind-clj.web.feats :refer [feats-view]]
+            [the-realms-behind-clj.characters :as characters]))
 
 (def source-url "https://github.com/garbados/the-realms-behind-clj/")
 (def intro-url (str source-url "blob/main/doc/intro.md"))
@@ -88,13 +89,13 @@
      :view index-view}]
    ["/feats"
     {:name ::feats
-     :view (fn [] (feats-view (db/all-feats)))}]
+     :view feats-view}]
    ["/equipment"
     {:name ::equipment
-     :view (fn [] (equipment-view (db/all-equipment)))}]
+     :view equipment-view}]
    ["/characters"
     {:name ::characters
-     :view (fn [] (characters-view (vals (db/all-characters))))}]
+     :view characters-view}]
    #_["/npc-manager"
       {:name ::npc-manager
        :view npc-manager-view}]])

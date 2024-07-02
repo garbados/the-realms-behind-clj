@@ -27,7 +27,9 @@
   (doseq [character (vals characters/sample-characters)]
     (testing (str "Validate: " (:name character))
       (is (s/valid? ::specs/character character)
-          (s/explain-str ::specs/character character)))))
+          (s/explain-str ::specs/character character))
+      (is (every? (partial characters/can-use? character)
+                  (:feats character))))))
 
 (deftest spec-tests
   (spec-test-syms
@@ -36,4 +38,5 @@
     `characters/base-stats
     `characters/base-xp
     `characters/carrying
-    `characters/carrying-bulk]))
+    `characters/carrying-bulk
+    `characters/can-use?]))

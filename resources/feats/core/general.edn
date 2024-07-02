@@ -93,6 +93,12 @@
   :effect
   {:skill-advantage #{:deception :diplomacy :insight
                       :performance :presence}}
+  :requirements
+  {:or [{:skills {:deception 7}}
+        {:skills {:diplomacy 7}}
+        {:skills {:insight 7}}
+        {:skills {:performance 7}}
+        {:skills {:presence 7}}]}
   :tags #{:talent}}
  {:id :imposing-figure
   :name "Imposing Figure"

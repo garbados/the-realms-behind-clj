@@ -139,6 +139,14 @@
 
 (defn resolve-character [character]
   (-> character
+      (update :feats (fn [feats]
+                       (set
+                        (map
+                         (fn [feat]
+                           (if (keyword? feat)
+                             (resources/resolve-link feat)
+                             feat))
+                         feats))))
       (update :equipped #(map resources/resolve-link %))
       (update :at-hand #(map resources/resolve-link %))
       (update :inventory #(map resources/resolve-link %))))
@@ -150,3 +158,78 @@
         (fn [all character]
           (assoc all (:id character) character))
         {})))
+
+(def base-character
+  {:bio {}
+   :experience 0
+   :attributes
+   (reduce
+    #(assoc %1 %2 0)
+    {}
+    specs/attributes)
+   :skills
+   (reduce
+    #(assoc %1 %2 0)
+    {}
+    specs/skills)
+   :feats #{}
+   :equipped []
+   :at-hand []
+   :inventory []})
+
+(defn can-use? [character feat]
+  (if (keyword? feat)
+    (can-use? character (resources/resolve-link feat))
+    (let [requirements (:requirements feat)
+          {:keys [attributes skills feats]} requirements]
+      (and
+       (if attributes
+         (reduce
+          (fn [? [attr x]]
+            (and ? (<= x (get-in character [:attributes attr] 0))))
+          true
+          attributes)
+         true)
+       (if skills
+         (reduce
+          (fn [? [skill x]]
+            (and ? (<= x (character-skill character skill))))
+          true
+          skills)
+         true)
+       (if feats
+         (let [character-feats (:feats character #{})]
+           (reduce
+            (fn [? feat]
+              (and ? (character-feats feat)))
+            true
+            feats))
+         true)
+       (if-let [or-reqs (:or requirements)]
+         (some (partial can-use? character)
+               (map #(hash-map :requirements %) or-reqs))
+         true)))))
+
+(s/fdef can-use?
+  :args (s/cat :character ::specs/character
+               :feat ::specs/feat)
+  :ret boolean?)
+
+(defn wealth-cost [level]
+  (cond
+    (zero? level) 1
+    (= 1 level) 3
+    :else (+ (* 3 level)
+             (wealth-cost (dec level)))))
+
+(defn carried-equipment [character]
+  (->> (select-keys character [:equipped :at-hand :inventory])
+       (map second)
+       (reduce concat [])))
+
+(defn sort-equipment [eq1 eq2]
+  (cond
+    (= (:slot eq1) (:slot eq2))
+    (< (:name eq1) (:name eq2))
+    :else
+    (< (:slot eq1) (:slot eq2))))

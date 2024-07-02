@@ -50,7 +50,7 @@
   :accuracy 1
   :damage 3
   :defense 0
-  :range [:close [:body 3]]
+  :range [:close {:body 3}]
   :bulk :light
   :might 0}
  {:id :heavy-thrown
@@ -61,7 +61,7 @@
   :accuracy 0
   :damage 4
   :defense 0
-  :range [:close [:body 3]]
+  :range [:close {:body 3}]
   :bulk 1
   :might 4}
  {:id :light-bow

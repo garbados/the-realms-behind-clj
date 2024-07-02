@@ -106,7 +106,7 @@
 (s/def ::range-expr
   (s/or :melee #{:close}
         :ranged nat-int?
-        :varied (s/tuple ::attribute nat-int?)))
+        :varied (s/map-of ::attribute nat-int?)))
 (s/def ::range
   (s/or :expr ::range-expr
         :exprs (s/coll-of ::range-expr)))
@@ -200,10 +200,15 @@
                    ::image-url]))
 
 (s/def ::experience nat-int?)
-(s/def :character/feats ::links)
+(s/def ::gold nat-int?)
+(s/def :character/feats
+  (s/coll-of
+   (s/or :detail ::feat
+         :link   ::id)))
 (s/def ::character
   (s/keys :req-un [::bio
                    ::experience
+                   ::gold
                    ::attributes
                    ::skills
                    :character/feats
