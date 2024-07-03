@@ -73,38 +73,58 @@
         [:td skill-name]
         [:td [:em (norm attr) " + " base-skill]]])]]])
 
-(defn- print-stats [character]
-  [:div.content
-   [:h5 "Stats"]
-   (let [stats (get-stats character)]
-     [:<>
-      [:ul
-       (let [{:keys [health max-health]} stats
-             [shallow deep] health
-             [shallow* deep*] max-health]
-         [:li "Health: " shallow " / " shallow* " || " deep " / " deep*])
-       (for [[stat x] (select-keys stats [:will :fortune :draw :speed :initiative])]
-         ^{:key stat}
-         [:li (norm stat) ": " x])
-       (let [carrying-bulk (characters/carrying-bulk character)
-             carry-limit (:carrying-capacity stats)]
-         [:li "Carrying: " carrying-bulk " / " carry-limit])]
-      [:h5 "Defenses"]
-      [:table.table
-       [:thead
-        [:tr
-         [:th "X"]
-         [:th "Defense"]
-         [:th "Skill"]]]
-       [:tbody
-        (for [[defense x] (:defenses stats)
-              :let [defense-name (norm defense)
-                    skill (characters/defense->skill defense)]]
-          ^{:key defense}
-          [:tr
-           [:td x]
-           [:td defense-name]
-           [:td [:em (norm skill)]]])]]])])
+(defn- print-stats
+  ([character]
+   [print-stats character {}])
+  ([character {:keys [explain?]}]
+   [:div.content
+    [:h5 "Stats"]
+    (let [stats (get-stats character)]
+      [:<>
+       [:table.table.is-fullwidth
+        [:thead
+         [:tr
+          [:th "X"]
+          [:th "Stat"]
+          (when explain?
+            [:th "Formula"])]]
+        [:tbody
+         (let [{:keys [max-health]} stats
+               [shallow deep] max-health]
+           [:tr
+            [:td (str shallow " Shallow, " deep " Deep")]
+            [:td "Health"]
+            (when explain?
+              [:td "Resilience ~ 1x Shallow, 2x Deep"])])
+         (doall
+          (for [[stat formula]
+                [[:will "2x Resolve"]
+                 [:fortune "2x Luck"]
+                 [:draw "3x Insight"]
+                 [:speed "2 + Athletics"]
+                 [:initiative "2x Awareness"]]
+                :let [x (get stats stat)]]
+            ^{:key stat}
+            [:tr
+             [:td x]
+             [:td (norm stat)]
+             (when explain?
+               [:td formula])]))]]
+       [:table.table.is-fullwidth
+        [:thead
+         [:tr
+          [:th "X"]
+          [:th "Defense"]
+          [:th "Skill"]]]
+        [:tbody
+         (for [[defense x] (:defenses stats)
+               :let [defense-name (norm defense)
+                     skill (characters/defense->skill defense)]]
+           ^{:key defense}
+           [:tr
+            [:td x]
+            [:td defense-name]
+            [:td [:em (norm skill)]]])]]])]))
 
 (defn- character-sheet [character]
   [:div.box
@@ -431,12 +451,19 @@
                 [:div.level-item
                  [move-equipment-button -character k-from k-to single-equipment]]))]]))]]]))
 
-(defn- edit-character [-character]
+(defn reset-characters! [-characters]
+  (.then (db/all-characters)
+         #(reset! -characters %)))
+
+(defn- edit-character [-characters -character -editing?]
   (let [-name (r/atom (get-in @-character [:bio :name] ""))
         -description (r/atom (get-in @-character [:bio :description] ""))
         -image-url (r/atom (get-in @-character [:bio :image-url] ""))]
     [:div.box
-     [:div.content>h1 "New Character"]
+     [:div.content>h1
+      (if (:id @-character)
+        "Edit Character"
+        "New Character")]
      [:form.form
       [:div.field
        [:label.label "Name"]
@@ -454,20 +481,21 @@
         [prompt-text -image-url]]
        [:p.help "The URL for your character's profile picture."]]]
      [:hr]
-     [:h1.title "XP Total: " (characters/base-xp @-character)]
-     [:p.subtitle
-      "XP Free: "
-      [:span
-       [:input
-        {:size 4
-         :type "number"
-         :on-change
-         #(swap! -character assoc :experience (-> % .-target .-value))
-         :value (:experience @-character 0)}]]]
+     [:div.content
+      [:h1 "XP Total: " (characters/base-xp @-character)]
+      [:p
+       "XP Free: "
+       [:span
+        [:input
+         {:size 4
+          :type "number"
+          :on-change
+          #(swap! -character assoc :experience (-> % .-target .-value))
+          :value (:experience @-character 0)}]]]]
      [:div.columns
       [:div.column.is-6
        [edit-attributes -character]
-       [print-stats @-character]]
+       [print-stats @-character {:explain? true}]]
       [:div.column.is-6
        [edit-skills -character]]]
      [:hr]
@@ -498,46 +526,75 @@
                 (assoc
                  @-character
                  :id uuid
-                 :name @-name
-                 :description @-description
-                 :image-url @-image-url
+                 :bio {:name @-name
+                       :description @-description
+                       :image-url @-image-url}
                  :stats (characters/base-stats @-character))]
-            (db/save-doc db/db uuid character)
-            (rfe/navigate ::characters))}
-        "Save Character"]]]]))
+            (.catch
+             (db/save-doc db/db uuid character)
+             (fn [e] (println e)))
+            (reset-characters! -characters)
+            (reset! -character character)
+            (reset! -editing? false))}
+        "Save Character"]]
+      (when-let [id (:id @-character)]
+        (when (some? (re-matches #"^character/.+$" id))
+          [:p
+           [:button.button.is-fullwidth.is-danger
+            {:on-click
+             #(let [id (:id @-character (db/character-uuid))]
+                (.then
+                 (db/remove-id! db/db id)
+                 (fn [] (reset-characters! -characters)))
+                (reset! -character characters/base-character)
+                (reset! -editing? true))}
+            "Delete Character"]]))]]))
+
+(defn first-by-id [l id]
+  (first (filter #(= id (:id %)) l)))
 
 (defn characters-view
   ([_]
-   (let [-characters (r/atom [])]
+   (let [-characters (r/atom [])
+         -character (r/atom characters/base-character)
+         -editing? (r/atom true)]
+     (reset-characters! -characters)
      (.then (db/all-characters)
             #(reset! -characters %))
-     [characters-view -characters
-      (r/atom characters/base-character)
-      (r/atom true)]))
+     [characters-view -characters -character -editing?]))
   ([-characters -character -editing?]
-   [:div.columns
-    [:div.column.is-2
-     [:div.box>div.content
-      [:p "Characters:"]
-      (for [character @-characters]
-        ^{:key (:id character)}
-        (do
-          (println character)
+   [:<>
+    #_[:p (pr-str @-character)]
+    [:div.columns
+     [:div.column.is-2
+      [:div.box>div.content
+       [:p "Characters:"]
+       (doall
+        (for [character @-characters]
+          ^{:key (:id character)}
           [:button.button.is-fullwidth
-           {:on-click #(do (reset! -character character)
-                           (reset! -editing? false))
+           {:on-click #(do
+                         (reset! -character character)
+                         (reset! -editing? false))
             :class (when (= @-character character) "is-primary")}
            (get-in character [:bio :name])
            (when (nil? (:stats character))
              " [sample]")]))
-      [:hr]
-      [:button.button.is-fullwidth.is-success
-       {:on-click
-        #(do
-           (reset! -character characters/base-character)
-           (reset! -editing? true))}
-       "New Character"]]]
-    [:div.column
-     (when-let [character (and (not @-editing?) @-character)]
-       [character-sheet character])
-     [edit-character -character]]]))
+       [:hr]
+       [:button.button.is-fullwidth.is-success
+        {:on-click
+         #(do
+            (reset! -character characters/base-character)
+            (reset! -editing? true))}
+        "New Character"]]]
+     [:div.column
+      (when-let [character (and (not @-editing?) @-character)]
+        [:<>
+         [:p
+          [:button.button.is-fullwidth.is-info
+           {:on-click #(do
+                         (swap! -character dissoc :id)
+                         (reset! -editing? true))}
+           "Use as Template for New Character"]]
+         [character-sheet character]])
+      [edit-character -characters -character -editing?]]]]))

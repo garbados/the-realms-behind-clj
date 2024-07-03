@@ -79,24 +79,24 @@
       (when-let [view (-> @current-view :data :view)]
         [view @current-view]))]])
 
-(def routes
-  [["/"
-    {:name ::index
-     :view index-view}]
-   ["/feats"
-    {:name ::feats
-     :view feats-view}]
-   ["/equipment"
-    {:name ::equipment
-     :view equipment-view}]
-   ["/characters"
-    {:name ::characters
-     :view characters-view}]
-   #_["/npc-manager"
-      {:name ::npc-manager
-       :view npc-manager-view}]])
-
-(def router (rf/router routes {:data {:coercion rss/coercion}}))
+(def router
+  (rf/router
+   [["/"
+     {:name ::index
+      :view index-view}]
+    ["/feats"
+     {:name ::feats
+      :view feats-view}]
+    ["/equipment"
+     {:name ::equipment
+      :view equipment-view}]
+    ["/characters"
+     {:name ::characters
+      :view characters-view}]
+    #_["/npc-manager"
+       {:name ::npc-manager
+        :view npc-manager-view}]]
+   {:data {:coercion rss/coercion}}))
 
 (defn on-navigate [m]
   (reset! current-view m))

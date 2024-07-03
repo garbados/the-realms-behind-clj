@@ -65,14 +65,14 @@
   (let [get-attr #(get-in character [:attributes %] 0)
         get-skill (partial character-skill character)
         get-defense (partial character-defense character)
-        base-health (let [resilience (get-skill :resilience)]
+        base-health (let [resilience (+ 2 (get-skill :resilience))]
                       [resilience (* 2 resilience)])]
     {:health base-health
      :max-health base-health
      :will (get-skill :resolve)
      :fortune (* 2 (get-attr :luck))
      :draw (* 3 (get-skill :insight))
-     :speed (get-skill :athletics)
+     :speed (+ 2 (get-skill :athletics))
      :initiative (* 2 (get-skill :awareness))
      :defenses
      (reduce

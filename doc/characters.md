@@ -166,12 +166,12 @@ Like Feats, equipment types follow a schema that allows their base types to be e
 ## Stats
 
 Quick facts:
-- Health: Resilience ~ 1x Shallow, 2x Deep (BODY)
-- Will: 2 x Resolve (SPIRIT)
-- Fortune: 2 x Luck (LUCK)
-- Draw: 3 x Insight (MIND)
-- Speed: 2 x Athletics (BODY)
-- Initiative: 2 x Awareness (SPIRIT)
+- Health: 2 + Resilience ~ 1x Shallow, 2x Deep (BODY)
+- Will: 2x Resolve (SPIRIT)
+- Fortune: 2x Luck (LUCK)
+- Draw: 3x Insight (MIND)
+- Speed: 2 + 2x Athletics (BODY)
+- Initiative: 2x Awareness (SPIRIT)
 - Defenses: 8 + {Skill}
     - Parry: Melee
     - Dodge: Acrobatics

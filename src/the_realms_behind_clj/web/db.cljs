@@ -79,22 +79,18 @@
                :endkey (str type-name "\uffff")
                :include_docs true}
               opts))
-            #(map (comp :-value :doc) %)))))
+            #(map (comp edn/read-string :-value :doc) %)))))
 
 (def fetch-characters (typed-fetch CHARACTERS))
 (def fetch-equipment (typed-fetch EQUIPMENT))
 (def fetch-feats (typed-fetch FEATS))
 
-
-
 (defn all-characters []
   (.then (fetch-characters db)
          #(vals
            (reduce
-            (fn [characters doc]
-              (let [uuid (:id doc)
-                    character doc]
-                (assoc characters uuid character)))
+            (fn [characters character]
+              (assoc characters (:id character) character))
             characters/sample-characters
             %))))
 
