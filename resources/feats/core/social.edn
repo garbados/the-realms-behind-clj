@@ -1,0 +1,33 @@
+[{:id :social-maneuver
+  :name "Social Maneuver"
+  :description
+  "Make a strategic statement or gesture."
+  :level 1
+  :effect
+  {:features #{:social}}
+  :cost {:ap 2}
+  :tags #{:technique :buildable}
+  :requirements
+  {:or [{:skills {:diplomacy 3}}
+        {:skills {:performance 3}}
+        {:skills {:presence 3}}]}}
+ {:id :another-clue
+  :name "Another clue!"
+  :description
+  "Your perception and reasoning reveal much."
+  :level 1
+  :effect
+  {:features #{:investigation}}
+  :cost {:ap 2}
+  :tags #{:technique :buildable}
+  :requirements
+  {:skills {:insight 3}}}
+ {:id :subtle-implication
+  :name "Subtle Implication"
+  :description
+  "Sew doubt and discord. Put people off-balance."
+  :level 1
+  :effect
+  {:features #{:deceit}}
+  :cost {:ap 2}
+  :tags #{:technique :buildable}}]

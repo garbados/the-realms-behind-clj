@@ -1,0 +1,27 @@
+[{:id :brawn-over-banter
+  :name "Brawn over Banter"
+  :description
+  "Exert a persuasive, visceral force.
+   May use Body instead of Mind or Spirit
+   as a modifier to the skill check.
+   Hearts provide an extra success."
+  :level 1
+  :tags #{:social :flagon-quest}}
+ {:id :precise-quotation
+  :name "Precise Quotation"
+  :description
+  "A command of the subject matter
+   lends credence to your argument.
+   Gain an advantage if you can cite
+   relevent knowledge.
+   Spades provide an extra success."
+  :level 1
+  :tags #{:social :flagon-quest}}
+ {:id :browbeat
+  :name "Browbeat"
+  :description
+  "Focus your epithets to intimidate.
+   The target may cower, and even run away.
+   Clubs provide an extra success."
+  :level 1
+  :tags #{:social :flagon-quest}}]

@@ -6,6 +6,7 @@
 (s/def ::name string?)
 (s/def ::description string?)
 (s/def ::tags (s/coll-of keyword? :kind set?))
+(s/def ::level nat-int?)
 
 ;; BASIC SPECS
 
@@ -57,7 +58,8 @@
 (s/def ::base-definition
   (s/keys :req-un [::id
                    ::name
-                   ::description]
+                   ::description
+                   ::level]
           :opt-un [::tags]))
 
 (s/def ::gain-feats ::links)
@@ -94,13 +96,11 @@
 
 (s/def ::feats (s/coll-of ::feat))
 
-(s/def ::level nat-int?)
 (s/def ::bulk (s/or :light #{:light}
                     :nat-int nat-int?))
 (s/def ::base-equipment
   (s/merge ::base-definition
-           (s/keys :req-un [::level
-                            ::bulk])))
+           (s/keys :req-un [::bulk])))
 (s/def ::accuracy nat-int?)
 (s/def ::damage nat-int?)
 (s/def ::range-expr
@@ -159,6 +159,8 @@
         :storage ::storage
         :item ::item))
 (s/def ::equipment (s/coll-of ::equipment-single))
+
+(s/def ::feature ::base-definition)
 
 ;; CHARACTER SPECS
 
