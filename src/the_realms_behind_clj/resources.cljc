@@ -14,7 +14,7 @@
 (defn features [] FEATURES)
 
 (def id->content
-  (let [content (concat (vals (characters))
+  (let [content (concat (characters)
                         (feats)
                         (equipment)
                         (features))

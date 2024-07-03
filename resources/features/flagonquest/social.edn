@@ -22,6 +22,45 @@
   :description
   "Focus your epithets to intimidate.
    The target may cower, and even run away.
+   You may use Spirit instead of Body or Mind
+   as a modifier to the check.
    Clubs provide an extra success."
   :level 1
+  :tags #{:social :deceit :flagon-quest}}
+ {:id :setup-and-follow
+  :name "Setup & Follow"
+  :description
+  "If this statement is made to support someone,
+   that person has +1 Advantage on their check,
+   and gains an extra success if the check passes."
+  :level 1
+  :tags #{:social :flagon-quest}}
+ {:id :practiced-comeback
+  :name "Practied Comeback"
+  :description
+  "Make two statements, using the same flipped cards for each."
+  :level 2
+  :tags #{:social :deceit :flagon-quest}}
+ {:id :bully
+  :name "Bully"
+  :description
+  "If this statement succeeds,
+   the target will endeavor to remove themselves from the scene,
+   or they gain stacks of Frightened equal to successes."
+  :level 2
+  :tags #{:social :deceit :flagon-quest}}
+ {:id :leading-question
+  :name "Leading Question"
+  :description
+  "You may use Insight instead of a social skill on this check.
+   If the statement succeeds, the target involuntarily reveals a clue."
+  :level 2
+  :tags #{:social :deceit :flagon-quest}}
+ {:id :new-best-friend
+  :name "New Best Friend"
+  :description
+  "If this statement succeeds during an attempt to Win Over,
+   the target's opinion of the speaker goes up
+   one additional level, permanently."
+  :level 3
   :tags #{:social :flagon-quest}}]

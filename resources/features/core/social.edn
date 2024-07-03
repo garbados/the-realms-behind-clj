@@ -1,0 +1,9 @@
+[{:id :lucky-guess
+  :name "Lucky Guess"
+  :description
+  "Sometimes you know things you shouldn't.
+   You may use Theurgy instead of Insight
+   to obtain clues about the situation.
+   Diamonds provide an extra success."
+  :level 1
+  :tags #{:investigation}}]

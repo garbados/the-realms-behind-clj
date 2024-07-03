@@ -1,0 +1,127 @@
+[{:id :lunging
+  :name "Lunging"
+  :description
+  "Take a Step before making your attack."
+  :level 1
+  :tags #{:maneuver :flagon-quest}}
+ {:id :wind-slash
+  :name "Wind Slash"
+  :description
+  "This melee attack gains Reach 2."
+  :level 2
+  :tags #{:maneuver :flagon-quest}}
+ {:id :distracting
+  :name "Distracting"
+  :description
+  "This attack inflicts stacks of Taunted equal to successes.
+   Spades provide an extra success."
+  :level 1
+  :tags #{:maneuver :flagon-quest}}
+ {:id :lacerating
+  :name "Lacerating"
+  :description
+  "This attack inflicts stacks of Bleeding equal to successes.
+   Hearts provide an extra success."
+  :level 1
+  :tags #{:maneuver :flagon-quest}}
+ {:id :hamstring
+  :name "Hamstring"
+  :description
+  "This attack inflicts stacks of Crippled equal to successes.
+   Hearts provide an extra success."
+  :level 1
+  :tags #{:maneuver :flagon-quest}}
+ {:id :harrying
+  :name "Harrying"
+  :description
+  "This attack inflicts stacks of Harried equal to successes.
+   Hearts provide an extra success."
+  :level 1
+  :tags #{:maneuver :flagon-quest}}
+ {:id :bull-rush
+  :name "Bull Rush"
+  :description
+  "This attack, if it hits, pushes the target
+   a number of spaces equal to successes, plus one.
+   Clubs provide an extra success."
+  :level 1
+  :tags #{:maneuver :flagon-quest}}
+ {:id :half-guard
+  :name "Half-Guard"
+  :description
+  "This attack, even if it doesn't hit,
+   applies stacks of Protected equal to successes, plus one.
+   Diamonds provide an extra success."
+  :level 1
+  :tags #{:maneuver :flagon-quest}}
+ {:id :wild-strike
+  :name "Wild Strike"
+  :description
+  "Sift 3 cards, adding them to your suit pool for this attack."
+  :level 1
+  :tags #{:maneuver :flagon-quest}}
+ {:id :victorious
+  :name "Victorious"
+  :description
+  "If this attack downs its target, draw a card."
+  :level 2
+  :tags #{:maneuver :flagon-quest}}
+ {:id :channel-elements
+  :name "Channel Element"
+  :description
+  "When you first select this feature,
+   choose an element from Fire or Frost.
+   This attack deals its damage as that type.
+   Requires Sorcery 3."
+  :level 2
+  :tags #{:maneuver :flagon-quest}}
+ {:id :channel-elements
+  :name "Channel Divinity"
+  :description
+  "When you first select this feature,
+   choose an element from Brilliant or Shadow.
+   This attack deals its damage as that type.
+   Requires Theurgy 3."
+  :level 2
+  :tags #{:maneuver :flagon-quest}}
+ {:id :calculated
+  :name "Calculated"
+  :description
+  "You have +1 advantage on this attack."
+  :level 2
+  :tags #{:maneuver :flagon-quest}}
+ {:id :whirlwind
+  :name "Whirlwind"
+  :description
+  "Attack all targets in range.
+   Requires a melee weapon with Close range.
+   Use the same check result for all targets' defenses."
+  :level 3
+  :tags #{:maneuver :flagon-quest}}
+ {:id :piercing-shot
+  :name "Piercing Shot"
+  :description
+  "Attack all targets in a line, within range.
+   Requires a ranged weapon.
+   Use the same check result for all targets' defenses."
+  :level 3
+  :tags #{:maneuver :flagon-quest}}
+ {:id :flurry
+  :name "Flurry"
+  :description
+  "Make an extra attack against one target,
+   which benefits from all features.
+   Flip a card from the top of your deck
+   for the check of the second attack."
+  :level 3
+  :tags #{:maneuver :flagon-quest}}
+ {:id :sudden-strike
+  :name "Sudden Betrayal"
+  :description
+  "When making this check,
+   your flip first checks your Stealth against the target's Awareness.
+   If that check succeeds, the target is unaware of your attack,
+   and you gain +1 Advantage and an extra success, if the attack succeeds.
+   Can only be used outside of combat."
+  :level 2
+  :tags #{:maneuver :flagon-quest}}]

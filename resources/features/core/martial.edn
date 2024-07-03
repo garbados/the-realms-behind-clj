@@ -1,0 +1,41 @@
+[{:id :bulwark
+  :name "Bulwark"
+  :description
+  "This attack deals no damage,
+   but increases your defenses by 2
+   and all resists by 1
+   until the end of your next turn."
+  :level 0
+  :tags #{:maneuver}}
+ {:id :feint
+  :name "Feint"
+  :description
+  "This attack deals no damage,
+   but provides extra feature points."
+  :level -1
+  :tags #{:maneuver}}
+ {:id :exposing
+  :name "Exposing"
+  :description
+  "This attack, if it hits, applies stacks of Vulnerable
+   equal to successes.
+   Diamonds provide an extra success."
+  :level 1
+  :tags #{:maneuver}}
+ {:id :opportunistic
+  :name "Opportunistic"
+  :description
+  "This attack may be used as an interrupt, once between turns,
+   if an enemy in melee range moves out of range,
+   or does anything requiring concentration,
+   such as casting a spell or looking through inventory."
+  :level 2
+  :tags #{:maneuver}}
+ {:id :charge
+  :name "Charge"
+  :description
+  "You may move spaces up to your Speed before making this attack.
+   If you move more than four spaces,
+   the attack gains 1 Advantage and an extra success, if it succeeds."
+  :level 2
+  :tags #{:maneuver}}]

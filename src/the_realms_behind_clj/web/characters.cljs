@@ -42,7 +42,7 @@
 (defn- print-attributes [character]
   [:div.content
    [:h5 "Attributes:"]
-   [:table.table
+   [:table.table.is-fullwidth
     [:thead
      [:tr
       [:th "Body"]
@@ -55,7 +55,7 @@
         ^{:key attr}
         [:td (get-in character [:attributes attr])])]]]
    [:h5 "Skills:"]
-   [:table.table
+   [:table.table.is-fullwidth
     [:thead
      [:tr
       [:th "X"]

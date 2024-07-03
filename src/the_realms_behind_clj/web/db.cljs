@@ -1,7 +1,6 @@
 (ns the-realms-behind-clj.web.db
   (:require ["pouchdb" :as pouchdb]
             [clojure.edn :as edn]
-            [reagent.core :as r]
             [the-realms-behind-clj.characters :as characters]
             [the-realms-behind-clj.resources :as resources]))
 

@@ -2,7 +2,7 @@
   "name": "the-realms-behind-clj",
   "private": true,
   "scripts": {
-    "test": "lein test",
+    "test": "npm run lint && lein test",
     "cov": "lein cloverage",
     "lint": "lein clj-kondo --parallel --lint src/** --lint test/**",
     "serve": "serve public",

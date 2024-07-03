@@ -29,6 +29,7 @@
    :religion    :mind
    :resilience  :body
    :resolve     :spirit
+   :society     :mind
    :sorcery     :spirit
    :stealth     :spirit
    :streetwise  :mind
@@ -53,8 +54,34 @@
    :luck :theurgy})
 
 (defn character-defense [character defense]
-  (let [skill (defense->skill defense)]
-    (+ 8 (character-skill character skill))))
+  (let [skill (defense->skill defense)
+        modifier
+        (cond
+          ;; parry gets a bonus from weapon defense
+          (= :parry defense)
+          (if-let [parry-defense
+                   (->> (:equipped character)
+                        (filter #(= :weapon (:slot %)))
+                        (map :defense)
+                        (sort >)
+                        (seq))]
+            (first parry-defense)
+            0)
+          ;; dodge gets a penalty from armor inertia
+          (= :dodge defense)
+          (-
+           (:inertia
+            (first
+             (filter
+              #(= :armor (:slot %))
+              (:equipped character)))
+            0))
+          :else 0)]
+    (max
+     0
+     (+ 8
+        (character-skill character skill)
+        modifier))))
 
 (s/fdef character-defense
   :args (s/cat :character ::specs/character
@@ -89,6 +116,7 @@
 
 (defn xp-cost [base-cost level]
   (cond
+    (< level 0) (- (xp-cost base-cost (- level)))
     (zero? level) 0
     (= 1 level) base-cost
     :else

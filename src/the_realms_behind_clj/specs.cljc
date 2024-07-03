@@ -33,6 +33,7 @@
               :religion
               :resilience
               :resolve
+              :society
               :sorcery
               :stealth
               :streetwise

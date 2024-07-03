@@ -1,0 +1,2 @@
+{:config-in-ns {the-realms-behind-clj.resources {:ignore true}
+                the-realms-behind-clj.utils {:ignore true}}}

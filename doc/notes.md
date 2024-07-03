@@ -109,6 +109,7 @@
             - Healing
         - Mind, Spades:
             - Necrosis
+            - Taunted
             - Exposed / Warded
         - Spirit, Clubs:
             - Frightened

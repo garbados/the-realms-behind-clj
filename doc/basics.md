@@ -19,6 +19,10 @@ Characters sometimes enjoy advantages on their checks, or suffer disadvantages. 
 
 Advantage and disadvantage cancel each other out. One advantage plus two disadvantages equals one disadvantage.
 
+## Assisting on Checks
+
+If a character is making a check, other characters may *assist* with some relevant skill. Rather than flipping a card from hand, the assisting player flips a card from the top of their deck against DC 11, using the relevant skill. If this check succeeds, the character being assisted gains +1 Advantage and an extra success if their check success.
+
 ### Fungibles
 
 Players manage a small number of resources:
