@@ -6,9 +6,9 @@
             [the-realms-behind-clj.web.equipment :refer [print-equipment
                                                          print-equipment-short]]
             [the-realms-behind-clj.web.feats :refer [print-feat]]
+            [the-realms-behind-clj.web.nav :refer [scroll-to]]
             [the-realms-behind-clj.web.text :refer [norm prompt-text
-                                                    prompt-textarea]]
-            [reitit.frontend.easy :as rfe]))
+                                                    prompt-textarea]]))
 
 (def overflow-area
   {:style {:overflow "scroll"
@@ -457,6 +457,7 @@
 
 (defn- edit-character [-characters -character -editing?]
   (let [-name (r/atom (get-in @-character [:bio :name] ""))
+        -player (r/atom (get-in @-character [:bio :player] ""))
         -description (r/atom (get-in @-character [:bio :description] ""))
         -image-url (r/atom (get-in @-character [:bio :image-url] ""))]
     [:div.box
@@ -469,7 +470,12 @@
        [:label.label "Name"]
        [:div.control
         [prompt-text -name]]
-       [:p.help "The moniker other players will know you by."]]
+       [:p.help "The moniker other players will know your avatar by."]]
+      [:div.field
+       [:label.label "Player"]
+       [:div.control
+        [prompt-text -player]]
+       [:p.help "The person playing, or who created, this character."]]
       [:div.field
        [:label.label "Description"]
        [:div.control
@@ -521,33 +527,42 @@
       [:p
        [:button.button.is-fullwidth.is-success
         {:on-click
-         #(let [uuid (db/character-uuid)
+         #(let [uuid (or (:id @-character) (db/character-uuid))
                 character
                 (assoc
                  @-character
                  :id uuid
                  :bio {:name @-name
+                       :player @-player
                        :description @-description
                        :image-url @-image-url}
                  :stats (characters/base-stats @-character))]
-            (.catch
-             (db/save-doc db/db uuid character)
-             (fn [e] (println e)))
-            (reset-characters! -characters)
+            (.then
+             (db/upsert-doc db/db uuid character)
+             (fn []
+               (reset-characters! -characters)))
             (reset! -character character)
-            (reset! -editing? false))}
+            (reset! -editing? false)
+            ((scroll-to "characters-home")))}
         "Save Character"]]
       (when-let [id (:id @-character)]
-        (when (some? (re-matches #"^character/.+$" id))
+        (when (and (string? id)
+                   (some? (re-matches #"^character/.+$" id)))
           [:p
            [:button.button.is-fullwidth.is-danger
             {:on-click
              #(let [id (:id @-character (db/character-uuid))]
-                (.then
-                 (db/remove-id! db/db id)
-                 (fn [] (reset-characters! -characters)))
-                (reset! -character characters/base-character)
-                (reset! -editing? true))}
+                (when (.confirm js/window
+                                (str "Are you sure you want to delete "
+                                     (get-in @-character [:bio :name])
+                                     "?"))
+                  (.then
+                   (db/remove-id! db/db id)
+                   (fn []
+                     (reset-characters! -characters)))
+                  (reset! -character characters/base-character)
+                  (reset! -editing? true)
+                  ((scroll-to "characters-home"))))}
             "Delete Character"]]))]]))
 
 (defn first-by-id [l id]
@@ -559,11 +574,10 @@
          -character (r/atom characters/base-character)
          -editing? (r/atom true)]
      (reset-characters! -characters)
-     (.then (db/all-characters)
-            #(reset! -characters %))
      [characters-view -characters -character -editing?]))
   ([-characters -character -editing?]
-   [:<>
+   [:div
+    {:name "characters-home"}
     #_[:p (pr-str @-character)]
     [:div.columns
      [:div.column.is-2

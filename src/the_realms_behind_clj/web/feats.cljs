@@ -1,9 +1,10 @@
 (ns the-realms-behind-clj.web.feats 
   (:require [clojure.string :as string]
+            [reagent.core :as r]
             [the-realms-behind-clj.feats :as feats]
+            [the-realms-behind-clj.web.db :as db]
             [the-realms-behind-clj.web.nav :refer [scroll-to]]
-            [the-realms-behind-clj.web.text :refer [norm]]
-            [the-realms-behind-clj.web.db :as db]))
+            [the-realms-behind-clj.web.text :refer [norm]]))
 
 (defn print-reqs [requirements]
   [:ul
@@ -42,8 +43,11 @@
 
 (defn feats-view
   ([_]
-   [feats-view _ (db/all-feats)])
-  ([_ feats]
+   (let [-feats (r/atom [])]
+     (.then (db/all-feats)
+            #(reset! -feats %))
+     [feats-view _ -feats]))
+  ([_ -feats]
    [:div.columns
     [:div.column.is-2
      [:div.box>div.content
@@ -72,7 +76,8 @@
                "Techniques"]]]]]]]
     [:div.column
      [:div.box>div.content
-      (let [background-feats (feats/feats+tag=>feats feats :background)
+      (let [feats @-feats
+            background-feats (feats/feats+tag=>feats feats :background)
             background-talents (feats/feats+tag=>feats background-feats :talent)
             background-techniques (feats/feats+tag=>feats background-feats :techniques)
             general-feats (feats/feats-tag=>feats feats :background)

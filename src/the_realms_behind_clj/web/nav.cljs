@@ -8,4 +8,4 @@
   (fn []
     (.scrollIntoView
      (first
-      (js/document.getElementsByName elem-name)))))
+      (.getElementsByName js/document elem-name)))))

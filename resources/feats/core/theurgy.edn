@@ -9,7 +9,7 @@
   :cost {:ap 2 :madness 1}
   :tags #{:technique :buildable}
   :requirements
-  {:skills {:theurgy 2}}}
+  {:skills {:theurgy 3}}}
  {:id :curse
   :name "Sacred Curse"
   :description
@@ -20,7 +20,7 @@
   :cost {:ap 2 :madness 1}
   :tags #{:technique :buildable}
   :requirements
-  {:skills {:theurgy 2}}}
+  {:skills {:theurgy 3}}}
  {:id :healing
   :name "Spirit Healing"
   :description
@@ -31,4 +31,4 @@
   :cost {:ap 2 :madness 1}
   :tags #{:technique :buildable}
   :requirements
-  {:skills {:theurgy 2}}}]
+  {:skills {:theurgy 3}}}]
