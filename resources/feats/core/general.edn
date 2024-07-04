@@ -111,4 +111,17 @@
   :requirements
   {:attributes {:body 3}
    :skills {:presence 2}}
-  :tags #{:talent}}]
+  :tags #{:talent}}
+ {:id :dual-wielding
+  :name "Dual-Wielding"
+  :level 1
+  :description
+  "May use two one-handed weapons for Defense.
+   If you attack with one of them during your turn,
+   if the other weapon is light,
+   you may attack with it for 1 AP."
+  :effect
+  {:dual-wielding true}
+  :requirements
+  {:attributes {:body 2}
+   :skills {:melee 4}}}]
