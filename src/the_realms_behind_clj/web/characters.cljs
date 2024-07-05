@@ -171,7 +171,7 @@
      [:h5 "Feats"]
      (doall
       (for [feat (sort-by :name (:feats character))
-            :let [trimmed (select-keys feat [:name :level :description])]]
+            :let [trimmed (select-keys feat [:name :level :description :cost :tags])]]
         ^{:key (:id feat)}
         [print-feat trimmed]))]]])
 

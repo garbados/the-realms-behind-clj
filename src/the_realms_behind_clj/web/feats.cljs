@@ -24,15 +24,13 @@
   [:div.box>div.content
    [:h5 [:strong (:name feat)] " " [:em "(level " (:level feat) ")"]]
    [:p (:description feat)]
-   (when (-> feat :tags :technique)
-     [:<>
-      [:p [:strong "Technique"]]
-      [:p "Cost: "
-       (->> (seq (:cost feat))
-            (map
-             (fn [[fungible x]]
-               (str x " " (norm fungible))))
-            (string/join "; "))]])
+   (when-let [cost (:cost feat)]
+     [:p "Cost: "
+      (->> (seq cost)
+           (map
+            (fn [[fungible x]]
+              (str x " " (norm fungible))))
+           (string/join "; "))])
    (when-let [features (get-in feat [:effect :action :features])]
      [:ul
       (doall

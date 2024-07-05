@@ -96,7 +96,6 @@
     - As each player has a deck, so too does the GM keep the Fae Queen's deck. This deck is not used by NPCs but only for modifying player decks.
     - You may experience a Dancing Dream during a Long Rest, which allows you to remove a card from your deck, unburdening you of your mortality's more vexing aspects. This removed card is added to the Fae Queen's deck.
     - You may Sublimate a Fraction (experience a Fractional Sublimation) when encountering certain spirits, taking some portion of them into yourself. The GM shuffles the Fae Queen's deck and deals ten cards. You must select one of them and add it to your deck.
-
     - Both Dancing Dreams and Fractional Sublimation take experience! You cannot buy them without ready access to the Realms Behind and a willing spirit-patron, who eats your dreams and feeds you fractions. Generally, they will be *afflicted upon you* and incur an experience debt that must be paid before experience can be spent any other way.
     - **Make sure to update your deck list whenever you modify it!** That way, it can be reconstructed if your cards go flying or whatever.
         - A deck list can be expressed as a series of events. 52-card base state, with plus and minus events signifying what was added and removed when. This allows reconstructing the deck at any state with only incremental notation. The Fae Queen's deck can thus be reconstructed by replaying the events recorded by players.

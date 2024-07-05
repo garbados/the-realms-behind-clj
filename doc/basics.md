@@ -65,3 +65,37 @@ Resists come in these types:
 - Shadow
 
 ... and as Weaknesses!
+
+### Actions and Time
+
+Actions encapsulate player activity, and represent the flow of time as well. There are several *phases* of time, during which actions represent more or less time:
+
+- Encounter: An action is about 3 seconds. A turn is about ten.
+- Exploration: An action is between one and three hours. There are about five exploration-phase actions of activity during a day.
+- Downtime: About a day's work. Includes wage labor, crafting, long-term research, etc.
+
+### Status Effects
+
+Players may encounter various status effects. They are roughly grouped by associated attribute:
+
+- Body, Hearts:
+    - Bleeding: At the beginning of your turn, take one damage (ignoring resists), and remove one stack of Bleeding.
+    - Crippled: Suffer -1 to Attack actions per stack. Remove one stack at the beginning of your turn.
+    - Harried: Suffer -1 to Parry and Dodge per stack. Remove one stack at the beginning of your turn.
+    - Sickened: Suffer -1 to Body and Luck defenses per stack. Remove one stack at the beginning of your turn.
+    - Necrotic: If you would heal, first remove that many stacks of Necrosis, and only heal any remainder. Remove one stack per Long Rest.
+- Mind, Spades:
+    - Berserk: You're on a rampage, and will attack anyone in sight! You make attacks with +1 Advantage and +1 success, when they succeed. Remove one stack at the beginning of your turn.
+    - Enchanted: You cannot harm anyone willingly, and will peacefully remove yourself from combat. Remove one stack at the beginning of your turn.
+    - Fogged: Suffer -1 to Mind and Spirit defenses per stack. Remove one stack at the beginning of your turn.
+    - Taunted: Suffer -1 to checks against any target but they that taunted you, per stack. Remove one stack at the beginning of your turn. Remove all stacks when that target is downed.
+    - Exposed / Warded: Suffer -1 / gain +1 Fire, Frost, Shadow, and Brilliant resist, per stack. Remove one stack at the beginning of your turn. 
+    - Dispelled: Suffer -1 to Sorcery and Theurgy checks per stack. Remove one stack at the beginning of your turn.
+- Spirit, Clubs:
+    - Burning: Take two damage (before resists) at the beginning of your turn, and remove one stack. Lowering your temperature can remove stacks, such as by dunking yourself in water.
+    - Frozen: As *Vulnerable* and *Slowed*.
+    - Frightened: Suffer Bad Luck on all checks. For each check made, remove a stack of Frightened. Remove a stack at the beginning of your turn. *Characters that are frightened enough may just run away!*
+    - Slowed / Hasted : Suffer -1 / gain +1 to Speed per stack. Remove one stack at the beginning of your turn.
+- Luck, Diamonds:
+    - Vulnerable: If you would take damage, after resists, take one additional damage per stack. At the beginning of your turn, remove one stack.
+    - Protected: If you would take damage, after resists, first remove that many stacks of Protected, up to as many stacks as the character has. For each stack removed, suffer one less damage. At the beginning of your turn, remove one stack.

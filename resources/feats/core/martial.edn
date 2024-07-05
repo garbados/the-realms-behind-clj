@@ -6,7 +6,7 @@
   :effect
   {:features #{:maneuver}}
   :cost {:ap 2}
-  :tags #{:technique :buildable}
+  :tags #{:attack :technique :buildable}
   :requirements
   {:or [{:skills {:melee 3}}
         {:skills {:ranged 3}}]}}
@@ -18,7 +18,7 @@
   :effect
   {:features #{:stance}}
   :cost {:ap 1}
-  :tags #{:technique :buildable}
+  :tags #{:stance :technique :buildable}
   :requirements
   {:attributes {:body 2
                 :spirit 2}}}]
