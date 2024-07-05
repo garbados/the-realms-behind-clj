@@ -68,7 +68,7 @@ Resists come in these types:
 
 ### Actions and Time
 
-Actions encapsulate player activity, and represent the flow of time as well. There are several *phases* of time, during which actions represent more or less time:
+Actions encapsulate player activity, and represent the flow of time as well. There are several *phases* of action, during which actions represent more or less time:
 
 - Encounter: An action is about 3 seconds. A turn is about ten.
 - Exploration: An action is between one and three hours. There are about five exploration-phase actions of activity during a day.
