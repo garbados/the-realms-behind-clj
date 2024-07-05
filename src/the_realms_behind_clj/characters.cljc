@@ -32,8 +32,8 @@
    :society     :mind
    :sorcery     :spirit
    :stealth     :spirit
-   :streetwise  :mind
-   :theurgy     :luck})
+   :theurgy     :luck
+   :thievery    :mind})
 
 (defn character-skill [character skill]
   (let [attribute (skill->attribute skill)]
@@ -136,10 +136,10 @@
   (->>
    [(map attr-xp-cost (vals attributes))
     (map skill-xp-cost (vals skills))
-    (map feat-xp-cost
-         (->> feats
-              (map (comp :level resources/resolve-link))
-              (filter some?)))]
+    (->> feats
+         (map :level)
+         (filter some?)
+         (map feat-xp-cost))]
    (flatten)
    (reduce + 0)))
 

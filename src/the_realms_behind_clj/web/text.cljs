@@ -7,10 +7,13 @@
 (def center-text {:style {:text-align "center"}})
 
 (defn norm [s]
-  (as-> (name s) $
-    (string/split $ #"-")
-    (map string/capitalize $)
-    (string/join " " $)))
+  (cond
+    (= :ap s) "AP"
+    :else
+    (as-> (name s) $
+      (string/split $ #"-")
+      (map string/capitalize $)
+      (string/join " " $))))
 
 (defn prompt-text [value & [on-submit]]
   [:input.input

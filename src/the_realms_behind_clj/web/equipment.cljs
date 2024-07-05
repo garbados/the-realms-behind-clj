@@ -38,28 +38,30 @@
      [:table.table.is-fullwidth
       [:thead
        [:tr
-        (for [header eq-headers
-              :when (get equipment header)]
-          ^{:key header}
-          [:th (norm header)])]]
+        (doall
+         (for [header eq-headers
+               :when (get equipment header)]
+           ^{:key header}
+           [:th (norm header)]))]]
       [:tbody
        [:tr
-        (for [header eq-headers
-              :when (get equipment header)
-              :let [value (get equipment header)]]
-          ^{:key header}
-          [:th (cond
-                 (= :range header)
-                 (print-range-expr value)
-                 (= :resists header)
-                 (->> (seq value)
-                      (map
-                       (fn [[elem-name x]]
-                         (str (norm elem-name) " " x)))
-                      (string/join "; "))
-                 (keyword? value)
-                 (norm value)
-                 :else value)])]]])
+        (doall
+         (for [header eq-headers
+               :when (get equipment header)
+               :let [value (get equipment header)]]
+           ^{:key header}
+           [:th (cond
+                  (= :range header)
+                  (print-range-expr value)
+                  (= :resists header)
+                  (->> (seq value)
+                       (map
+                        (fn [[elem-name x]]
+                          (str (norm elem-name) " " x)))
+                       (string/join "; "))
+                  (keyword? value)
+                  (norm value)
+                  :else value)]))]]])
    extra])
 
 (defn equipment-view
@@ -103,20 +105,22 @@
             [:th "Bulk"]
             [:th "Might"]]]
           [:tbody
-           (for [weapon sorted-weapons]
-             ^{:key (:id weapon)}
-             [:tr
-              [:td (:name weapon)]
-              [:td (:level weapon)]
-              [:td (:accuracy weapon)]
-              [:td (:damage weapon)]
-              [:td (:defense weapon)]
-              [:td (:range weapon)]
-              [:td (:bulk weapon)]
-              [:td (:might weapon)]])]]
-         (for [weapon sorted-weapons]
-           ^{:key (:id weapon)}
-           [print-equipment weapon])
+           (doall
+            (for [weapon sorted-weapons]
+              ^{:key (:id weapon)}
+              [:tr
+               [:td (:name weapon)]
+               [:td (:level weapon)]
+               [:td (:accuracy weapon)]
+               [:td (:damage weapon)]
+               [:td (:defense weapon)]
+               [:td (:range weapon)]
+               [:td (:bulk weapon)]
+               [:td (:might weapon)]]))]]
+         (doall
+          (for [weapon sorted-weapons]
+            ^{:key (:id weapon)}
+            [print-equipment weapon]))
          [:h4 {:name ARMOR} "Armor"]
          [:table.table
           [:thead
@@ -128,22 +132,23 @@
             [:th "Bulk"]
             [:th "Might"]]]
           [:tbody
-           (for [armor sorted-armor]
-             ^{:key (:id armor)}
-             [:tr
-              [:td (:name armor)]
-              [:td (:level armor)]
-              [:td
-               (string/join
-                ", "
-                (for [[group x] (:resists armor)]
-                  ^{:key group}
-                  (str (norm group)
-                       " "
-                       x)))]
-              [:td (:inertia armor)]
-              [:td (:bulk armor)]
-              [:td (:might armor)]])]]
+           (doall
+            (for [armor sorted-armor]
+              ^{:key (:id armor)}
+              [:tr
+               [:td (:name armor)]
+               [:td (:level armor)]
+               [:td
+                (string/join
+                 ", "
+                 (for [[group x] (:resists armor)]
+                   ^{:key group}
+                   (str (norm group)
+                        " "
+                        x)))]
+               [:td (:inertia armor)]
+               [:td (:bulk armor)]
+               [:td (:might armor)]]))]]
          (for [armor sorted-armor]
            ^{:key (:id armor)}
            [print-equipment armor])])]]]))

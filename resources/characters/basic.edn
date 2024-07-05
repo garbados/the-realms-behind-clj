@@ -1,0 +1,15 @@
+{:id :basic
+ :bio
+ {:name "Standard, New"
+  :description
+  "A new character. Make it yours!"
+  :player "You!"
+  :image-url ""}
+ :experience 75
+ :gold 10
+ :attributes {}
+ :skills {}
+ :feats #{}
+ :equipped []
+ :at-hand []
+ :inventory []}

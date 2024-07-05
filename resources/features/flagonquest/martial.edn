@@ -110,7 +110,7 @@
   :name "Flurry"
   :description
   "Make an extra attack against one target,
-   which benefits from all features.
+   which benefits from all this maneuver's other features.
    Flip a card from the top of your deck
    for the check of the second attack."
   :level 3

@@ -1,6 +1,7 @@
 [{:id :maneuver
   :name "Combat Maneuver"
-  :description ""
+  :description
+  "Using a practiced technique, you make an attack against a target."
   :level 1
   :effect
   {:features #{:maneuver}}
@@ -11,7 +12,8 @@
         {:skills {:ranged 3}}]}}
  {:id :stance
   :name "Battle Stance"
-  :description ""
+  :description
+  "Take a practiced stance, enhancing your prowess in some way."
   :level 1
   :effect
   {:features #{:stance}}

@@ -36,11 +36,14 @@
               :society
               :sorcery
               :stealth
-              :streetwise
-              :theurgy})
+              :theurgy
+              :thievery})
 (s/def ::skill skills)
 
 (s/def ::skills (s/map-of ::skill nat-int?))
+
+(s/def ::ap nat-int?)
+(s/def ::madness nat-int?)
 
 ;; CARD SPECS
 
@@ -65,6 +68,13 @@
 
 (s/def ::gain-feats ::links)
 (s/def ::gain-items ::links)
+
+(s/def ::cost (s/keys :req-un [::ap]
+                      :opt-un [::madness]))
+(s/def ::action
+  (s/merge ::base-definition
+           (s/keys :req-un [::cost])))
+
 (s/def ::choose-items
   (s/tuple nat-int? set?))
 (s/def ::when-gained
@@ -182,7 +192,6 @@
 (s/def ::defenses
   (s/map-of ::defense nat-int?))
 (s/def ::carrying-capacity nat-int?)
-(s/def ::madness nat-int?)
 (s/def ::stats
   (s/keys :req-un [::health
                    ::will

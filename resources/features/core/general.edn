@@ -1,0 +1,21 @@
+[{:id :quickened
+  :name "Quickened"
+  :description
+  "You are able to perform this technique very quickly.
+   It consumes -1 AP, to a minimum of 1."
+  :level 2
+  :tags #{:general}}
+ {:id :instinctive
+  :name "Instinctive"
+  :description
+  "This action has become second nature; it behaves like a reflex.
+   It can be used as an interrupt."
+  :level 3
+  :tags #{:general}}
+ {:id :belabored
+  :name "Belabored"
+  :description
+  "This action is laborious and involved.
+   It consumes +1 AP, to a maximum of 3."
+  :level -1
+  :tags #{:general}}]

@@ -30,4 +30,6 @@
   :effect
   {:features #{:deceit}}
   :cost {:ap 2}
-  :tags #{:technique :buildable}}]
+  :tags #{:technique :buildable}
+  :requirements
+  {:skills {:deception 3}}}]

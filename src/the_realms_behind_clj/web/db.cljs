@@ -4,6 +4,7 @@
             [the-realms-behind-clj.characters :as characters]
             [the-realms-behind-clj.resources :as resources]))
 
+(def ACTIONS "action")
 (def CHARACTERS "character")
 (def EQUIPMENT "equipment")
 (def FEATS "feat")
@@ -63,6 +64,7 @@
   (fn []
     (str type-name "/" (random-uuid))))
 
+(def action-uuid (typed-uuid ACTIONS))
 (def character-uuid (typed-uuid CHARACTERS))
 (def equipment-uuid (typed-uuid EQUIPMENT))
 (def feat-uuid (typed-uuid FEATS))
@@ -80,9 +82,14 @@
               opts))
             #(map (comp edn/read-string :-value :doc) %)))))
 
+(def fetch-actions (typed-fetch ACTIONS))
 (def fetch-characters (typed-fetch CHARACTERS))
 (def fetch-equipment (typed-fetch EQUIPMENT))
 (def fetch-feats (typed-fetch FEATS))
+
+(defn all-actions []
+  (.then (fetch-actions db)
+         #(concat (resources/actions) %)))
 
 (defn all-characters []
   (.then (fetch-characters db)
@@ -94,7 +101,8 @@
             %))))
 
 (defn all-equipment []
-  (resources/equipment))
+  (.then (fetch-equipment db)
+         #(concat (resources/equipment) %)))
 
 (defn all-feats []
   (.then (fetch-feats db)

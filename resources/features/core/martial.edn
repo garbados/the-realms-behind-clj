@@ -25,9 +25,9 @@
  {:id :opportunistic
   :name "Opportunistic"
   :description
-  "This attack may be used as an interrupt, once between turns,
-   if an enemy in melee range moves out of range,
-   or does anything requiring concentration,
+  "This attack may be used as an interrupt
+   if an enemy in melee range takes an action
+   that requires concentration, manipulation, or movement,
    such as casting a spell or looking through inventory."
   :level 2
   :tags #{:maneuver}}

@@ -1,0 +1,102 @@
+[{:id :attack
+  :name "Attack"
+  :description
+  "You strike a target, trying to harm them.
+   Flip with Melee or Ranged, plus the Accuracy of your weapon,
+   against the Parry or Dodge defense of your target,
+   their choice.
+   If it hits, inflict damage equal to the Damage
+   of your weapon, plus your Body attribute.
+   You may gamble -2 on the check to gain +2 to damage,
+   but you must decide this before making the check."
+  :cost {:ap 2}
+  :tags #{:attack :action :basic}}
+ {:id :move
+  :name "Move"
+  :description
+  "You may move spaces up to your Speed,
+   or the equivalent of {5ft x Speed} in physical distance,
+   across terrain that is not Difficult."
+  :cost {:ap 1}
+  :tags #{:movement :action :basic}}
+ {:id :run
+  :name "Run"
+  :description
+  "You dash headlong, moving 4x your Speed,
+   as if you had taken four Move actions."
+  :cost {:ap 3}
+  :tags #{:movement :action :basic}}
+ {:id :step
+  :name "Step"
+  :description
+  "Take a careful step into terrain that is Difficult, Threatened, etc.;
+   you may move one space."
+  :cost {:ap 1}
+  :tags #{:action :basic}}
+ {:id :quick-draw
+  :name "Quick Draw"
+  :description
+  "Move something from At-Hand to Equipped;
+   you may move something else
+   from Equipped to At-Hand."
+  :cost {:ap 1}
+  :tags #{:concentration :action :basic}}
+ {:id :retrieve
+  :name "Retrieve"
+  :description
+  "Move something from Inventory to Equipped or At-Hand."
+  :cost {:ap 2}
+  :tags #{:concentration :action :basic}}
+ {:id :recall-knowledge
+  :name "Recall Knowledge"
+  :description
+  "Using some relevant skill, discern useful esoterica
+   about a target creature, phenomenon, etc.;
+   if your check succeeds, you learn something useful,
+   such as a weakness or pattern."
+  :cost {:ap 1}
+  :tags #{:concentration :action :basic}}
+ {:id :parlay
+  :name "Parlay"
+  :description
+  "Engage another party in dialogue, attempting to make them amenable
+   to an idea, proposition, etc.;
+   this may ultimately involve repeated checks of social skills,
+   and party members may attempt to support each other.
+   The cost of this action reflects the time-effort of a single statement.
+   Each statement's successes create concessions; enough concessions,
+   and the other party will begin to see your reasoning.
+   A single glare may be enough to cow the hog farmer.
+   Over a long conversation between many advisors, and the player-party,
+   the magistrate is convinced to send their forces to the front.
+   The number of total concessions influences the enthusiasm of their assent."
+  :cost {:ap 1}
+  :tags #{:concentration :dialogue :action :basic}}
+ {:id :investigate
+  :name "Investigate"
+  :description
+  "You search the area for loot, clues, and other notables.
+   Roll Insight against a secret DC.
+   You may perform this action using additional action points,
+   gaining +1 Advantage for each one."
+  :cost {:ap 1}
+  :tags #{:concentration :movement :exploration :action :basic}}
+ {:id :gather-information
+  :name "Gather Information"
+  :description
+  "You ask around, do your homework, and follow leads
+   in pursuit of clues regarding some query.
+   Roll Insight, Diplomacy, or a relevant Lore
+   against a secret DC.
+   You may perform this action using additional action points,
+   gaining +1 Advantage for each once."
+  :cost {:ap 1}
+  :tags #{:concentration :dialogue :exploration :action :basic}}
+ {:id :craft
+  :name "Craft"
+  :description
+  "Work toward the construction of an artisanal object.
+   See documentation on Crafting for more information.
+   Each Craft action contributes one step to the object's completion."
+  :cost {:ap 1}
+  :tags #{:concentration :crafting :downtime :action :basic}}]
