@@ -1,8 +1,9 @@
 (ns the-realms-behind-clj.web.equipment 
   (:require [clojure.string :as string]
+            [reagent.core :as r]
+            [the-realms-behind-clj.web.db :as db]
             [the-realms-behind-clj.web.nav :refer [scroll-to]]
-            [the-realms-behind-clj.web.text :refer [norm]]
-            [the-realms-behind-clj.web.db :as db]))
+            [the-realms-behind-clj.web.text :refer [norm]]))
 
 (def WEAPONS "weapons")
 (def ARMOR "armor")
@@ -24,17 +25,19 @@
     :else range-expr))
 
 (defn print-equipment [equipment & extra]
-  [:div.box
+  [:div.box>div.content
    [:p
     [:strong (:name equipment)]
     " "
     [:em "(level " (:level equipment) ")"]]
-   [:p (:description equipment)]
+   (when-let [description (:description equipment)]
+     [:p description])
    (let [eq-headers
-         [:slot :bulk
-          :accuracy :damage :defense
-          :range :might :resists
-          :inertia :stowage]]
+         [:slot
+          :damage :resists
+          :accuracy :defense :range
+          :inertia :stowage
+          :might :bulk]]
      [:table.table.is-fullwidth
       [:thead
        [:tr
@@ -65,9 +68,12 @@
    extra])
 
 (defn equipment-view
-  ([_ ]
-   [equipment-view _ (db/all-equipment)])
-  ([_ some-equipment]
+  ([_]
+   (let [-equipment (r/atom [])]
+     (.then (db/all-equipment)
+            #(reset! -equipment %))
+     [equipment-view _ -equipment]))
+  ([_ -equipment]
    [:div.columns
     [:div.column.is-2
      [:div.box>div.content
@@ -88,9 +94,22 @@
              "Items"]]]]]
     [:div.column
      [:div.box>div.content
-      (let [grouped (group-by :slot some-equipment)
-            sorted-weapons (->> grouped :weapon (sort-by :name))
-            sorted-armor (->> grouped :armor (sort-by :inertia))]
+      (let [grouped (group-by :slot @-equipment)
+            sorted-weapons (->> (:weapon grouped [])
+                                (sort-by :damage)
+                                (sort-by :name)
+                                (sort-by :level))
+            sorted-armor (->> (:armor grouped [])
+                              (sort-by :name)
+                              (sort-by :level)
+                              (sort-by :inertia))
+            sorted-packs (->> (flatten (vals (select-keys grouped [:pack :belt])))
+                              (sort-by :name)
+                              (sort-by :level)
+                              (sort-by :slot))
+            sorted-items (->> (:item grouped [])
+                              (sort-by :name)
+                              (sort-by :level))]
         [:<>
          [:h4 {:name WEAPONS} "Weapons"]
          [:table.table
@@ -114,7 +133,7 @@
                [:td (:accuracy weapon)]
                [:td (:damage weapon)]
                [:td (:defense weapon)]
-               [:td (:range weapon)]
+               [:td (print-range-expr (:range weapon))]
                [:td (:bulk weapon)]
                [:td (:might weapon)]]))]]
          (doall
@@ -151,7 +170,49 @@
                [:td (:might armor)]]))]]
          (for [armor sorted-armor]
            ^{:key (:id armor)}
-           [print-equipment armor])])]]]))
+           [print-equipment armor])
+         [:h4 {:name PACKS} "Packs"]
+         [:table.table
+          [:thead
+           [:tr
+            [:th "Name"]
+            [:th "Level"]
+            [:th "Slot"]
+            [:th "Stowage"]
+            [:th "Might"]
+            [:th "Bulk"]]]
+          [:tbody
+           (doall
+            (for [pack sorted-packs]
+              ^{:key (:id pack)}
+              [:tr
+               [:td (:name pack)]
+               [:td (:level pack)]
+               [:td (norm (:slot pack))]
+               [:td (:stowage pack)]
+               [:td (:might pack)]
+               [:td (:bulk pack)]]))]]
+         (for [pack sorted-packs]
+           ^{:key (:id pack)}
+           [print-equipment pack])
+         [:h4 {:name ITEMS} "Items"]
+         [:table.table
+          [:thead
+           [:tr
+            [:th "Name"]
+            [:th "Level"]
+            [:th "Bulk"]]]
+          [:tbody
+           (doall
+            (for [item sorted-items]
+              ^{:key (:id item)}
+              [:tr
+               [:td (:name item)]
+               [:td (:level item)]
+               [:td (:bulk item)]]))]]
+         (for [item sorted-items]
+           ^{:key (:id item)}
+           [print-equipment item])])]]]))
 
 (defn print-equipment-short [equipment & extra]
   [:div.box

@@ -130,51 +130,6 @@
              [:td defense-name]
              [:td [:em (norm skill)]]]))]]])]))
 
-(defn- character-sheet [character]
-  [:div.box
-   [:div.columns
-    [:div.column
-     [:div.content
-      [:h4.title (get-in character [:bio :name])
-       [:strong
-        " (" (characters/base-xp character) "xp; "
-        (:experience character) " free)"]]
-      [:p [:em "Played by " (get-in character [:bio :player])]]
-      [:p (get-in character [:bio :description])]]]
-    [:div.column.is-narrow
-     (when-let [image-url (get-in character [:bio :image-url])]
-       [:figure.image.is-128x128
-        [:img {:src image-url}]])]]
-   [:div.columns
-    [:div.column.is-3
-     [print-attributes character]]
-    [:div.column.is-3
-     [print-stats character]]
-    (let [{:keys [equipped at-hand inventory]} character]
-      [:div.column.is-3>div.content
-       [:h5 "Equipped (" (reduce + 0 (map :bulk equipped)) ")"]
-       (doall
-        (for [equipment equipped]
-          ^{:key (:id equipment)}
-          [print-equipment-short equipment]))
-       [:h5 "At-Hand ("  (reduce + 0 (map :bulk at-hand)) ")"]
-       (doall
-        (for [equipment at-hand]
-          ^{:key (:id equipment)}
-          [print-equipment-short equipment]))
-       [:h5 "Inventory (" (reduce + 0 (map :bulk inventory)) ")"]
-       (doall
-        (for [equipment inventory]
-          ^{:key (:id equipment)}
-          [print-equipment-short equipment]))])
-    [:div.column.is-3>div.content
-     [:h5 "Feats"]
-     (doall
-      (for [feat (sort-by :name (:feats character))
-            :let [trimmed (select-keys feat [:name :level :description :cost :tags])]]
-        ^{:key (:id feat)}
-        [print-feat trimmed]))]]])
-
 (defn- edit-attributes [-character]
   [:<>
    [:div.content>h3 "Attributes"]
@@ -420,7 +375,7 @@
        (doall
         (for [feat (:feats @-character #{})
               :let [x (:level feat)
-                    cost (* x 3)]]
+                    cost (characters/xp-cost 3 x)]]
           ^{:key (:id feat)}
           [:<>
            [print-feat feat
@@ -509,7 +464,9 @@
           [:div
            overflow-area
            (doall
-            (for [single-equipment (sort-by :name equipment)]
+            (for [single-equipment (->> equipment
+                                        (sort-by :level)
+                                        (sort-by :name))]
               ^{:key (:id single-equipment)}
               [print-equipment single-equipment
                (let [cost (characters/wealth-cost
@@ -702,8 +659,57 @@
                   ((scroll-to "characters-home"))))}
             "Delete Character"]]))]]))
 
-(defn first-by-id [l id]
-  (first (filter #(= id (:id %)) l)))
+(defn- character-sheet [character]
+  [:div.box
+   [:div.columns
+    [:div.column
+     [:div.content
+      [:h4.title (get-in character [:bio :name])
+       [:strong
+        " (" (characters/base-xp character) "xp; "
+        (:experience character) " free)"]]
+      [:p [:em "Played by " (get-in character [:bio :player])]]
+      [:p (get-in character [:bio :description])]]]
+    [:div.column.is-narrow
+     (when-let [image-url (get-in character [:bio :image-url])]
+       [:figure.image.is-128x128
+        [:img {:src image-url}]])]]
+   [:div.columns
+    [:div.column.is-3
+     [print-attributes character]]
+    [:div.column.is-3
+     [print-stats character]]
+    (let [{:keys [equipped at-hand inventory]} character]
+      [:div.column.is-3>div.content
+       [:h5
+        "Equipped (" (characters/equipment-bulk equipped) ")"]
+       (doall
+        (for [equipment (->> equipped
+                             (sort-by :name)
+                             (sort-by :slot))]
+          ^{:key (:id equipment)}
+          [print-equipment-short equipment]))
+       [:h5 "At-Hand ("  (characters/equipment-bulk at-hand) ")"]
+       (doall
+        (for [equipment (->> at-hand
+                             (sort-by :name)
+                             (sort-by :slot))]
+          ^{:key (:id equipment)}
+          [print-equipment-short equipment]))
+       [:h5 "Inventory (" (characters/equipment-bulk inventory) ")"]
+       (doall
+        (for [equipment (->> inventory
+                             (sort-by :name)
+                             (sort-by :slot))]
+          ^{:key (:id equipment)}
+          [print-equipment-short equipment]))])
+    [:div.column.is-3>div.content
+     [:h5 "Feats"]
+     (doall
+      (for [feat (sort-by :name (:feats character))
+            :let [trimmed (select-keys feat [:name :level :description :effect :cost :tags])]]
+        ^{:key (:id feat)}
+        [print-feat trimmed]))]]])
 
 (defn characters-view
   ([_]
@@ -740,13 +746,20 @@
             (reset! -editing? true))}
         "New Character"]]]
      [:div.column
-      (when-let [character (and (not @-editing?) @-character)]
+      (if @-editing?
+        [edit-character -characters -character -editing?]
         [:<>
-         [:p
-          [:button.button.is-fullwidth.is-info
-           {:on-click #(do
-                         (swap! -character dissoc :id)
-                         (reset! -editing? true))}
-           "Use as Template for New Character"]]
-         [character-sheet character]])
-      [edit-character -characters -character -editing?]]]]))
+         [:div.level
+          [:div.level-item
+           [:button.button.is-fullwidth.is-info
+            {:on-click #(do
+                          (swap! -character dissoc :id)
+                          (reset! -editing? true))}
+            "Use as Template for New Character"]]]
+         [character-sheet @-character]
+         (when (some? (:stats @-character))
+           [:div.level
+            [:div.level-item
+             [:button.button.is-fullwidth.is-primary
+              {:on-click #(reset! -editing? true)}
+              "Edit Character"]]])])]]]))

@@ -8,21 +8,21 @@
             [the-realms-behind-clj.resources :as resources]))
 
 (defn print-reqs [requirements]
-  [:ul
+  (string/join
+   "; "
    (for [[group subreqs] (select-keys requirements [:attributes :skills :feats])]
      ^{:key group}
-     [:li
-      (str
-       (norm group) ": "
-       (string/join
-        ", "
-        (for [[key value] subreqs]
-          (str (norm key) " " value))))])])
+     (str
+      (norm group) ": "
+      (string/join
+       ", "
+       (for [[key value] subreqs]
+         (str (norm key) " " value)))))))
 
 (defn print-feat
   [feat & extra]
   [:div.box>div.content
-   [:h5 [:strong (:name feat)] " " [:em "(level " (:level feat) ")"]]
+   [:p [:strong (:name feat)] " " [:em "(level " (:level feat) ")"]]
    [:p (:description feat)]
    (when-let [cost (:cost feat)]
      [:p "Cost: "
@@ -38,7 +38,7 @@
          [:li (:name feature) ": " (:description feature)]))])
    (when (-> feat :tags :buildable)
      [:<>
-      [:p [:strong "[Buildable]"] " " [:em "Features:"]]
+      [:p [:strong "[Buildable]"] " " "Features:"]
       (let [groups (get-in feat [:effect :features])
             features
             (->> (resources/features)
@@ -64,16 +64,15 @@
    (when-let [requirements (:requirements feat)]
      [:<>
       [:p [:em "Requires:"]]
-      [print-reqs requirements]
-      (when-let [or-reqs (:or requirements)]
-        [:<>
-         [:p "Or:"]
-         [:ul
-          (doall
-           (for [req or-reqs]
-             ^{:key req}
-             [:li
-              [print-reqs req]]))]])])
+      [:ul
+       (when (some some? ((juxt :attributes :skills :feats) requirements))
+         [:li [print-reqs requirements]])
+       (when-let [or-reqs (:or requirements)]
+         [:li "Or:"
+          [:ul
+           (doall
+            (for [req or-reqs]
+              [:li [print-reqs req]]))]])]])
    (when-let [tags (:tags feat)]
      [:p.tags
       (doall
@@ -117,7 +116,9 @@
                "Techniques"]]]]]]]
     [:div.column
      [:div.box>div.content
-      (let [feats @-feats
+      (let [feats (->> @-feats
+                       (sort-by :level)
+                       (sort-by :name))
             background-feats (feats/feats+tag=>feats feats :background)
             background-talents (feats/feats+tag=>feats background-feats :talent)
             background-techniques (feats/feats+tag=>feats background-feats :technique)

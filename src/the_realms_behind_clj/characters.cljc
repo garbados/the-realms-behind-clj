@@ -154,12 +154,19 @@
   :args (s/cat :character ::specs/character)
   :ret ::specs/equipment)
 
-(defn carrying-bulk [character]
-  (->> (carried-equipment character)
+(defn equipment-bulk [equipment]
+  (->> equipment
        (map :bulk)
        (map #(if (= :light %) 0.1 %))
        (reduce +)
        (int)))
+
+(s/fdef equipment-bulk
+  :args (s/cat :equipment ::specs/equipment)
+  :ret nat-int?)
+
+(defn carrying-bulk [character]
+  (equipment-bulk (carried-equipment character)))
 
 (s/fdef carrying-bulk
   :args (s/cat :character ::specs/character)
@@ -246,7 +253,7 @@
 
 (defn wealth-cost [level]
   (cond
-    (zero? level) 1
+    (zero? level) 0
     (= 1 level) 3
     :else (+ (* 3 level)
              (wealth-cost (dec level)))))
@@ -276,3 +283,8 @@
                         (filter #(= (:slot %) :pack)
                                 (:equipped character)))
                        0)))))
+
+(defn character-actions [character]
+  (concat (resources/actions)
+          (filter #(:technique (:tags %))
+                  (:feats character))))

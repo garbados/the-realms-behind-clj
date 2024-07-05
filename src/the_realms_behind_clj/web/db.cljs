@@ -82,14 +82,9 @@
               opts))
             #(map (comp edn/read-string :-value :doc) %)))))
 
-(def fetch-actions (typed-fetch ACTIONS))
 (def fetch-characters (typed-fetch CHARACTERS))
 (def fetch-equipment (typed-fetch EQUIPMENT))
 (def fetch-feats (typed-fetch FEATS))
-
-(defn all-actions []
-  (.then (fetch-actions db)
-         #(concat (resources/actions) %)))
 
 (defn all-characters []
   (.then (fetch-characters db)
