@@ -55,7 +55,7 @@
       (doall
        (for [attr [:body :mind :spirit :luck]]
          ^{:key attr}
-         [:td (get-in character [:attributes attr])]))]]]
+         [:td (get-in character [:attributes attr] 0)]))]]]
    [:h5 "Skills:"]
    [:table.table.is-fullwidth
     [:thead
@@ -98,7 +98,7 @@
             [:td (str shallow " Shallow, " deep " Deep")]
             [:td "Health"]
             (when explain?
-              [:td "Resilience ~ 1x Shallow, 2x Deep"])])
+              [:td [:em "Resilience ~ 1x Shallow, 2x Deep"]])])
          (doall
           (for [[stat formula]
                 [[:will "2x Resolve"]
@@ -112,7 +112,7 @@
              [:td x]
              [:td (norm stat)]
              (when explain?
-               [:td formula])]))]]
+               [:td [:em formula]])]))]]
        [:table.table.is-fullwidth
         [:thead
          [:tr

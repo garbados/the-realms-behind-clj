@@ -63,4 +63,10 @@
    the target's opinion of the speaker goes up
    one additional level, permanently."
   :level 3
+  :tags #{:social :flagon-quest}}
+ {:id :careful-delivery
+  :name "Careful Delivery"
+  :description
+  "You gain +1 Advantage on this check."
+  :level 1
   :tags #{:social :flagon-quest}}]
