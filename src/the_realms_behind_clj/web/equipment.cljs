@@ -11,7 +11,9 @@
 
 (def WEAPONS "weapons")
 (def ARMOR "armor")
+(def SHIELDS "shield")
 (def PACKS "packs")
+(def CLOTHING "clothing")
 (def ITEMS "items")
 
 (defn print-range-expr [range-expr]
@@ -27,6 +29,11 @@
      " or "
      (map print-range-expr range-expr))
     :else range-expr))
+
+(defn print-bulk [bulk]
+  (if (number? bulk)
+    bulk
+    (norm bulk)))
 
 (defn print-equipment [equipment & extra]
   [:div.box>div.content
@@ -69,6 +76,40 @@
                   (keyword? value)
                   (norm value)
                   :else value)]))]]])
+   extra])
+
+(defn print-equipment-short [equipment & extra]
+  [:div.box
+   [:p
+    [:strong (:name equipment)]
+    " "
+    [:em "(level " (:level equipment) ")"]]
+   [:p (:description equipment)]
+   (let [eq-headers
+         [:slot :bulk
+          :accuracy :damage :defense
+          :range :might :resists
+          :inertia :stowage]]
+     [:ul
+      (doall
+       (for [header eq-headers
+             :let [value (get equipment header)
+                   pr-value
+                   (cond
+                     (keyword? value)
+                     (norm value)
+                     (map? value)
+                     (string/join
+                      ", "
+                      (map
+                       (fn [[k v]]
+                         (str (norm k) " " v))
+                       value))
+                     :else
+                     value)]
+             :when (some? value)]
+         ^{:key header}
+         [:li [:strong (norm header)] ": " pr-value]))])
    extra])
 
 (defn reset-equipment! [-equipment]
@@ -165,6 +206,186 @@
                  (reset! -editing? false))}
              "Save Equipment"]]]])]])))
 
+(defn list-weapons [weapons]
+  [:<>
+   [:h4 {:name WEAPONS} "Weapons"]
+   [:table.table.is-fullwidth
+    [:thead
+     [:tr
+      [:th "Name"]
+      [:th "Level"]
+      [:th "Accuracy"]
+      [:th "Damage"]
+      [:th "Defense"]
+      [:th "Range"]
+      [:th "Bulk"]
+      [:th "Might"]]]
+    [:tbody
+     (doall
+      (for [weapon weapons]
+        ^{:key (:id weapon)}
+        [:tr
+         [:td (:name weapon)]
+         [:td (:level weapon)]
+         [:td (:accuracy weapon)]
+         [:td (:damage weapon)]
+         [:td (:defense weapon)]
+         [:td (print-range-expr (:range weapon))]
+         [:td (print-bulk (:bulk weapon))]
+         [:td (:might weapon)]]))]]
+   (doall
+    (for [weapon weapons]
+      ^{:key (:id weapon)}
+      [print-equipment weapon]))])
+
+(defn list-shields [shields]
+  [:<>
+   [:h4 {:name SHIELDS} "Shields"]
+   [:table.table.is-fullwidth
+    [:thead
+     [:tr
+      [:th "Name"]
+      [:th "Level"]
+      [:th "Resists"]
+      [:th "Damage"]
+      [:th "Defense"]
+      [:th "Inertia"]
+      [:th "Bulk"]
+      [:th "Might"]]]
+    [:tbody
+     (doall
+      (for [shield shields]
+        ^{:key (:id shield)}
+        [:tr
+         [:td (:name shield)]
+         [:td (:level shield)]
+         [:td
+          (string/join
+           ", "
+           (for [[group x] (:resists shield)]
+             ^{:key group}
+             (str (norm group)
+                  " "
+                  x)))]
+         [:td (:damage shield)]
+         [:td (:defense shield)]
+         [:td (:inertia shield)]
+         [:td (print-bulk (:bulk shield))]
+         [:td (:might shield)]]))]]
+   (doall
+    (for [shield shields]
+      ^{:key (:id shield)}
+      [print-equipment shield]))])
+
+(defn list-armor [armor]
+  [:<>
+   [:h4 {:name ARMOR} "Armor"]
+   [:table.table.is-fullwidth
+    [:thead
+     [:tr
+      [:th "Name"]
+      [:th "Level"]
+      [:th "Resists"]
+      [:th "Inertia"]
+      [:th "Bulk"]
+      [:th "Might"]]]
+    [:tbody
+     (doall
+      (for [armor armor]
+        ^{:key (:id armor)}
+        [:tr
+         [:td (:name armor)]
+         [:td (:level armor)]
+         [:td
+          (string/join
+           ", "
+           (for [[group x] (:resists armor)]
+             ^{:key group}
+             (str (norm group)
+                  " "
+                  x)))]
+         [:td (:inertia armor)]
+         [:td (print-bulk (:bulk armor))]
+         [:td (:might armor)]]))]]
+   (doall
+    (for [armor armor]
+      ^{:key (:id armor)}
+      [print-equipment armor]))])
+
+(defn list-packs [packs]
+  [:<>
+   [:h4 {:name PACKS} "Packs"]
+   [:table.table.is-fullwidth
+    [:thead
+     [:tr
+      [:th "Name"]
+      [:th "Level"]
+      [:th "Slot"]
+      [:th "Stowage"]
+      [:th "Might"]
+      [:th "Bulk"]]]
+    [:tbody
+     (doall
+      (for [pack packs]
+        ^{:key (:id pack)}
+        [:tr
+         [:td (:name pack)]
+         [:td (:level pack)]
+         [:td (norm (:slot pack))]
+         [:td (:stowage pack)]
+         [:td (:might pack)]
+         [:td (print-bulk (:bulk pack))]]))]]
+   (doall
+    (for [pack packs]
+      ^{:key (:id pack)}
+      [print-equipment pack]))])
+
+(defn list-clothing [clothing]
+  [:<>
+   [:h4 {:name CLOTHING} "Clothing"]
+   [:table.table.is-fullwidth
+    [:thead
+     [:tr
+      [:th "Name"]
+      [:th "Level"]
+      [:th "Bulk"]
+      [:th "Might"]]]
+    [:tbody
+     (doall
+      (for [single-clothing clothing]
+        ^{:key (:id single-clothing)}
+        [:tr
+         [:td (:name single-clothing)]
+         [:td (:level single-clothing)]
+         [:td (print-bulk (:bulk single-clothing))]
+         [:td (:might single-clothing)]]))]]
+   (doall
+    (for [single-clothing clothing]
+      ^{:key (:id single-clothing)}
+      [print-equipment single-clothing]))])
+
+(defn list-items [items]
+  [:<>
+   [:h4 {:name ITEMS} "Items"]
+   [:table.table
+    [:thead
+     [:tr
+      [:th "Name"]
+      [:th "Level"]
+      [:th "Bulk"]]]
+    [:tbody
+     (doall
+      (for [item items]
+        ^{:key (:id item)}
+        [:tr
+         [:td (:name item)]
+         [:td (:level item)]
+         [:td (print-bulk (:bulk item))]]))]]
+   (doall
+    (for [item items]
+      ^{:key (:id item)}
+      [print-equipment item]))])
+
 (defn equipment-view
   ([_]
    (let [-equipment (r/atom [])
@@ -186,32 +407,23 @@
              {:on-click (scroll-to WEAPONS)}
              "Weapons"]]
        [:li [:button.is-link
+             {:on-click (scroll-to SHIELDS)}
+             "Shields"]]
+       [:li [:button.is-link
              {:on-click (scroll-to ARMOR)}
              "Armor"]]
        [:li [:button.is-link
              {:on-click (scroll-to PACKS)}
              "Packs"]]
        [:li [:button.is-link
+             {:on-click (scroll-to CLOTHING)}
+             "Clothing"]]
+       [:li [:button.is-link
              {:on-click (scroll-to ITEMS)}
              "Items"]]]]]
     [:div.column
      [:div.box>div.content
-      (let [grouped (group-by :slot @-equipment)
-            sorted-weapons (->> (:weapon grouped [])
-                                (sort-by :damage)
-                                (sort-by :name)
-                                (sort-by :level))
-            sorted-armor (->> (:armor grouped [])
-                              (sort-by :name)
-                              (sort-by :level)
-                              (sort-by :inertia))
-            sorted-packs (->> (flatten (vals (select-keys grouped [:pack :belt])))
-                              (sort-by :name)
-                              (sort-by :level)
-                              (sort-by :slot))
-            sorted-items (->> (:item grouped [])
-                              (sort-by :name)
-                              (sort-by :level))]
+      (let [grouped (group-by :slot @-equipment)]
         [:<>
          [:p
           (if @-workshopping?
@@ -223,138 +435,33 @@
              "Open Workshop"])]
          (when @-workshopping?
            [new-equipment -equipment -enhancements -workshopping?])
-         [:h4 {:name WEAPONS} "Weapons"]
-         [:table.table
-          [:thead
-           [:tr
-            [:th "Name"]
-            [:th "Level"]
-            [:th "Accuracy"]
-            [:th "Damage"]
-            [:th "Defense"]
-            [:th "Range"]
-            [:th "Bulk"]
-            [:th "Might"]]]
-          [:tbody
-           (doall
-            (for [weapon sorted-weapons]
-              ^{:key (:id weapon)}
-              [:tr
-               [:td (:name weapon)]
-               [:td (:level weapon)]
-               [:td (:accuracy weapon)]
-               [:td (:damage weapon)]
-               [:td (:defense weapon)]
-               [:td (print-range-expr (:range weapon))]
-               [:td (:bulk weapon)]
-               [:td (:might weapon)]]))]]
-         (doall
-          (for [weapon sorted-weapons]
-            ^{:key (:id weapon)}
-            [print-equipment weapon]))
-         [:h4 {:name ARMOR} "Armor"]
-         [:table.table
-          [:thead
-           [:tr
-            [:th "Name"]
-            [:th "Level"]
-            [:th "Resists"]
-            [:th "Inertia"]
-            [:th "Bulk"]
-            [:th "Might"]]]
-          [:tbody
-           (doall
-            (for [armor sorted-armor]
-              ^{:key (:id armor)}
-              [:tr
-               [:td (:name armor)]
-               [:td (:level armor)]
-               [:td
-                (string/join
-                 ", "
-                 (for [[group x] (:resists armor)]
-                   ^{:key group}
-                   (str (norm group)
-                        " "
-                        x)))]
-               [:td (:inertia armor)]
-               [:td (:bulk armor)]
-               [:td (:might armor)]]))]]
-         (for [armor sorted-armor]
-           ^{:key (:id armor)}
-           [print-equipment armor])
-         [:h4 {:name PACKS} "Packs"]
-         [:table.table
-          [:thead
-           [:tr
-            [:th "Name"]
-            [:th "Level"]
-            [:th "Slot"]
-            [:th "Stowage"]
-            [:th "Might"]
-            [:th "Bulk"]]]
-          [:tbody
-           (doall
-            (for [pack sorted-packs]
-              ^{:key (:id pack)}
-              [:tr
-               [:td (:name pack)]
-               [:td (:level pack)]
-               [:td (norm (:slot pack))]
-               [:td (:stowage pack)]
-               [:td (:might pack)]
-               [:td (:bulk pack)]]))]]
-         (for [pack sorted-packs]
-           ^{:key (:id pack)}
-           [print-equipment pack])
-         [:h4 {:name ITEMS} "Items"]
-         [:table.table
-          [:thead
-           [:tr
-            [:th "Name"]
-            [:th "Level"]
-            [:th "Bulk"]]]
-          [:tbody
-           (doall
-            (for [item sorted-items]
-              ^{:key (:id item)}
-              [:tr
-               [:td (:name item)]
-               [:td (:level item)]
-               [:td (:bulk item)]]))]]
-         (for [item sorted-items]
-           ^{:key (:id item)}
-           [print-equipment item])])]]]))
+         [list-weapons
+          (->> (:weapon grouped [])
+               (sort-by :name)
+               (sort-by :level)
+               (sort-by :damage))]
+         [list-shields
+          (->> (:shield grouped [])
+               (sort-by :name)
+               (sort-by :level)
+               (sort-by :inertia))]
+         [list-armor
+          (->> (:armor grouped [])
+               (sort-by :name)
+               (sort-by :level)
+               (sort-by :inertia))]
+         [list-packs
+          (->> (flatten (vals (select-keys grouped [:pack :belt])))
+               (sort-by :name)
+               (sort-by :level)
+               (sort-by :slot))]
+         [list-clothing
+          (->> (flatten (vals (select-keys grouped [:head :torso :hands :feet :ring])))
+               (sort-by :name)
+               (sort-by :level)
+               (sort-by :slot))]
+         [list-items
+          (->> (:item grouped [])
+               (sort-by :name)
+               (sort-by :level))]])]]]))
 
-(defn print-equipment-short [equipment & extra]
-  [:div.box
-   [:p
-    [:strong (:name equipment)]
-    " "
-    [:em "(level " (:level equipment) ")"]]
-   [:p (:description equipment)]
-   (let [eq-headers
-         [:slot :bulk
-          :accuracy :damage :defense
-          :range :might :resists
-          :inertia :stowage]]
-     [:ul
-      (for [header eq-headers
-            :let [value (get equipment header)
-                  pr-value
-                  (cond
-                    (keyword? value)
-                    (norm value)
-                    (map? value)
-                    (string/join
-                     ", "
-                     (map
-                      (fn [[k v]]
-                        (str (norm k) " " v))
-                      value))
-                    :else
-                    value)]
-            :when (some? value)]
-        ^{:key header}
-        [:li [:strong (norm header)] ": " pr-value])])
-   extra])

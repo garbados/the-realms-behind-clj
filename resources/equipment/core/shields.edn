@@ -7,7 +7,6 @@
   :defense 1
   :resists {:physical 1}
   :inertia 0
-  :range :close
   :bulk :light
   :might 0
   :enhancements #{}
@@ -22,7 +21,6 @@
   :defense 2
   :resists {:physical 1}
   :inertia 1
-  :range :close
   :bulk 1
   :might 3
   :enhancements #{}
@@ -37,7 +35,6 @@
   :defense 3
   :resists {:physical 2}
   :inertia 3
-  :range :close
   :bulk 2
   :might 6
   :enhancements #{}
