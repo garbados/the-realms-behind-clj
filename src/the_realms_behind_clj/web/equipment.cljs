@@ -3,7 +3,8 @@
             [reagent.core :as r]
             [the-realms-behind-clj.web.db :as db]
             [the-realms-behind-clj.web.nav :refer [scroll-to]]
-            [the-realms-behind-clj.web.text :refer [norm]]))
+            [the-realms-behind-clj.web.text :refer [norm prompt-text
+                                                    prompt-textarea]]))
 
 (def WEAPONS "weapons")
 (def ARMOR "armor")
@@ -67,13 +68,40 @@
                   :else value)]))]]])
    extra])
 
+(defn new-equipment
+  ([-equipment -enhancements]
+   (let [-workshop (r/atom {})]
+     [new-equipment -equipment -enhancements -workshop
+      (r/atom "") (r/atom "")]))
+  ([-equipment -enhancements -workshop -name -description]
+   (let [enhancements @-enhancements
+         filter-by-tag (fn [tag] (filter #((:tags % #{}) tag) enhancements))
+         defects (filter-by-tag :defect)
+         masterworks (filter-by-tag :masterwork)
+         enchantments (filter-by-tag :enchantment)
+         curses (filter-by-tag :curse)]
+     [:div.box
+      [:form.form
+       [:div.field
+        [:label.label "Name"]
+        [:div.control
+         [prompt-text -name]]]
+       [:div.field
+        [:label.label "Description"]
+        [:div.control
+         [prompt-textarea -description]]]]])))
+
 (defn equipment-view
   ([_]
-   (let [-equipment (r/atom [])]
+   (let [-equipment (r/atom [])
+         -enhancements (r/atom [])
+         -workshopping? (r/atom false)]
      (.then (db/all-equipment)
             #(reset! -equipment %))
-     [equipment-view _ -equipment]))
-  ([_ -equipment]
+     (.then (db/all-enhancements)
+            #(reset! -enhancements %))
+     [equipment-view _ -equipment -enhancements -workshopping?]))
+  ([_ -equipment -enhancements -workshopping?]
    [:div.columns
     [:div.column.is-2
      [:div.box>div.content
@@ -111,6 +139,16 @@
                               (sort-by :name)
                               (sort-by :level))]
         [:<>
+         [:p
+          (if @-workshopping?
+            [:button.button.is-fullwidth.is-dark
+             {:on-click #(reset! -workshopping? false)}
+             "Close Workshop"]
+            [:button.button.is-fullwidth.is-light
+             {:on-click #(reset! -workshopping? true)}
+             "Open Workshop"])]
+         (when @-workshopping?
+           [new-equipment -equipment -enhancements])
          [:h4 {:name WEAPONS} "Weapons"]
          [:table.table
           [:thead

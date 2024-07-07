@@ -6,6 +6,7 @@
 
 (def ACTIONS "action")
 (def CHARACTERS "character")
+(def ENHANCEMENTS "enhancement")
 (def EQUIPMENT "equipment")
 (def FEATS "feat")
 
@@ -66,6 +67,7 @@
 
 (def action-uuid (typed-uuid ACTIONS))
 (def character-uuid (typed-uuid CHARACTERS))
+(def enhancement-uuid (typed-uuid ENHANCEMENTS))
 (def equipment-uuid (typed-uuid EQUIPMENT))
 (def feat-uuid (typed-uuid FEATS))
 
@@ -83,6 +85,7 @@
             #(map (comp edn/read-string :-value :doc) %)))))
 
 (def fetch-characters (typed-fetch CHARACTERS))
+(def fetch-enhancements (typed-fetch ENHANCEMENTS))
 (def fetch-equipment (typed-fetch EQUIPMENT))
 (def fetch-feats (typed-fetch FEATS))
 
@@ -94,6 +97,10 @@
               (assoc characters (:id character) character))
             characters/sample-characters
             %))))
+
+(defn all-enhancements []
+  (.then (fetch-enhancements db)
+         #(concat (resources/enhancements) %)))
 
 (defn all-equipment []
   (.then (fetch-equipment db)

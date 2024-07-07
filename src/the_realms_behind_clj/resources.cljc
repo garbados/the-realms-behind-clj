@@ -5,12 +5,14 @@
 
 (def ACTIONS (macroexpand-1 '(walk-resource "resources/actions")))
 (def CHARACTERS (macroexpand-1 '(walk-resource "resources/characters")))
+(def ENHANCEMENTS (macroexpand-1 '(walk-resource "resources/enhancements")))
 (def FEATS (macroexpand-1 '(walk-resource "resources/feats")))
 (def EQUIPMENT (macroexpand-1 '(walk-resource "resources/equipment")))
 (def FEATURES (macroexpand-1 '(walk-resource "resources/features")))
 
 (defn actions [] ACTIONS)
 (defn characters [] CHARACTERS)
+(defn enhancements [] ENHANCEMENTS)
 (defn feats [] FEATS)
 (defn equipment [] EQUIPMENT)
 (defn features [] FEATURES)
@@ -18,6 +20,7 @@
 (def id->content
   (let [content (concat (actions)
                         (characters)
+                        (enhancements)
                         (feats)
                         (equipment)
                         (features))

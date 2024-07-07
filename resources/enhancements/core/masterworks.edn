@@ -1,0 +1,38 @@
+[{:id :keen-edge
+  :name "Keen Edge"
+  :description
+  "The sharp, biting blade of this weapon
+   cuts deeper and hits harder
+   than a typical weapon of its type.
+   Increase its Damage by 1."
+  :level 2
+  :tags #{:masterwork :weapon}}
+ {:id :seeking-spirit
+  :name "Seeking Spirit"
+  :description
+  "This weapon tends to find its way.
+   Increase its Accuracy by 1."
+  :level 1
+  :tags #{:masterwork :weapon}}
+ {:id :routing-bastion
+  :name "Routing Bastion"
+  :description
+  "This weapon deflects attacks with ease.
+   Increase its Defense by 1."
+  :level 1
+  :tags #{:masterwork :weapon}}
+ {:id :lightweight-material
+  :name "Lightweight Material"
+  :description
+  "This armor is lighter than normal,
+   moving with you more easily.
+   Reduce its Interia by 1, to a minimum of 0."
+  :level 1
+  :tags #{:masterwork :armor}}
+ {:id :dense-plating
+  :name "Dense Plating"
+  :description
+  "This armor softens blows capably.
+   Increase its Physical Resist by 1."
+  :level 1
+  :tags #{:masterwork :armor}}]

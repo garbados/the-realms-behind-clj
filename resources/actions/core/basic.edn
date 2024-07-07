@@ -29,12 +29,12 @@
  {:id :step
   :name "Step"
   :description
-  "Take a careful step into terrain that is Difficult, Threatened, etc.;
-   you may move one space."
+  "Take a careful step into terrain that is Difficult;
+   you may move one space, and you do not trigger reactions."
   :cost {:ap 1}
   :tags #{:action :basic}}
- {:id :quick-draw
-  :name "Quick Draw"
+ {:id :ready
+  :name "Ready"
   :description
   "Move something from At-Hand to Equipped;
    you may move something else
@@ -91,7 +91,7 @@
    You may perform this action using additional action points,
    gaining +1 Advantage for each once."
   :cost {:ap 1}
-  :tags #{:concentration :dialogue :exploration :action :basic}}
+  :tags #{:concentration :dialogue :downtime :action :basic}}
  {:id :craft
   :name "Craft"
   :description
@@ -99,4 +99,12 @@
    See documentation on Crafting for more information.
    Each Craft action contributes one step to the object's completion."
   :cost {:ap 1}
-  :tags #{:concentration :crafting :downtime :action :basic}}]
+  :tags #{:concentration :crafting :downtime :action :basic}}
+ {:id :wage-labor
+  :name "Wage Labor"
+  :description
+  "Another party contracts you for your skills and services,
+   for a few hours at a time. Check a relevant skill against DC 12.
+   Gain one gold per success from your employer."
+  :cost {:ap 1}
+  :tags #{:concentration :downtime :action :basic}}]

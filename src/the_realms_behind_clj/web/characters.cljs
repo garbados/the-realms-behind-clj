@@ -315,7 +315,7 @@
                          (some #(= (:id %) :quickened) @-features)
                          (merge-with + (:cost feat) {:ap -1})
                          (some #(= (:id %) :instinctive) @-features)
-                         (merge (:cost feat) {:ap :interrupt})
+                         (merge (:cost feat) {:ap :reaction})
                          (some #(= (:id %) :belabored) @-features)
                          (merge (:cost feat) {:ap 3})
                          :else

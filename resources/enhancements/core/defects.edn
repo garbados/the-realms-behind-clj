@@ -1,0 +1,22 @@
+[{:id :dull-edge
+  :name "Dull Edge"
+  :description
+  "This weapon's blade is almost blunt.
+   Decrease its Damage by 1"
+  :level -1
+  :tags #{:defect :weapon}}
+ {:id :imbalanced
+  :name "Imbalanced"
+  :description
+  "This weapon is too heavy on one end,
+   making it awkward to wield.
+   Decrease its Accuracy and Defense by 1."
+  :level -1
+  :tags #{:defect :weapon}}
+ {:id :bulky
+  :name "Bulky"
+  :description
+  "This armor is uselessly large.
+   Increase its Bulk and Inertia by 1."
+  :level -1
+  :tags #{:defect :armor}}]

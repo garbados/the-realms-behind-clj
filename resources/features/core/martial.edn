@@ -25,7 +25,7 @@
  {:id :opportunistic
   :name "Opportunistic"
   :description
-  "This attack may be used as an interrupt
+  "This attack may be used as a reaction
    if an enemy in melee range takes an action
    that requires concentration, manipulation, or movement,
    such as casting a spell or looking through inventory."

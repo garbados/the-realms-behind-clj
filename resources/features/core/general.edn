@@ -9,7 +9,7 @@
   :name "Instinctive"
   :description
   "This action has become second nature; it behaves like a reflex.
-   It can be used as an interrupt."
+   It can be used as a reaction."
   :level 3
   :tags #{:general}}
  {:id :belabored
