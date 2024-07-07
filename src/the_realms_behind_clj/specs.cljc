@@ -185,7 +185,6 @@
                             ::resists
                             ::damage
                             :weapon/defense
-                            ::range
                             ::inertia
                             ::might]
                    :opt-un [::enhancements])))
