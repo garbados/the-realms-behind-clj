@@ -1,0 +1,10 @@
+[{:id :hat
+  :slot :head
+  :name "Hat"
+  :description
+  "A stylish hat or cap."
+  :level 0
+  :bulk :light
+  :might 0
+  :materials #{:cloth}
+  :enhancements #{}}]

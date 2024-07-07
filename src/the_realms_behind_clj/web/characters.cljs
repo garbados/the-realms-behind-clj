@@ -8,8 +8,8 @@
                                                          print-equipment-short]]
             [the-realms-behind-clj.web.feats :refer [print-feat]]
             [the-realms-behind-clj.web.nav :refer [scroll-to]]
-            [the-realms-behind-clj.web.text :refer [norm prompt-text
-                                                    prompt-textarea]]))
+            [the-realms-behind-clj.web.text :refer [norm prompt-text-value
+                                                    prompt-textarea-value]]))
 
 (def overflow-area
   {:style {:overflow "scroll"
@@ -297,12 +297,14 @@
            [:div.field
             [:label.label "Name"]
             [:div.control
-             [prompt-text -name]]
+             [prompt-text-value -name
+              :on-blur #(reset! -name (-> % .-target .-value))]]
             [:p.help "The moniker other players will know your avatar by."]]
            [:div.field
             [:label.label "Description"]
             [:div.control
-             [prompt-textarea -description]]]]
+             [prompt-textarea-value -description
+              :on-blur #(reset! -description (-> % .-target .-value))]]]]
           [edit-features features -features]
           (let [level (reduce + 0 (map :level @-features))
                 cost (characters/xp-cost 3 level)
@@ -563,22 +565,22 @@
       [:div.field
        [:label.label "Name"]
        [:div.control
-        [prompt-text -name]]
+        [prompt-text-value -name]]
        [:p.help "The moniker other players will know your avatar by."]]
       [:div.field
        [:label.label "Player"]
        [:div.control
-        [prompt-text -player]]
+        [prompt-text-value -player]]
        [:p.help "The person playing, or who created, this character."]]
       [:div.field
        [:label.label "Description"]
        [:div.control
-        [prompt-textarea -description]]
+        [prompt-textarea-value -description]]
        [:p.help "Use markdown!"]]
       [:div.field
        [:label.label "Image URL"]
        [:div.control
-        [prompt-text -image-url]]
+        [prompt-text-value -image-url]]
        [:p.help "The URL for your character's profile picture."]]]
      [:hr]
      [:div.content

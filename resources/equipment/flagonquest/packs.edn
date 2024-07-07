@@ -7,7 +7,9 @@
   :bulk :light
   :might 1
   :stowage 4
-  :slot :belt}
+  :slot :belt
+  :enhancements #{}
+  :materials #{:leather}}
  {:id :bandolier
   :name "Bandolier"
   :description
@@ -17,7 +19,9 @@
   :bulk :light
   :might 3
   :stowage 6
-  :slot :belt}
+  :slot :belt
+  :enhancements #{}
+  :materials #{:leather :metal}}
  {:id :knapsack
   :name "Knapsack"
   :description
@@ -28,7 +32,9 @@
   :bulk :light
   :might 1
   :stowage 4
-  :slot :pack}
+  :slot :pack
+  :enhancements #{}
+  :materials #{:leather}}
  {:id :backpack
   :name "Backpack"
   :description
@@ -37,7 +43,9 @@
   :bulk :light
   :might 3
   :stowage 6
-  :slot :pack}
+  :slot :pack
+  :enhancements #{}
+  :materials #{:leather :metal}}
  {:id :rucksack
   :name "Rucksack"
   :description
@@ -47,7 +55,9 @@
   :bulk :light
   :might 5
   :stowage 8
-  :slot :pack}
+  :slot :pack
+  :enhancements #{}
+  :materials #{:leather :metal :bone}}
  {:id :survivalists-pack
   :name "Survivalist's Pack"
   :description
@@ -61,4 +71,6 @@
   :bulk 1
   :might 8
   :stowage 15
-  :slot :pack}]
+  :slot :pack
+  :enhancements #{}
+  :materials #{:leather :metal :bone :precious}}]

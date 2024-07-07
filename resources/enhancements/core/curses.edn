@@ -1,1 +1,19 @@
-[]
+[{:id :maddening
+  :name "Maddening"
+  :description
+  "Alignment with eldritch sources of power
+   bestows radiation so alarmingly alien,
+   it batters the mind and warps space itself.
+   Attacks with this weapon apply 1 Madness."
+  :level -1
+  :tags #{:weapon :curse}}
+ {:id :whispering
+  :name "Whispering"
+  :description
+  "Bitter spirits are locked in this item,
+   acting as the source of its power.
+   They murmur and plead, only to the wearer,
+   distracting and disconcerting.
+   Reduce all defenses by 1."
+  :level -2
+  :tags #{:weapon :shield :head :arms :hands :torso :legs :feet :ring :curse}}]

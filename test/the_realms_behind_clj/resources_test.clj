@@ -7,22 +7,44 @@
 
 (deftest valid-resources
   (testing "Feats resources contain valid definitions."
-    (let [feats (resources/feats)]
-      (is (s/valid? ::specs/feats feats)
-          (s/explain-str ::specs/feats feats))))
+    (doseq [feat (resources/feats)]
+      (is (s/valid? ::specs/feat feat)
+          (s/explain-str ::specs/feat feat))))
   (testing "Equipment resources contain valid definitions."
-    (let [equipment (resources/equipment)]
-      (is (s/valid? ::specs/equipment equipment)
-          (s/explain-str ::specs/equipment equipment))))
+    (doseq [single-equipment (resources/equipment)]
+      (is (s/valid? ::specs/single-equipment single-equipment)
+          (s/explain-str ::specs/single-equipment single-equipment))))
+  (testing "Enhancement resources contain valid definitions."
+    (doseq [enhancement (resources/enhancements)]
+      (is (s/valid? ::specs/enhancement enhancement)
+          (s/explain-str ::specs/enhancement enhancement))))
+  (testing "Features resources contain valid definitions."
+    (doseq [feature (resources/features)]
+      (is (s/valid? ::specs/feature feature)
+          (s/explain-str ::specs/feature feature))))
   (testing "Unique IDs across content"
-    (let [dfns (concat (resources/feats)
-                       (resources/equipment))
-          ids (map :id dfns)
+    (let [all-content resources/all-content
+          ids (map :id all-content)
           uids (set ids)]
-      (is (= (count dfns) (count uids))
+      (is (= (count all-content) (count uids))
           (let [duplicates
                 (keys
                  (filter
                   (comp #(> % 1) count second)
-                  (group-by :id dfns)))]
-            (str "Duplicate IDs: " (string/join ", " duplicates)))))))
+                  (group-by :id all-content)))]
+            (str "Duplicate IDs: " (string/join ", " duplicates))))))
+  (testing "Unique names across content"
+    (let [all-content resources/all-content
+          names (map :name (filter (comp some? :name) all-content))
+          unique-names (set names)]
+      (is (= (count names) (count unique-names))
+          (let [duplicates
+                (first
+                 (reduce
+                  (fn [[all names] cname]
+                    (if (names cname)
+                      [all (disj names cname)]
+                      [(conj all cname) names]))
+                  [[] unique-names]
+                  names))]
+            (str "IDs with duplicate names: " (string/join ", " duplicates)))))))

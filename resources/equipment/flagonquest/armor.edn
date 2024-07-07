@@ -6,7 +6,9 @@
   :resists {:physical 1}
   :inertia 0
   :bulk 1
-  :might 3}
+  :might 3
+  :enhancements #{}
+  :materials #{:cloth :leather}}
  {:id :heavy-armor
   :slot :armor
   :name "Heavy armor"
@@ -15,4 +17,6 @@
   :resists {:physical 3}
   :inertia 2
   :bulk 3
-  :might 8}]
+  :might 8
+  :enhancements #{}
+  :materials #{:leather :metal}}]

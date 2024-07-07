@@ -1,10 +1,13 @@
 (ns the-realms-behind-clj.web.equipment 
   (:require [clojure.string :as string]
             [reagent.core :as r]
+            [the-realms-behind-clj.resources :as resources]
             [the-realms-behind-clj.web.db :as db]
             [the-realms-behind-clj.web.nav :refer [scroll-to]]
             [the-realms-behind-clj.web.text :refer [norm prompt-text
-                                                    prompt-textarea]]))
+                                                    prompt-textarea]]
+            [the-realms-behind-clj.web.utils :refer [e->value]]
+            [the-realms-behind-clj.characters :as characters]))
 
 (def WEAPONS "weapons")
 (def ARMOR "armor")
@@ -68,12 +71,14 @@
                   :else value)]))]]])
    extra])
 
+(defn reset-equipment! [-equipment]
+  (.then (db/all-equipment)
+         #(reset! -equipment %)))
+
 (defn new-equipment
-  ([-equipment -enhancements]
-   (let [-workshop (r/atom {})]
-     [new-equipment -equipment -enhancements -workshop
-      (r/atom "") (r/atom "")]))
-  ([-equipment -enhancements -workshop -name -description]
+  ([-equipment -enhancements -editing?]
+   [new-equipment -equipment -enhancements -editing? (r/atom nil)])
+  ([-equipment -enhancements -editing? -workshop]
    (let [enhancements @-enhancements
          filter-by-tag (fn [tag] (filter #((:tags % #{}) tag) enhancements))
          defects (filter-by-tag :defect)
@@ -83,13 +88,82 @@
      [:div.box
       [:form.form
        [:div.field
-        [:label.label "Name"]
+        [:label.label "Base Item"]
         [:div.control
-         [prompt-text -name]]]
-       [:div.field
-        [:label.label "Description"]
-        [:div.control
-         [prompt-textarea -description]]]]])))
+         [:div.select
+          [:select
+           {:on-change
+            #(reset! -workshop (-> % e->value resources/name->content))}
+           [:<>
+            [:option ""]
+            (doall
+             (for [equipment (->>  @-equipment (sort-by :name) (sort-by :level))
+                   :when (empty? (filter #{:uncraftable} (:tags equipment #{})))]
+               [:option (:name equipment)]))]]]]]
+       (when @-workshop
+         [:<>
+          [:div.field
+           [:label.label "Name"]
+           [:div.control
+            [prompt-text
+             {:get-value #(:name @-workshop "")
+              :on-change #(swap! -workshop assoc :name (e->value %))}]]]
+          [:div.field
+           [:label.label "Description"]
+           [:div.control
+            [prompt-textarea
+             {:get-value #(->> (:description @-workshop "")
+                               (string/split-lines)
+                               (map string/trim)
+                               (string/join " "))
+              :on-change #(swap! -workshop assoc :description (e->value %))}]]]
+          (doall
+           (for [[title group] [["Defects" defects]
+                                ["Masterworks" masterworks]
+                                ["Curses" curses]
+                                ["Enchantments" enchantments]]
+                 :let [sorted-group
+                       (->> group
+                            (sort-by :name)
+                            (sort-by :level)
+                            (filter #((:tags % #{}) (:slot @-workshop))))]
+                 :when (seq sorted-group)]
+             [:div.field
+              [:label.label title]
+              (doall
+               (for [thing sorted-group]
+                 [:p
+                  [:div.control
+                   [:label.checkbox
+                    [:input {:type "checkbox"
+                             :on-change #(if ((:enhancements @-workshop #{}) thing)
+                                           (swap! -workshop update :enhancements disj thing)
+                                           (swap! -workshop update :enhancements conj thing))}]
+                    " "
+                    [:strong (:name thing)]
+                    " "
+                    "(level " (:level thing) ")"
+                    ": "
+                    (:description thing)]]]))]))
+          [print-equipment @-workshop]
+          [:div.level
+           [:div.level-item
+            [:span "Steps: " (characters/xp-cost 3 (:level @-workshop 0))]]
+           [:div.level-item
+            [:span "Materials: " "TODO FIXME"]]]
+          [:div.level
+           [:div.level-item
+            [:button.button.is-fullwidth.is-success
+             {:on-click
+              #(let [equipment @-workshop
+                     uuid (or (:id equipment) (db/equipment-uuid))
+                     equipment* (assoc equipment :id uuid)]
+                 (.then
+                  (db/upsert-doc db/db uuid equipment*)
+                  (fn [& _] (reset-equipment! -equipment)))
+                 (reset! -workshop nil)
+                 (reset! -editing? false))}
+             "Save Equipment"]]]])]])))
 
 (defn equipment-view
   ([_]
@@ -148,7 +222,7 @@
              {:on-click #(reset! -workshopping? true)}
              "Open Workshop"])]
          (when @-workshopping?
-           [new-equipment -equipment -enhancements])
+           [new-equipment -equipment -enhancements -workshopping?])
          [:h4 {:name WEAPONS} "Weapons"]
          [:table.table
           [:thead

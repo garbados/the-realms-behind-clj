@@ -1,0 +1,45 @@
+[{:id :wooden-shield
+  :slot :shield
+  :name "Wooden Shield"
+  :description ""
+  :level 1
+  :damage 1
+  :defense 1
+  :resists {:physical 1}
+  :inertia 0
+  :range :close
+  :bulk :light
+  :might 0
+  :enhancements #{}
+  :materials #{:wood}
+  :tags #{}}
+ {:id :metal-shield
+  :slot :shield
+  :name "Metal Shield"
+  :description ""
+  :level 1
+  :damage 2
+  :defense 2
+  :resists {:physical 1}
+  :inertia 1
+  :range :close
+  :bulk 1
+  :might 3
+  :enhancements #{}
+  :materials #{:wood :metal}
+  :tags #{}}
+ {:id :phalanx-shield
+  :slot :shield
+  :name "Phalanx Shield"
+  :description ""
+  :level 2
+  :damage 2
+  :defense 3
+  :resists {:physical 2}
+  :inertia 3
+  :range :close
+  :bulk 2
+  :might 6
+  :enhancements #{}
+  :materials #{:wood :leather :metal}
+  :tags #{}}]

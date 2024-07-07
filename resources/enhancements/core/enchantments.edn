@@ -1,1 +1,172 @@
-[]
+[{:id :flaming
+  :name "Flaming"
+  :description
+  "This weapon deals one less Physical damage, but two additional fire damage.
+   Clubs in the Suit Pool of attacks apply stacks of Burning."
+  :level 1
+  :materials #{:fire}
+  :tags #{:weapon :enchantment}}
+ {:id :freezing
+  :name "Freezing"
+  :description
+  "This weapon deals one less Physical damage, but two additional frost damage.
+   Clubs in the Suit Pool of attacks apply stacks of Frozen."
+  :level 1
+  :materials #{:frost}
+  :tags #{:weapon :enchantment}}
+ {:id :fireproof
+  :name "Fireproof"
+  :description
+  "This equipment doesn't catch fire easily, and resists rapid increases in temperature.
+   This equipment gains 2 Fire Resist."
+  :level 1
+  :materials #{:fire}
+  :tags #{:armor :shield :belt :pack
+          :head :torso :hands :feet :ring
+          :enchantment}}
+ {:id :warmed
+  :name "Warmed"
+  :description
+  "This equipment retains and exudes heat.
+   This equipment gains 2 Frost Resist."
+  :level 1
+  :materials #{:frost}
+  :tags #{:armor :shield :belt :pack
+          :head :torso :hands :feet :ring
+          :enchantment}}
+ {:id :blessed
+  :name "Blessed"
+  :description
+  "The stars smile upon this object.
+   This equipment gains 3 Brilliant Resist."
+  :level 2
+  :materials #{:brilliant}
+  :tags #{:armor :shield :belt :pack
+          :head :torso :hands :feet :ring
+          :enchantment}}
+ {:id :accursed
+  :name "Accursed"
+  :description
+  "The stars revile this object.
+   This equipment gains 3 Shadow Resist."
+  :level 2
+  :materials #{:shadow}
+  :tags #{:armor :shield :belt :pack
+          :head :torso :hands :feet :ring
+          :enchantment}}
+ {:id :resolute
+  :name "Resolute"
+  :description
+  "Choose an attribute.
+   Gain +1 to that attribute's Defense."
+  :effect
+  {:choose
+   {:defense #{:body :mind :spirit :luck}}}
+  :level 1
+  :materials #{:precious}
+  :tags #{:head :hands :torso :feet :ring :enchantment}}
+ {:id :light-hauler
+  :name "Light-Hauler"
+  :description
+  "A curious container stores more than it should.
+   Increase Stowage by 2."
+  :level 1
+  :materials #{:precious :brilliant}
+  :tags #{:belt :pack :enchantment}}
+ {:id :heavy-hauler
+  :name "Heavy Hauler"
+  :description
+  "A very strange container stores far more than it should.
+   Increase Stowage by 10."
+  :level 3
+  :materials #{:precious :brilliant :shadow}
+  :tags #{:belt :pack :enchantment}}
+ {:id :sanctified
+  :name "Sanctified"
+  :description
+  "Divine energy suffuses this weapon.
+   It deals one less Physical damage, but two additional Brilliant damage.
+   Three times per day, you may grant +1 Advantage to a check,
+   either your own or someone else's within line of sight,
+   as a reaction."
+  :level 2
+  :materials #{:precious :brilliant}
+  :tags #{:weapon :enchantment}}
+ {:id :profane
+  :name "Profane"
+  :description
+  "A void haunts this weapon.
+   It deals one less Physical damage, but two additional Shadow damage.
+   Three times per day, you may inflice +1 Disadvantage to a check,
+   to anyone in line of sight,
+   as a reaction."
+  :level 2
+  :materials #{:precious :shadow}
+  :tags #{:weapon :enchantment}}
+ {:id :veteran
+  :name "Veteran"
+  :description
+  "Vestiges of considerable practice linger in this equipment.
+   Select one Skill during crafting.
+   You gain +1 to that Skill."
+  :effect {:choose {:skill :skill}}
+  :level 1
+  :materials #{:precious :frost}
+  :tags #{:head :hands :torso :feet :ring :enchantment}}
+ {:id :lucky
+  :name "Lucky"
+  :description
+  "The stars favor the bearer of this equipment.
+   Gain an additional Fortune each day,
+   and any pairs present in a flip
+   act as a rank 15 card."
+  :level 1
+  :materials #{:precious :brilliant}
+  :tags #{:head :hands :torso :feet :ring :enchantment}}
+ {:id :fleet
+  :name "Fleet"
+  :description
+  "Your feet move like the wind.
+   Increase your Speed by 1.
+   Three times per day,
+   you may increase your Speed by 2 for the turn."
+  :level 1
+  :materials #{:precious :fire}
+  :tags #{:feet :ring :enchantment}}
+ {:id :preemptive
+  :name "Preemptive"
+  :description
+  "A preternatural sense for danger imbues you
+   with faster-than-reason reflexes.
+   Gain an extra reaction each turn."
+  :level 3
+  :materials #{:precious :fire}
+  :tags #{:head :ring :enchantment}}
+ {:id :whirling
+  :name "Whirling"
+  :description
+  "This weapon swings in an unusually wide arc,
+   cleaving joyously.
+   Melee attacks with this weapon may target another foe in range.
+   Use the same flip for the second attack."
+  :level 3
+  :materials #{:precious :fire}
+  :tags #{:weapon :enchantment}}
+ {:id :deflecting
+  :name "Deflecting"
+  :description
+  "A strange aura turns away harmful forces, such as arrows and blades.
+   At least, a little bit.
+   Gain 1 Physical Resist."
+  :level 2
+  :materials #{:precious :brilliant}
+  :tags #{:shield :head :hands :torso :feet :ring :enchantment}}
+ {:id :resurgent
+  :name "Resurgent"
+  :description
+  "Greater powers turn away even death, at least occasionally.
+   Once per day, when you would be downed,
+   you instead gain three shallow health."
+  :level 3
+  :materials #{:precious :brilliant}
+  :tags #{:head :hands :torso :ring :enchantment}}]

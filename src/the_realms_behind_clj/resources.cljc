@@ -17,15 +17,24 @@
 (defn equipment [] EQUIPMENT)
 (defn features [] FEATURES)
 
+(def all-content
+  (concat (actions)
+          (enhancements)
+          (feats)
+          (equipment)
+          (features)))
+
 (def id->content
-  (let [content (concat (actions)
-                        (characters)
-                        (enhancements)
-                        (feats)
-                        (equipment)
-                        (features))
+  (let [content all-content
         ids (map :id content)]
     (zipmap ids content)))
+
+(def name->content
+  (reduce
+   (fn [name->content content]
+     (assoc name->content (:name content) content))
+   {}
+   (vals id->content)))
 
 ;; hash-map acts as resolver
 (def resolve-link id->content)

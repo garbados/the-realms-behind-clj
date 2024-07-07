@@ -6,13 +6,17 @@
   :resists {:physical 2}
   :inertia 1
   :bulk 2
-  :might 5}
+  :might 5
+  :enhancements #{}
+  :materials #{:leather :metal}}
  {:id :juggernaut-armor
   :slot :armor
   :name "Juggernaut armor"
   :description ""
-  :level 1
+  :level 2
   :resists {:physical 4}
   :inertia 4
   :bulk 5
-  :might 11}]
+  :might 11
+  :enhancements #{}
+  :materials #{:leather :bone :metal}}]

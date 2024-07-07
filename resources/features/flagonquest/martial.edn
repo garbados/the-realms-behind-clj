@@ -75,7 +75,7 @@
    Requires Sorcery 3."
   :level 2
   :tags #{:maneuver :flagon-quest}}
- {:id :channel-elements
+ {:id :channel-divinity
   :name "Channel Divinity"
   :description
   "When you first select this feature,

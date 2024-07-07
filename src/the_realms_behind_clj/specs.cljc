@@ -6,7 +6,7 @@
 (s/def ::name string?)
 (s/def ::description string?)
 (s/def ::tags (s/coll-of keyword? :kind set?))
-(s/def ::level nat-int?)
+(s/def ::level int?)
 
 ;; BASIC SPECS
 
@@ -107,11 +107,17 @@
 
 (s/def ::feats (s/coll-of ::feat))
 
+(def materials #{:cloth :wood :leather :bone :metal
+                 :food :medicine
+                 :precious
+                 :fire :frost :brilliant :shadow})
+(s/def ::materials (s/coll-of materials))
 (s/def ::bulk (s/or :light #{:light}
                     :nat-int nat-int?))
 (s/def ::base-equipment
   (s/merge ::base-definition
-           (s/keys :req-un [::bulk])))
+           (s/keys :req-un [::bulk
+                            ::materials])))
 (s/def ::accuracy nat-int?)
 (s/def ::damage nat-int?)
 (s/def ::range-expr
@@ -122,8 +128,11 @@
   (s/or :expr ::range-expr
         :exprs (s/coll-of ::range-expr)))
 (s/def ::might nat-int?)
-(s/def ::enchantments
-  (s/keys :req-un []))
+(s/def ::enhancement
+  (s/merge ::base-definition
+           (s/keys :opt-un [::materials
+                            ::effect])))
+(s/def ::enhancements (s/coll-of ::enhancement))
 (s/def :weapon/slot #{:weapon})
 (s/def :weapon/defense nat-int?)
 (s/def ::weapon
@@ -134,8 +143,8 @@
                             :weapon/defense
                             ::range
                             ::might]
-                   :opt-un [::enchantments])))
-(s/def ::elements #{:physical :fire :frost :brilliance :shadow})
+                   :opt-un [::enhancements])))
+(s/def ::elements #{:physical :fire :frost :brilliant :shadow})
 (s/def ::resists (s/map-of ::elements nat-int?))
 (s/def ::inertia nat-int?)
 (s/def :armor/slot #{:armor})
@@ -145,7 +154,7 @@
                             ::resists
                             ::inertia
                             ::might]
-                   :opt-un [::enchantments])))
+                   :opt-un [::enhancements])))
 (s/def ::stowage nat-int?)
 (s/def :storage/slot #{:belt :pack})
 (s/def ::storage
@@ -153,25 +162,44 @@
            (s/keys :req-un [:storage/slot
                             ::might
                             ::stowage]
-                   :opt-un [::enchantments])))
+                   :opt-un [::enhancements])))
 (s/def :item/slot #{:item})
 (s/def ::item
   (s/merge ::base-equipment
            (s/keys :req-un [:item/slot])))
 (def equippable-slots
   #{:weapon :armor :shield :belt :pack
-    :neck :torso :arms :legs :hands :feet
-    :jewelry})
+    :head :torso :hands :feet :ring})
 (def slots (into equippable-slots #{:item}))
 (s/def ::slot slots)
-(s/def ::equipment-single
+(s/def :clothing/slot #{:head :torso :hands :feet :ring})
+(s/def ::clothing
+  (s/merge ::base-equipment
+           (s/keys :req-un [:clothing/slot
+                            ::enhancements
+                            ::might])))
+(s/def :shield/slot #{:shield})
+(s/def ::shield
+  (s/merge ::base-equipment
+           (s/keys :req-un [:shield/slot
+                            ::resists
+                            ::damage
+                            :weapon/defense
+                            ::range
+                            ::inertia
+                            ::might]
+                   :opt-un [::enhancements])))
+(s/def ::single-equipment
   (s/or :weapon ::weapon
         :armor ::armor
+        :shield ::shield
+        :clothing ::clothing
         :storage ::storage
         :item ::item))
-(s/def ::equipment (s/coll-of ::equipment-single))
+(s/def ::equipment (s/coll-of ::single-equipment))
 
 (s/def ::feature ::base-definition)
+(s/def ::features (s/coll-of ::feature))
 
 ;; CHARACTER SPECS
 
@@ -216,7 +244,8 @@
 (s/def :character/feats
   (s/coll-of
    (s/or :detail ::feat
-         :link   ::id)))
+         :link   ::id)
+   :kind set?))
 (s/def ::character
   (s/keys :req-un [::bio
                    ::experience

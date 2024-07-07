@@ -8,7 +8,9 @@
   :defense 1
   :range :close
   :bulk 1
-  :might 0}
+  :might 0
+  :enhancements #{}
+  :materials #{:wood :leather :bone}}
  {:id :1h-heavy-melee
   :slot :weapon
   :name "One-handed heavy melee weapon"
@@ -19,7 +21,9 @@
   :defense 0
   :range :close
   :bulk 2
-  :might 4}
+  :might 4
+  :enhancements #{}
+  :materials #{:wood :leather :metal}}
  {:id :2h-light-melee
   :slot :weapon
   :name "Two-handed light melee weapon"
@@ -30,7 +34,9 @@
   :defense 1
   :range :close
   :bulk 2
-  :might 0}
+  :might 0
+  :enhancements #{}
+  :materials #{:wood :leather :bone}}
  {:id :2h-heavy-melee
   :slot :weapon
   :name "Two-handed heavy melee weapon"
@@ -41,7 +47,9 @@
   :defense 1
   :range :close
   :bulk 3
-  :might 6}
+  :might 6
+  :enhancements #{}
+  :materials #{:wood :leather :metal}}
  {:id :light-thrown
   :slot :weapon
   :name "Light thrown weapon"
@@ -52,7 +60,10 @@
   :defense 0
   :range [:close {:body 3}]
   :bulk :light
-  :might 0}
+  :might 0
+  :enhancements #{}
+  :materials #{:wood}
+  :tags #{:light}}
  {:id :heavy-thrown
   :slot :weapon
   :name "Heavy thrown weapon"
@@ -63,7 +74,9 @@
   :defense 0
   :range [:close {:body 3}]
   :bulk 1
-  :might 4}
+  :might 4
+  :enhancements #{}
+  :materials #{:wood :leather :metal}}
  {:id :light-bow
   :slot :weapon
   :name "Light bow"
@@ -74,7 +87,10 @@
   :defense 0
   :range 15
   :bulk 1
-  :might 0}
+  :might 0
+  :enhancements #{}
+  :materials #{:wood :leather}
+  :tags #{:light}}
  {:id :heavy-bow
   :slot :weapon
   :name "Heavy bow"
@@ -85,7 +101,9 @@
   :defense 0
   :range 20
   :bulk 2
-  :might 6}
+  :might 6
+  :enhancements #{}
+  :materials #{:wood :bone :leather}}
  {:id :unarmed
   :slot :weapon
   :name "Unarmed"
@@ -96,15 +114,7 @@
   :defense 1
   :range :close
   :bulk 0
-  :might 0}
- {:id :shield
-  :slot :weapon
-  :name "Shield Bash"
-  :description ""
-  :level 0
-  :accuracy 0
-  :damage 2
-  :defense 2
-  :range :close
-  :bulk 0
-  :might 0}]
+  :might 0
+  :enhancements #{}
+  :materials #{}
+  :tags #{:uncraftable :light}}]
