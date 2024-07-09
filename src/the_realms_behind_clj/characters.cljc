@@ -218,33 +218,34 @@
     (can-use? character (resources/resolve-link feat))
     (let [requirements (:requirements feat {})
           {:keys [attributes skills feats]} requirements]
-      (and
-       (if attributes
-         (reduce
-          (fn [a [attr x]]
-            (and a (<= x (get-in character [:attributes attr] 0))))
-          true
-          attributes)
-         true)
-       (if skills
-         (reduce
-          (fn [_ [skill x]]
-            (and _ (<= x (character-skill character skill))))
-          true
-          skills)
-         true)
-       (if feats
-         (let [character-feats (:feats character #{})]
-           (reduce
-            (fn [_ feat]
-              (and _ (character-feats feat)))
-            true
-            feats))
-         true)
-       (if-let [or-reqs (:or requirements)]
-         (some (partial can-use? character)
-               (map #(hash-map :requirements %) or-reqs))
-         true)))))
+      (boolean
+       (and
+        (if attributes
+          (reduce
+           (fn [a [attr x]]
+             (and a (<= x (get-in character [:attributes attr] 0))))
+           true
+           attributes)
+          true)
+        (if skills
+          (reduce
+           (fn [_ [skill x]]
+             (and _ (<= x (character-skill character skill))))
+           true
+           skills)
+          true)
+        (if feats
+          (let [character-feats (:feats character #{})]
+            (reduce
+             (fn [_ feat]
+               (and _ (character-feats feat)))
+             true
+             feats))
+          true)
+        (if-let [or-reqs (:or requirements)]
+          (some (partial can-use? character)
+                (map #(hash-map :requirements %) or-reqs))
+          true))))))
 
 (s/fdef can-use?
   :args (s/cat :character ::specs/character
