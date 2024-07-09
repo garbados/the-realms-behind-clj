@@ -6,6 +6,7 @@
             [the-realms-behind-clj.web.db :as db]
             [the-realms-behind-clj.web.equipment :refer [print-equipment
                                                          print-equipment-short]]
+            [the-realms-behind-clj.web.equipment :as equipment]
             [the-realms-behind-clj.web.feats :refer [print-feat]]
             [the-realms-behind-clj.web.nav :refer [scroll-to]]
             [the-realms-behind-clj.web.text :refer [norm prompt-text-value
@@ -235,131 +236,130 @@
 
 (defn- edit-features
   [features -features]
-  [:table.table.is-fullwidth
-   [:thead
-    [:tr
-     [:th "Level"]
-     [:th "Name"]
-     [:th "Description"]
-     [:th "Add / Remove"]]]
-   [:tbody
-    (doall
-     (for [feature features]
-       ^{:key (:id feature)}
-       [:tr
-        [:td (:level feature)]
-        [:td (:name feature)]
-        [:td (:description feature)]
-        [:td
-         (if (contains? @-features feature)
-           [:button.button.is-fullwidth.is-warning
-            {:on-click
-             #(swap! -features disj feature)}
-            "Remove"]
-           [:button.button.is-fullwidth.is-info
-            {:on-click
-             #(swap! -features conj feature)}
-            "Add"])]]))]])
+  [:<>
+   (doall
+    (for [feature features]
+      ^{:key (:id feature)}
+      [:div.field
+       [:div.control
+        [:label.checkbox
+         [:input
+          {:type "checkbox"
+           :on-change
+           #(if (contains? @-features feature)
+              (swap! -features disj feature)
+              (swap! -features conj feature))}]
+         " "
+         [:em (:name feature)]
+         " "
+         "(level " (:level feature) ")"
+         ": "
+         (:description feature)]]]))])
 
 (defn- print-feat-form
-  [-character feat -features -name -description -editing?]
-  (if ((feat :tags #{}) :buildable)
-    [:div.box>div.content
-     [:h5 [:strong (:name feat)]]
-     [:p (:description feat)]
-     [:p.tags
-      (doall
-       (for [tag (:tags feat)]
-         ^{:key tag}
-         [:span.tag (norm tag)]))]
-     [:p
-      (if @-editing?
-        [:button.button.is-fullwidth.is-dark
-         {:on-click #(reset! -editing? false)}
-         "Minimize"]
-        [:button.button.is-fullwidth.is-light
-         {:on-click #(reset! -editing? true)}
-         "Configure"])]
-     (when @-editing?
-       (let [groups (get-in feat [:effect :features])
-             features
-             (->> (resources/features)
-                  (filter (fn [{:keys [tags]}]
-                            (some
-                             (fn [group]
-                               (or (tags :general)
-                                   (tags group)))
-                             groups)))
-                  (sort-by :name)
-                  (sort-by :level))]
-         [:<>
-          [:form.form
-           [:div.field
-            [:label.label "Name"]
-            [:div.control
-             [prompt-text-value -name
-              :on-blur #(reset! -name (-> % .-target .-value))]]
-            [:p.help "The moniker other players will know your avatar by."]]
-           [:div.field
-            [:label.label "Description"]
-            [:div.control
-             [prompt-textarea-value -description
-              :on-blur #(reset! -description (-> % .-target .-value))]]]]
-          [edit-features features -features]
-          (let [level (reduce + 0 (map :level @-features))
-                cost (characters/xp-cost 3 level)
-                feat* {:id (db/feat-uuid)
-                       :name @-name
-                       :description @-description
-                       :level level
-                       :cost
-                       (cond
-                         (some #(= (:id %) :quickened) @-features)
-                         (merge-with + (:cost feat) {:ap -1})
-                         (some #(= (:id %) :instinctive) @-features)
-                         (merge (:cost feat) {:ap :reaction})
-                         (some #(= (:id %) :belabored) @-features)
-                         (merge (:cost feat) {:ap 3})
-                         :else
-                         (:cost feat))
-                       :effect
-                       {:action
-                        {:features @-features}}
-                       :tags (disj (:tags feat) :buildable)}]
-            [:div.level
-             [:div.level-item
-              [:button.button.is-fullwidth.is-success
-               {:disabled
-                (< (:experience @-character)
-                   cost)
-                :on-click
-                #(do
-                   (swap! -character update :experience - cost)
-                   (swap! -character update :feats conj feat*))}
-               "Buy"]]
-             [:div.level-item
-              [:button.button.is-fullwidth.is-info
-               {:on-click
-                #(swap! -character update :feats conj feat*)}
-               "Gain (+" cost ")"]]])]))]
-    (let [cost (characters/xp-cost 3 (:level feat))]
-      [print-feat feat
-       [:div.level
-        [:div.level-item
-         [:button.button.is-fullwidth.is-success
-          {:disabled
-           (< (:experience @-character)
-              cost)
-           :on-click
-           #(do
-              (swap! -character update :experience - cost)
-              (swap! -character update :feats conj feat))}
-          "Buy"]]
-        [:div.level-item
-         [:button.button.is-fullwidth.is-info
-          {:on-click
-           #(swap! -character update :feats conj feat)}
-          "Gain (+" cost ")"]]]])))
+  ([-character feat]
+   [print-feat-form -character feat
+    (r/atom #{}) (r/atom "") (r/atom "") (r/atom false)])
+  ([-character feat -features -name -description -editing?]
+   (if ((feat :tags #{}) :buildable)
+     [:div.box>div.content
+      [:h5 [:strong (:name feat)]]
+      [:p (:description feat)]
+      [:p.tags
+       (doall
+        (for [tag (:tags feat)]
+          ^{:key tag}
+          [:span.tag (norm tag)]))]
+      (println -character feat -features -name -description -editing?)
+      [:p
+       (if @-editing?
+         [:button.button.is-fullwidth.is-dark
+          {:on-click #(reset! -editing? false)}
+          "Minimize"]
+         [:button.button.is-fullwidth.is-light
+          {:on-click #(reset! -editing? true)}
+          "Configure"])]
+      (when @-editing?
+        (let [groups (get-in feat [:effect :features])
+              features
+              (->> (resources/features)
+                   (filter (fn [{:keys [tags]}]
+                             (some
+                              (fn [group]
+                                (or (tags :general)
+                                    (tags group)))
+                              groups)))
+                   (sort-by :name)
+                   (sort-by :level))]
+          [:<>
+           [:form.form
+            [:div.field
+             [:label.label "Name"]
+             [:div.control
+              [prompt-text-value -name]]
+             [:p.help "The name of this technique."]]
+            [:div.field
+             [:label.label "Description"]
+             [:div.control
+              [prompt-textarea-value -description]]
+             [:p.help "How does this technique work? What does it do?"]]
+            [:div.field
+             [:label.label "Features"]
+             [edit-features features -features]]]
+           (let [level (reduce + 0 (map :level @-features))
+                 cost (characters/xp-cost 3 level)
+                 feat* {:id (db/feat-uuid)
+                        :name @-name
+                        :description @-description
+                        :level level
+                        :cost
+                        (cond
+                          (some #(= (:id %) :quickened) @-features)
+                          (merge-with + (:cost feat) {:ap -1})
+                          (some #(= (:id %) :instinctive) @-features)
+                          (merge (:cost feat) {:ap :reaction})
+                          (some #(= (:id %) :belabored) @-features)
+                          (merge (:cost feat) {:ap 3})
+                          :else
+                          (:cost feat))
+                        :effect
+                        {:action
+                         {:features @-features}}
+                        :tags (disj (:tags feat) :buildable)}]
+             [:div.level
+              [:div.level-item
+               [:button.button.is-fullwidth.is-success
+                {:disabled
+                 (< (:experience @-character)
+                    cost)
+                 :on-click
+                 #(do
+                    (swap! -character update :experience - cost)
+                    (swap! -character update :feats conj feat*))}
+                "Buy"]]
+              [:div.level-item
+               [:button.button.is-fullwidth.is-info
+                {:on-click
+                 #(swap! -character update :feats conj feat*)}
+                "Gain (+" cost ")"]]])]))]
+     (let [cost (characters/xp-cost 3 (:level feat))]
+       [print-feat feat
+        [:div.level
+         [:div.level-item
+          [:button.button.is-fullwidth.is-success
+           {:disabled
+            (< (:experience @-character)
+               cost)
+            :on-click
+            #(do
+               (swap! -character update :experience - cost)
+               (swap! -character update :feats conj feat))}
+           "Buy"]]
+         [:div.level-item
+          [:button.button.is-fullwidth.is-info
+           {:on-click
+            #(swap! -character update :feats conj feat)}
+           "Gain (+" cost ")"]]]]))))
 
 (defn- edit-feats
   ([-character]
@@ -407,19 +407,12 @@
               (and (characters/can-use? @-character feat)
                    (empty? (filter #(= feat %) (:feats @-character))))]
           ^{:key (:id feat)}
-          [print-feat-form -character feat
-           (r/atom #{})
-           (r/atom "")
-           (r/atom "")
-           (r/atom false)]))]]]]))
+          [print-feat-form -character feat]))]]]]))
 
 (defn- edit-equipment
   ([-character]
-   (let [-all-equipment (r/atom [])]
-     (.then (db/all-equipment)
-            #(reset! -all-equipment %))
-     [edit-equipment -character -all-equipment]))
-  ([-character -all-equipment]
+   [edit-equipment -character equipment/-equipment])
+  ([-character -equipment]
    [:div.columns
     [:div.column.is-6
      (let [owned-equipment
@@ -435,7 +428,8 @@
             ^{:key (:id single-equipment)}
             [print-equipment single-equipment
              (let [cost (characters/wealth-cost
-                         (:level single-equipment))]
+                         (equipment/equipment-level
+                          single-equipment))]
                [:div.level
                 [:div.level-item
                  [:button.button.is-fullwidth.is-danger
@@ -454,40 +448,43 @@
     [:div.column.is-6
      [:div.content
       [:h3 "Available equipment"]
-      (doall
-       (for [[group equipment]
-             (->> @-all-equipment
-                  (group-by :slot)
-                  (seq)
-                  (sort-by first))]
-         ^{:key group}
-         [:<>
-          [:h5 "Slot: " (norm group)]
-          [:div
-           overflow-area
-           (doall
-            (for [single-equipment (->> equipment
-                                        (sort-by :level)
-                                        (sort-by :name))]
-              ^{:key (:id single-equipment)}
-              [print-equipment single-equipment
-               (let [cost (characters/wealth-cost
-                           (:level single-equipment))]
-                 [:div.level
-                  [:div.level-item
-                   [:button.button.is-fullwidth.is-success
-                    {:disabled
-                     (> cost (:gold @-character))
-                     :on-click
-                     #(do
-                        (swap! -character update :gold - cost)
-                        (swap! -character update :inventory conj single-equipment))}
-                    "Buy"]]
-                  [:div.level-item
-                   [:button.button.is-fullwidth.is-info
-                    {:on-click
-                     #(swap! -character update :inventory conj single-equipment)}
-                    "Give (+" cost ")"]]])]))]]))]]]))
+      (let [grouped-equipment (group-by :slot @-equipment)]
+        (doall
+         (for [group [:weapon :shield :armor
+                      :belt :pack :item
+                      :head :torso :hands :feet :ring]
+               :let [equipment
+                     (->> (get grouped-equipment group [])
+                          (sort-by :name)
+                          (sort-by :level))]
+               :when (seq equipment)]
+           ^{:key group}
+           [:<>
+            [:h5 "Slot: " (norm group)]
+            [:div
+             overflow-area
+             (doall
+              (for [single-equipment equipment]
+                ^{:key (:id single-equipment)}
+                [print-equipment single-equipment
+                 (let [cost (characters/wealth-cost
+                             (equipment/equipment-level
+                              single-equipment))]
+                   [:div.level
+                    [:div.level-item
+                     [:button.button.is-fullwidth.is-success
+                      {:disabled
+                       (> cost (:gold @-character))
+                       :on-click
+                       #(do
+                          (swap! -character update :gold - cost)
+                          (swap! -character update :inventory conj single-equipment))}
+                      "Buy"]]
+                    [:div.level-item
+                     [:button.button.is-fullwidth.is-info
+                      {:on-click
+                       #(swap! -character update :inventory conj single-equipment)}
+                      "Give (+" cost ")"]]])]))]])))]]]))
 
 (defn- edit-carrying [-character]
   (let [[equipped-max-bulk
@@ -647,15 +644,14 @@
           [:p
            [:button.button.is-fullwidth.is-danger
             {:on-click
-             #(let [id (:id @-character (db/character-uuid))]
+             #(let [id (:id @-character)]
                 (when (.confirm js/window
                                 (str "Are you sure you want to delete "
                                      (get-in @-character [:bio :name])
                                      "?"))
                   (.then
                    (db/remove-id! db/db id)
-                   (fn []
-                     (reset-characters! -characters)))
+                   (fn [] (reset-characters! -characters)))
                   (reset! -character characters/base-character)
                   (reset! -editing? true)
                   ((scroll-to "characters-home"))))}

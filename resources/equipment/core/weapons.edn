@@ -1,18 +1,4 @@
-[{:id :innate-weapon
-  :slot :weapon
-  :name "Innate melee weapon"
-  :description "Predacious claws, curling horns, or other natural armaments."
-  :level 0
-  :accuracy 1
-  :damage 4
-  :defense 1
-  :range :close
-  :bulk 0
-  :might 0
-  :enhancements #{}
-  :materials #{}
-  :tags #{:uncraftable}}
- {:id :heavy-innate-weapon
+[{:id :heavy-innate-melee-weapon
   :slot :weapon
   :name "Heavy innate melee weapon"
   :description "Reaping limbs and crushing mandibles; deadly bodily implements, adorned at all times."

@@ -1,0 +1,11 @@
+[{:id :apex-predator
+  :name "Apex Predator"
+  :description
+  "Your body has rending limbs, crushing mandibles,
+   or some other form of built-in heavy armament.
+   You gain an innate heavy melee weapon,
+   and have +1 Accuracy when using it."
+  :level 2
+  :when-gained
+  {:gain-items [:heavy-innate-melee-weapon]}
+  :tags #{:background :talent}}]

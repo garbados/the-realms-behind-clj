@@ -28,6 +28,6 @@
  :feats
  #{:extra-hearts-damage
    :extra-hearts-healing}
- :equipped [:innate-weapon :medium-armor]
+ :equipped [:innate-melee-weapon :medium-armor]
  :at-hand []
  :inventory []}

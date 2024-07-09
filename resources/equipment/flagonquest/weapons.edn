@@ -117,4 +117,18 @@
   :might 0
   :enhancements #{}
   :materials #{}
-  :tags #{:uncraftable :light}}]
+  :tags #{:uncraftable :light}}
+ {:id :innate-melee-weapon
+  :slot :weapon
+  :name "Innate melee weapon"
+  :description "Predacious claws, curling horns, or other natural armaments."
+  :level 0
+  :accuracy 1
+  :damage 4
+  :defense 1
+  :range :close
+  :bulk 0
+  :might 0
+  :enhancements #{}
+  :materials #{}
+  :tags #{:uncraftable}}]

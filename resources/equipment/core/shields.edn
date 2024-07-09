@@ -10,7 +10,7 @@
   :bulk :light
   :might 0
   :enhancements #{}
-  :materials #{:wood}
+  :materials #{:leather :wood}
   :tags #{}}
  {:id :metal-shield
   :slot :shield
@@ -24,7 +24,7 @@
   :bulk 1
   :might 3
   :enhancements #{}
-  :materials #{:wood :metal}
+  :materials #{:leather :metal}
   :tags #{}}
  {:id :phalanx-shield
   :slot :shield

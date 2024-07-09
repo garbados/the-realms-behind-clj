@@ -16,6 +16,20 @@
 (def CLOTHING "clothing")
 (def ITEMS "items")
 
+(def HOME "equipment-home")
+
+(def -equipment (r/atom nil))
+(def -enhancements (r/atom nil))
+
+(do
+  (.then (db/all-equipment)
+         #(reset! -equipment %))
+  (.then (db/all-enhancements)
+         #(reset! -enhancements %)))
+
+(def -workshop (r/atom nil))
+(def -workshopping? (r/atom false))
+
 (defn print-range-expr [range-expr]
   (cond
     (number? range-expr) (str range-expr)
@@ -35,12 +49,21 @@
     bulk
     (norm bulk)))
 
+(defn equipment-level [equipment]
+  (->> (:enhancements equipment)
+       (map :level)
+       (reduce + (:level equipment 0))))
+
+(defn reset-equipment! []
+  (.then (db/all-equipment)
+         #(reset! -equipment %)))
+
 (defn print-equipment [equipment & extra]
   [:div.box>div.content
    [:p
     [:strong (:name equipment)]
     " "
-    [:em "(level " (:level equipment) ")"]]
+    [:em "(level " (equipment-level equipment) ")"]]
    (when-let [description (:description equipment)]
      [:p description])
    (let [eq-headers
@@ -56,7 +79,13 @@
          (for [header eq-headers
                :when (get equipment header)]
            ^{:key header}
-           [:th (norm header)]))]]
+           [:th (norm header)]))
+        (when (seq (:enhancements equipment []))
+          [:th "Enhancements"])
+        (let [id (:id equipment)]
+          (when (and (string? id)
+                     (some? (re-matches #"^equipment/.+$" id)))
+            [:th "Delete?"]))]]
       [:tbody
        [:tr
         (doall
@@ -64,7 +93,7 @@
                :when (get equipment header)
                :let [value (get equipment header)]]
            ^{:key header}
-           [:th (cond
+           [:td (cond
                   (= :range header)
                   (print-range-expr value)
                   (= :resists header)
@@ -75,7 +104,24 @@
                        (string/join "; "))
                   (keyword? value)
                   (norm value)
-                  :else value)]))]]])
+                  :else value)]))
+        (when (seq (:enhancements equipment []))
+          [:td
+           (->> (:enhancements equipment [])
+                (map (comp norm :name))
+                (string/join ", "))])
+        (let [id (:id equipment)]
+          (when (and (string? id)
+                     (some? (re-matches #"^equipment/.+$" id)))
+            [:td
+             [:button.button.is-narrow.is-danger
+              {:on-click
+               #(when (.confirm js/window
+                                (str "Are you sure you want to delete "
+                                     (:name equipment)
+                                     "?"))
+                  (.then (db/remove-id! db/db id) reset-equipment!))}
+              "Delete Equipment"]]))]]])
    extra])
 
 (defn print-equipment-short [equipment & extra]
@@ -83,7 +129,7 @@
    [:p
     [:strong (:name equipment)]
     " "
-    [:em "(level " (:level equipment) ")"]]
+    [:em "(level " (equipment-level equipment) ")"]]
    [:p (:description equipment)]
    (let [eq-headers
          [:slot :bulk
@@ -109,17 +155,20 @@
                      value)]
              :when (some? value)]
          ^{:key header}
-         [:li [:strong (norm header)] ": " pr-value]))])
+         [:li [:strong (norm header)] ": " pr-value]))
+      (when-let [enhancements (seq (:enhancements equipment #{}))]
+        [:li "Enhancements"
+         [:ul
+          (doall
+           (for [enhancement enhancements]
+             ^{:key (:id enhancement)}
+             [:li (:name enhancement)]))]])])
    extra])
 
-(defn reset-equipment! [-equipment]
-  (.then (db/all-equipment)
-         #(reset! -equipment %)))
-
 (defn new-equipment
-  ([-equipment -enhancements -editing?]
-   [new-equipment -equipment -enhancements -editing? (r/atom nil)])
-  ([-equipment -enhancements -editing? -workshop]
+  ([]
+   [new-equipment -equipment -enhancements -workshopping? -workshop])
+  ([-equipment -enhancements -workshopping? -workshop]
    (let [enhancements @-enhancements
          filter-by-tag (fn [tag] (filter #((:tags % #{}) tag) enhancements))
          defects (filter-by-tag :defect)
@@ -138,8 +187,9 @@
            [:<>
             [:option ""]
             (doall
-             (for [equipment (->>  @-equipment (sort-by :name) (sort-by :level))
+             (for [equipment (sort-by :name  @-equipment)
                    :when (empty? (filter #{:uncraftable} (:tags equipment #{})))]
+               ^{:key (:id equipment)}
                [:option (:name equipment)]))]]]]]
        (when @-workshop
          [:<>
@@ -153,10 +203,7 @@
            [:label.label "Description"]
            [:div.control
             [prompt-textarea
-             {:get-value #(->> (:description @-workshop "")
-                               (string/split-lines)
-                               (map string/trim)
-                               (string/join " "))
+             {:get-value #(string/replace (:description @-workshop "") #"\s{2,}" " ")
               :on-change #(swap! -workshop assoc :description (e->value %))}]]]
           (doall
            (for [[title group] [["Defects" defects]
@@ -166,14 +213,16 @@
                  :let [sorted-group
                        (->> group
                             (sort-by :name)
-                            (sort-by :level)
+                            (sort-by equipment-level)
                             (filter #((:tags % #{}) (:slot @-workshop))))]
                  :when (seq sorted-group)]
+             ^{:key title}
              [:div.field
               [:label.label title]
               (doall
                (for [thing sorted-group]
-                 [:p
+                 ^{:key (:id thing)}
+                 [:div.field
                   [:div.control
                    [:label.checkbox
                     [:input {:type "checkbox"
@@ -181,7 +230,7 @@
                                            (swap! -workshop update :enhancements disj thing)
                                            (swap! -workshop update :enhancements conj thing))}]
                     " "
-                    [:strong (:name thing)]
+                    [:em (:name thing)]
                     " "
                     "(level " (:level thing) ")"
                     ": "
@@ -189,21 +238,28 @@
           [print-equipment @-workshop]
           [:div.level
            [:div.level-item
-            [:span "Steps: " (characters/xp-cost 3 (:level @-workshop 0))]]
+            [:span "Steps: "
+             (characters/xp-cost 3 (equipment-level @-workshop))]]
            [:div.level-item
-            [:span "Materials: " "TODO FIXME"]]]
+            [:span "Materials: "
+             (->> (:enhancements @-workshop)
+                  (map :materials)
+                  (reduce into (:materials @-workshop))
+                  (map norm)
+                  (sort)
+                  (string/join ", "))]]]
           [:div.level
            [:div.level-item
             [:button.button.is-fullwidth.is-success
              {:on-click
               #(let [equipment @-workshop
-                     uuid (or (:id equipment) (db/equipment-uuid))
+                     uuid (db/equipment-uuid)
                      equipment* (assoc equipment :id uuid)]
                  (.then
                   (db/upsert-doc db/db uuid equipment*)
-                  (fn [& _] (reset-equipment! -equipment)))
+                  (fn [& _] (reset-equipment!)))
                  (reset! -workshop nil)
-                 (reset! -editing? false))}
+                 (reset! -workshopping? false))}
              "Save Equipment"]]]])]])))
 
 (defn list-weapons [weapons]
@@ -226,7 +282,7 @@
         ^{:key (:id weapon)}
         [:tr
          [:td (:name weapon)]
-         [:td (:level weapon)]
+         [:td (equipment-level weapon)]
          [:td (:accuracy weapon)]
          [:td (:damage weapon)]
          [:td (:defense weapon)]
@@ -258,7 +314,7 @@
         ^{:key (:id shield)}
         [:tr
          [:td (:name shield)]
-         [:td (:level shield)]
+         [:td (equipment-level shield)]
          [:td
           (string/join
            ", "
@@ -295,7 +351,7 @@
         ^{:key (:id armor)}
         [:tr
          [:td (:name armor)]
-         [:td (:level armor)]
+         [:td (equipment-level armor)]
          [:td
           (string/join
            ", "
@@ -330,7 +386,7 @@
         ^{:key (:id pack)}
         [:tr
          [:td (:name pack)]
-         [:td (:level pack)]
+         [:td (equipment-level pack)]
          [:td (norm (:slot pack))]
          [:td (:stowage pack)]
          [:td (:might pack)]
@@ -356,7 +412,7 @@
         ^{:key (:id single-clothing)}
         [:tr
          [:td (:name single-clothing)]
-         [:td (:level single-clothing)]
+         [:td (equipment-level single-clothing)]
          [:td (print-bulk (:bulk single-clothing))]
          [:td (:might single-clothing)]]))]]
    (doall
@@ -379,7 +435,7 @@
         ^{:key (:id item)}
         [:tr
          [:td (:name item)]
-         [:td (:level item)]
+         [:td (equipment-level item)]
          [:td (print-bulk (:bulk item))]]))]]
    (doall
     (for [item items]
@@ -387,81 +443,71 @@
       [print-equipment item]))])
 
 (defn equipment-view
-  ([_]
-   (let [-equipment (r/atom [])
-         -enhancements (r/atom [])
-         -workshopping? (r/atom false)]
-     (.then (db/all-equipment)
-            #(reset! -equipment %))
-     (.then (db/all-enhancements)
-            #(reset! -enhancements %))
-     [equipment-view _ -equipment -enhancements -workshopping?]))
-  ([_ -equipment -enhancements -workshopping?]
-   [:div.columns
-    [:div.column.is-2
-     [:div.box>div.content
-      [:h1.title "Equipment"]
-      [:p "Content:"]
-      [:ul
-       [:li [:button.is-link
-             {:on-click (scroll-to WEAPONS)}
-             "Weapons"]]
-       [:li [:button.is-link
-             {:on-click (scroll-to SHIELDS)}
-             "Shields"]]
-       [:li [:button.is-link
-             {:on-click (scroll-to ARMOR)}
-             "Armor"]]
-       [:li [:button.is-link
-             {:on-click (scroll-to PACKS)}
-             "Packs"]]
-       [:li [:button.is-link
-             {:on-click (scroll-to CLOTHING)}
-             "Clothing"]]
-       [:li [:button.is-link
-             {:on-click (scroll-to ITEMS)}
-             "Items"]]]]]
-    [:div.column
-     [:div.box>div.content
-      (let [grouped (group-by :slot @-equipment)]
-        [:<>
-         [:p
-          (if @-workshopping?
-            [:button.button.is-fullwidth.is-dark
-             {:on-click #(reset! -workshopping? false)}
-             "Close Workshop"]
-            [:button.button.is-fullwidth.is-light
-             {:on-click #(reset! -workshopping? true)}
-             "Open Workshop"])]
-         (when @-workshopping?
-           [new-equipment -equipment -enhancements -workshopping?])
-         [list-weapons
-          (->> (:weapon grouped [])
-               (sort-by :name)
-               (sort-by :level)
-               (sort-by :damage))]
-         [list-shields
-          (->> (:shield grouped [])
-               (sort-by :name)
-               (sort-by :level)
-               (sort-by :inertia))]
-         [list-armor
-          (->> (:armor grouped [])
-               (sort-by :name)
-               (sort-by :level)
-               (sort-by :inertia))]
-         [list-packs
-          (->> (flatten (vals (select-keys grouped [:pack :belt])))
-               (sort-by :name)
-               (sort-by :level)
-               (sort-by :slot))]
-         [list-clothing
-          (->> (flatten (vals (select-keys grouped [:head :torso :hands :feet :ring])))
-               (sort-by :name)
-               (sort-by :level)
-               (sort-by :slot))]
-         [list-items
-          (->> (:item grouped [])
-               (sort-by :name)
-               (sort-by :level))]])]]]))
-
+  [_]
+  [:div.columns
+   [:div.column.is-2
+    [:div.box>div.content
+     [:h1.title {:name HOME} "Equipment"]
+     [:p "Content:"]
+     [:ul
+      [:li [:button.is-link
+            {:on-click (scroll-to WEAPONS)}
+            "Weapons"]]
+      [:li [:button.is-link
+            {:on-click (scroll-to SHIELDS)}
+            "Shields"]]
+      [:li [:button.is-link
+            {:on-click (scroll-to ARMOR)}
+            "Armor"]]
+      [:li [:button.is-link
+            {:on-click (scroll-to PACKS)}
+            "Packs"]]
+      [:li [:button.is-link
+            {:on-click (scroll-to CLOTHING)}
+            "Clothing"]]
+      [:li [:button.is-link
+            {:on-click (scroll-to ITEMS)}
+            "Items"]]]]]
+   [:div.column
+    [:div.box>div.content
+     (let [grouped (group-by :slot @-equipment)]
+       [:<>
+        [:p
+         (if @-workshopping?
+           [:button.button.is-fullwidth.is-dark
+            {:on-click #(reset! -workshopping? false)}
+            "Close Workshop"]
+           [:button.button.is-fullwidth.is-light
+            {:on-click #(reset! -workshopping? true)}
+            "Open Workshop"])]
+        (when @-workshopping?
+          [new-equipment])
+        [list-weapons
+         (->> (:weapon grouped [])
+              (sort-by :name)
+              (sort-by equipment-level)
+              (sort-by :damage))]
+        [list-shields
+         (->> (:shield grouped [])
+              (sort-by :name)
+              (sort-by equipment-level)
+              (sort-by :inertia))]
+        [list-armor
+         (->> (:armor grouped [])
+              (sort-by :name)
+              (sort-by :inertia)
+              (sort-by equipment-level))]
+        [list-packs
+         (->> (flatten (vals (select-keys grouped [:pack :belt])))
+              (sort-by :name)
+              (sort-by equipment-level)
+              (sort-by :slot))]
+        [list-clothing
+         (->> (flatten (vals (select-keys grouped [:head :torso :hands :feet :ring])))
+              (sort-by :name)
+              (sort-by equipment-level)
+              (sort-by :slot))]
+        [list-items
+         (->> (:item grouped [])
+              (sort-by :name)
+              (sort-by equipment-level))]])]]])

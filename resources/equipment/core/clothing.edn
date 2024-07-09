@@ -7,4 +7,46 @@
   :bulk :light
   :might 0
   :materials #{:cloth}
+  :enhancements #{}}
+ {:id :tunic
+  :slot :torso
+  :name "Tunic"
+  :description
+  "A typical tunic, long and sometimes belted."
+  :level 0
+  :bulk :light
+  :might 0
+  :materials #{:cloth}
+  :enhancements #{}}
+ {:id :bell-skirt
+  :slot :torso
+  :name "Bell skirt"
+  :description
+  "Ostentatious Bybylian citywear.
+   A wrap, from waist to knee, tied with a kerchief to accessorize.
+   Great for all genders!"
+  :level 0
+  :bulk :light
+  :might 0
+  :materials #{:cloth}
+  :enhancements #{}}
+ {:id :gloves
+  :slot :hands
+  :name "Gloves"
+  :description
+  "A pair of slender gloves that protect the hands."
+  :level 0
+  :bulk :light
+  :might 0
+  :materials #{:cloth}
+  :enhancements #{}}
+ {:id :sandals
+  :slot :feet
+  :name "Sandals"
+  :description
+  "A pair of common Bybelian leather sandals."
+  :level 0
+  :bulk :light
+  :might 0
+  :materials #{:leather}
   :enhancements #{}}]
