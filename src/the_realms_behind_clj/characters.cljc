@@ -12,9 +12,9 @@
 (def skill->attribute
   {:acrobatics  :body
    :athletics   :body
-   :awareness   :spirit
+   :awareness   :body
    :craft       :mind
-   :deception   :mind
+   :deception   :spirit
    :diplomacy   :mind
    :insight     :mind
    :lore        :mind

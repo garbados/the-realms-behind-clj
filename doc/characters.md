@@ -117,6 +117,8 @@ Feats follow a schema such that they are ultimately expressed as data files. So,
     - Buildable: The feat must be customized before purchase.
     - Background: The feat relates to ancestry, physiology, or upbringing, and as such is generally only eligible to take during character creation.
 
+*Backgrounds* are special feats that can only be taken during character creation. They reflect your species and culture, and other formative factors. As such, they are usually cheaper than other feats. In fact, some backgrounds will grant other ones, on the cheap! This is intentional, but should be used with caution. Players should limit themselves to 1-2 background feats, but the GM may offer their own advisory at their discretion.
+
 ## Equipment
 
 Quick facts:

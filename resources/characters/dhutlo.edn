@@ -27,7 +27,8 @@
   :theurgy 2}
  :feats
  #{:extra-hearts-damage
-   :extra-hearts-healing}
+   :extra-hearts-healing
+   :predator}
  :equipped [:innate-melee-weapon :medium-armor]
  :at-hand []
  :inventory []}

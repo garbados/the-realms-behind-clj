@@ -3,7 +3,7 @@
   :description
   "You have deadly claws, horns, etc.;
     you gain an innate melee weapon."
-  :level 1
+  :level 0
   :when-gained
   {:gain-items [:innate-melee-weapon]}
   :tags #{:background :talent :flagon-quest}}]
