@@ -1,0 +1,14 @@
+[{:id :destructive
+  :name "Destructive"
+  :description
+  "Increase the Damage of this attack by 1.
+   Clubs in the Suit Pool
+   add an additional point of damage."
+  :level 1
+  :tags #{:evocation :flagon-quest}}
+ {:id :arcane-lance
+  :name "Arcane Lance"
+  :description
+  "Double the range of this spell."
+  :level 1
+  :tags #{:evocation :flagon-quest}}]

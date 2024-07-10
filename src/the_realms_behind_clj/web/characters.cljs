@@ -306,42 +306,51 @@
             [:div.field
              [:label.label "Features"]
              [edit-features features -features]]]
-           (let [level (reduce + 0 (map :level @-features))
-                 cost (characters/xp-cost 3 level)
-                 feat* {:id (db/feat-uuid)
-                        :name @-name
-                        :description @-description
-                        :level level
-                        :cost
-                        (cond
-                          (some #(= (:id %) :quickened) @-features)
-                          (merge-with + (:cost feat) {:ap -1})
-                          (some #(= (:id %) :instinctive) @-features)
-                          (merge (:cost feat) {:ap :reaction})
-                          (some #(= (:id %) :belabored) @-features)
-                          (merge (:cost feat) {:ap 3})
-                          :else
-                          (:cost feat))
-                        :effect
-                        {:action
-                         {:features @-features}}
-                        :tags (disj (:tags feat) :buildable)}]
+           (let [features @-features
+                 level (reduce + 0 (map :level features))
+                 xp-cost (characters/xp-cost 3 level)
+                 {:keys [checks damage]} feat
+                 action-range (:range feat)
+                 action-cost (:cost feat)
+                 feat*
+                 (cond->
+                  {:id (db/feat-uuid)
+                   :name @-name
+                   :description @-description
+                   :level level
+                   :cost
+                   (cond
+                     (some #(= (:id %) :quickened) features)
+                     (merge-with + action-cost {:ap -1})
+                     (some #(= (:id %) :instinctive) features)
+                     (merge action-cost {:ap :reaction})
+                     (some #(= (:id %) :belabored) features)
+                     (merge action-cost {:ap 3})
+                     :else
+                     (:cost feat))
+                   :effect
+                   {:action
+                    {:features features}}
+                   :tags (disj (:tags feat) :buildable)}
+                   checks (assoc :checks checks)
+                   damage (assoc :damage damage)
+                   action-range (assoc :range action-range))]
              [:div.level
               [:div.level-item
                [:button.button.is-fullwidth.is-success
                 {:disabled
                  (< (:experience @-character)
-                    cost)
+                    xp-cost)
                  :on-click
                  #(do
-                    (swap! -character update :experience - cost)
+                    (swap! -character update :experience - xp-cost)
                     (swap! -character update :feats conj feat*))}
                 "Buy"]]
               [:div.level-item
                [:button.button.is-fullwidth.is-info
                 {:on-click
                  #(swap! -character update :feats conj feat*)}
-                "Gain (+" cost ")"]]])]))]
+                "Gain (+" xp-cost ")"]]])]))]
      (let [cost (characters/xp-cost 3 (:level feat))]
        [print-feat feat
         [:div.level

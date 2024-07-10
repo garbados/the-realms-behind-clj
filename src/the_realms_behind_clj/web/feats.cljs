@@ -35,6 +35,7 @@
      [:ul
       (doall
        (for [feature features]
+         ^{:key (:id feature)}
          [:li (:name feature) ": " (:description feature)]))])
    (when (-> feat :tags :buildable)
      [:<>
@@ -72,6 +73,7 @@
           [:ul
            (doall
             (for [req or-reqs]
+              ^{:key req}
               [:li [print-reqs req]]))]])]])
    (when-let [tags (:tags feat)]
      [:p.tags

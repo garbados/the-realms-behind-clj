@@ -45,6 +45,20 @@
 (s/def ::ap nat-int?)
 (s/def ::madness nat-int?)
 
+(s/def ::damage-expr
+  (s/or :raw nat-int?
+        :with-attr (s/tuple ::attribute nat-int?)))
+(s/def ::damage
+  (s/or :raw ::damage-expr
+        :with-element (s/map-of ::element ::damage-expr)))
+(s/def ::range-expr
+  (s/or :melee #{:close}
+        :ranged nat-int?
+        :varied (s/map-of ::attribute nat-int?)))
+(s/def ::range
+  (s/or :expr ::range-expr
+        :exprs (s/coll-of ::range-expr)))
+
 ;; CARD SPECS
 
 (def suits #{:hearts :spades :clubs :diamonds})
@@ -69,11 +83,22 @@
 (s/def ::gain-feats ::links)
 (s/def ::gain-items ::links)
 
-(s/def ::cost (s/keys :req-un [::ap]
-                      :opt-un [::madness]))
+(s/def ::checks
+  (s/coll-of
+   (s/or :factor keyword?
+         :best-of (s/coll-of keyword?))
+   :count 2))
+(s/def ::cost
+  (s/keys :req-un [::ap]
+          :opt-un [::madness]))
+(s/def ::base-action
+  (s/keys :opt-un [::checks
+                   ::cost
+                   ::damage
+                   ::range]))
 (s/def ::action
   (s/merge ::base-definition
-           (s/keys :req-un [::cost])))
+           ::base-action))
 
 (s/def ::choose-items
   (s/tuple nat-int? set?))
@@ -101,6 +126,7 @@
 
 (s/def ::feat
   (s/merge ::base-definition
+           ::base-action
            (s/keys :opt-un [::when-gained
                             ::effect
                             ::requirements])))
@@ -119,14 +145,6 @@
            (s/keys :req-un [::bulk
                             ::materials])))
 (s/def ::accuracy nat-int?)
-(s/def ::damage nat-int?)
-(s/def ::range-expr
-  (s/or :melee #{:close}
-        :ranged nat-int?
-        :varied (s/map-of ::attribute nat-int?)))
-(s/def ::range
-  (s/or :expr ::range-expr
-        :exprs (s/coll-of ::range-expr)))
 (s/def ::might nat-int?)
 (s/def ::enhancement
   (s/merge ::base-definition
@@ -144,8 +162,8 @@
                             ::range
                             ::might]
                    :opt-un [::enhancements])))
-(s/def ::elements #{:physical :fire :frost :brilliant :shadow})
-(s/def ::resists (s/map-of ::elements nat-int?))
+(s/def ::element #{:physical :fire :frost :brilliant :shadow})
+(s/def ::resists (s/map-of ::element nat-int?))
 (s/def ::inertia nat-int?)
 (s/def :armor/slot #{:armor})
 (s/def ::armor
