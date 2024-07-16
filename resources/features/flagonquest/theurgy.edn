@@ -1,0 +1,31 @@
+[{:id :heavenly-reach
+  :name "Heavenly Reach"
+  :description
+  "Double the Range of this spell."
+  :level 1
+  :tags #{:blessing :curse :healing :flagon-quest}}
+ {:id :step-of-air
+  :name "Step of Air"
+  :description
+  "The target gains stacked of Hastened
+   equal to your Luck plus successes,
+   plus the number of Clubs in the Suit Pool."
+  :level 1
+  :tags #{:blessing :flagon-quest}}
+ {:id :shield-of-faith
+  :name "Shield of Faith"
+  :description
+  "The target gained stacks of Protected
+   equal to your Luck plus successes,
+   plus the number of Diamonds in the Suit Pool."
+  :level 1
+  :tags #{:blessing :flagon-quest}}
+ {:id :turn-elements
+  :name "Turn Elements"
+  :description
+  "When you cast this spell, name Frost, Fire, Radiant, or Shadow
+   The target gains stacks of Warded against that element
+   equal to your Luck plus your successes,
+   plus the number of Spades in the Suit Pool."
+  :level 1
+  :tags #{:abjuration :flagon-quest}}]

@@ -1,0 +1,35 @@
+[{:id :blood-magic
+  :name "Blood Magic"
+  :description
+  "You elevate this spell with your physical vitality,
+   sacrificing life for power.
+   When you cast this spell, lose 1 health."
+  :level -2
+  :tags #{:evocation :conjuration :abjuration}}
+ {:id :force-shield
+  :name "Force Shield"
+  :description
+  "Encase a target in a protective one-way bubble,
+   deflecting harm without impeding their offense.
+   The target gains stacks of Protected
+   equal to your Spirit plus successes,
+   plus the number of Diamonds in the Suit Pool."
+  :level 1
+  :tags #{:abjuration}}
+ {:id :hasten
+  :name "Hasten"
+  :description
+  "Put the wind at one's back.
+   The target gains an encounter bonus to Speed
+   equal to your Spirit plus successes,
+   plus the number of Clubs in the Suit Pool."
+  :level 1
+  :tags #{:abjuration}}
+ {:id :stable-magic
+  :name "Stable Magic"
+  :description
+  "The mechanics of this spell are well understood
+   and carefully encapsulated.
+   Reduce the spell's Madness cost by 1, to a minimum of 0."
+  :level 1
+  :tags #{:abjuration :evocation :conjuration}}]

@@ -270,7 +270,6 @@
         (for [tag (:tags feat)]
           ^{:key tag}
           [:span.tag (norm tag)]))]
-      (println -character feat -features -name -description -editing?)
       [:p
        (if @-editing?
          [:button.button.is-fullwidth.is-dark
@@ -280,7 +279,11 @@
           {:on-click #(reset! -editing? true)}
           "Configure"])]
       (when @-editing?
-        (let [groups (get-in feat [:effect :features])
+        (let [reset-atoms! #(do (reset! -features #{})
+                                (reset! -name "")
+                                (reset! -description "")
+                                (reset! -editing? false))
+              groups (get-in feat [:effect :features])
               features
               (->> (resources/features)
                    (filter (fn [{:keys [tags]}]
@@ -344,12 +347,15 @@
                  :on-click
                  #(do
                     (swap! -character update :experience - xp-cost)
-                    (swap! -character update :feats conj feat*))}
+                    (swap! -character update :feats conj feat*)
+                    (reset-atoms!))}
                 "Buy"]]
               [:div.level-item
                [:button.button.is-fullwidth.is-info
                 {:on-click
-                 #(swap! -character update :feats conj feat*)}
+                 #(do
+                    (swap! -character update :feats conj feat*)
+                    (reset-atoms!))}
                 "Gain (+" xp-cost ")"]]])]))]
      (let [cost (characters/xp-cost 3 (:level feat))]
        [print-feat feat

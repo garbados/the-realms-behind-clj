@@ -16,7 +16,7 @@
   :checks [:sorcery :dodge]
   :damage 3
   :range 15
-  :tags #{:attack :technique :buildable}
+  :tags #{:concentration :spell :attack :technique :buildable}
   :requirements
   {:skills {:sorcery 5}}}
  {:id :conjuration
@@ -34,7 +34,7 @@
   :cost {:ap 2 :madness 1}
   :checks [:sorcery :spirit]
   :range 15
-  :tags #{:technique :buildable}
+  :tags #{:concentration :spell :technique :buildable}
   :requirements
   {:skills {:sorcery 4}}}
  {:id :abjuration
@@ -55,6 +55,6 @@
   :cost {:ap 2 :madness 1}
   :checks [:sorcery :spirit]
   :range 15
-  :tags #{:technique :buildable}
+  :tags #{:concentration :spell :technique :buildable}
   :requirements
   {:skills {:sorcery 3}}}]

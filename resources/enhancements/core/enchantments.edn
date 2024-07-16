@@ -38,9 +38,9 @@
   :name "Blessed"
   :description
   "The stars smile upon this object.
-   This equipment gains 3 Brilliant Resist."
+   This equipment gains 3 Radiant Resist."
   :level 2
-  :materials #{:brilliant}
+  :materials #{:radiant}
   :tags #{:armor :shield :belt :pack
           :head :torso :hands :feet :ring
           :enchantment}}
@@ -71,7 +71,7 @@
   "A curious container stores more than it should.
    Increase Stowage by 2."
   :level 1
-  :materials #{:precious :brilliant}
+  :materials #{:precious :radiant}
   :tags #{:belt :pack :enchantment}}
  {:id :heavy-hauler
   :name "Heavy Hauler"
@@ -79,18 +79,18 @@
   "A very strange container stores far more than it should.
    Increase Stowage by 10."
   :level 3
-  :materials #{:precious :brilliant :shadow}
+  :materials #{:precious :radiant :shadow}
   :tags #{:belt :pack :enchantment}}
  {:id :sanctified
   :name "Sanctified"
   :description
   "Divine energy suffuses this weapon.
-   It deals one less Physical damage, but two additional Brilliant damage.
+   It deals one less Physical damage, but two additional Radiant damage.
    Three times per day, you may grant +1 Advantage to a check,
    either your own or someone else's within line of sight,
    as a reaction."
   :level 2
-  :materials #{:precious :brilliant}
+  :materials #{:precious :radiant}
   :tags #{:weapon :enchantment}}
  {:id :profane
   :name "Profane"
@@ -121,7 +121,7 @@
    and any pairs present in a flip
    act as a rank 15 card."
   :level 1
-  :materials #{:precious :brilliant}
+  :materials #{:precious :radiant}
   :tags #{:head :hands :torso :feet :ring :enchantment}}
  {:id :fleet
   :name "Fleet"
@@ -159,7 +159,7 @@
    At least, a little bit.
    Gain 1 Physical Resist."
   :level 2
-  :materials #{:precious :brilliant}
+  :materials #{:precious :radiant}
   :tags #{:shield :head :hands :torso :feet :ring :enchantment}}
  {:id :resurgent
   :name "Resurgent"
@@ -168,5 +168,5 @@
    Once per day, when you would be downed,
    you instead gain three shallow health."
   :level 3
-  :materials #{:precious :brilliant}
+  :materials #{:precious :radiant}
   :tags #{:head :hands :torso :ring :enchantment}}]

@@ -79,7 +79,7 @@
   :name "Channel Divinity"
   :description
   "When you first select this feature,
-   choose an element from Brilliant or Shadow.
+   choose an element from Radiant or Shadow.
    This attack deals its damage as that type.
    Requires Theurgy 3."
   :level 2

@@ -7,7 +7,7 @@
   :effect
   {:features #{:blessing}}
   :cost {:ap 2 :madness 1}
-  :tags #{:technique :buildable}
+  :tags #{:concentration :theurgy :technique :buildable}
   :requirements
   {:skills {:theurgy 3}}}
  {:id :curse
@@ -18,9 +18,9 @@
   :effect
   {:features #{:curse}}
   :cost {:ap 2 :madness 1}
-  :tags #{:technique :buildable}
+  :tags #{:concentration :theurgy :technique :buildable}
   :requirements
-  {:skills {:theurgy 3}}}
+  {:skills {:theurgy 5}}}
  {:id :healing
   :name "Spirit Healing"
   :description
@@ -29,6 +29,6 @@
   :effect
   {:features #{:healing}}
   :cost {:ap 2 :madness 1}
-  :tags #{:technique :buildable}
+  :tags #{:concentration :theurgy :technique :buildable}
   :requirements
-  {:skills {:theurgy 3}}}]
+  {:skills {:theurgy 4}}}]

@@ -15,9 +15,10 @@
  {:id :warding
   :name "Warding"
   :description
-  "When you cast this spell, name an element.
-   The target gains stacks of Warded equal to
-   your Spirit plus your successes."
+  "When you cast this spell, name Frost or Fire.
+   The target gains stacks of Warded against that element
+   equal to your Spirit plus your successes,
+   plus the number of Spades in the Suit Pool."
   :level 1
   :tags #{:abjuration :flagon-quest}}
  {:id :barraging
@@ -121,33 +122,11 @@
    You have +1 Advantage on the casting check."
   :level 2
   :tags #{:evocation :flagon-quest}}
- {:id :magic-missile
-  :name "Magic Missile"
-  :description
-  "This spell sends out unerring projectiles.
-   You have +1 Advantage on the casting check."
-  :level 2
-  :tags #{:evocation :flagon-quest}}
  {:id :hungering
   :name "Hungering"
   :description
   "This spell is empowered by hungry spirits.
-   If it would Down a target, you may draw a card,
+   If it Downs a target, you may draw a card,
    and you gain 1 AP."
-  :level 2
-  :tags #{:evocation :conjuration :flagon-quest}}
- {:id :shaped-spell
-  :name "Shaped Spell"
-  :description
-  "When you choose this feature, select a shape:
-   a line 15 spaces long,
-   an unfilled circle 7 spaces wide,
-   a filled circle 5 spaces wide,
-   a 45-degree cone 7 spaces long,
-   or an emanation centered on you 6 spaces wide.
-   This spell takes that shape rather than
-   targeting a specific being.
-   Use one check against all possible targets
-   in the area."
   :level 2
   :tags #{:evocation :conjuration :flagon-quest}}]

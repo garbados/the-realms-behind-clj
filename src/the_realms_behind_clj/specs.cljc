@@ -136,7 +136,7 @@
 (def materials #{:cloth :wood :leather :bone :metal
                  :food :medicine
                  :precious
-                 :fire :frost :brilliant :shadow})
+                 :fire :frost :radiant :shadow})
 (s/def ::materials (s/coll-of materials))
 (s/def ::bulk (s/or :light #{:light}
                     :nat-int nat-int?))
@@ -162,7 +162,7 @@
                             ::range
                             ::might]
                    :opt-un [::enhancements])))
-(s/def ::element #{:physical :fire :frost :brilliant :shadow})
+(s/def ::element #{:physical :fire :frost :radiant :shadow})
 (s/def ::resists (s/map-of ::element nat-int?))
 (s/def ::inertia nat-int?)
 (s/def :armor/slot #{:armor})

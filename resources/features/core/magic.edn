@@ -1,0 +1,16 @@
+[{:id :shaped-spell
+  :name "Shaped Spell"
+  :description
+  "When you choose this feature, select a shape:
+    a line 15 spaces long,
+    an unfilled circle 7 spaces wide,
+    a filled circle 5 spaces wide,
+    a 45-degree cone 7 spaces long,
+    or an emanation centered on you 6 spaces wide.
+    This spell takes that shape rather than
+    targeting a specific being.
+    Use one check against all possible targets
+    in the area."
+  :level 2
+  :tags #{:evocation :conjuration :abjuration
+          :blessing :curse :healing}}]
