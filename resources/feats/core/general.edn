@@ -109,7 +109,7 @@
   :requirements
   {:attributes {:body 2}
    :skills {:melee 4}}}
- {:id "Gambler"
+ {:id :gambler
   :name "Gambler"
   :level 1
   :description
