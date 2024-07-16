@@ -11,25 +11,29 @@
    testing your Sorcery against the target's Dodge defense."
   :level 1
   :effect
-  {:features #{:evocation}
-   :action {:tags #{:action}}}
+  {:features #{:evocation}}
   :cost {:ap 2 :madness 1}
   :checks [:sorcery :dodge]
   :damage 3
-  :range 25
+  :range 15
   :tags #{:attack :technique :buildable}
   :requirements
   {:skills {:sorcery 5}}}
  {:id :conjuration
   :name "Conjuration"
   :description
-  "Summon materials and even beings from Possibility."
+  "Summon materials and even beings from Possibility.
+   
+   Conjuration spells do not always have a living target,
+   and so do not always check against a being's defenses.
+   Instead, the general chaos of an encounter applies a flat
+   DC 11 check to any conjuration spell cast."
   :level 1
   :effect
   {:features #{:conjuration}}
   :cost {:ap 2 :madness 1}
   :checks [:sorcery :spirit]
-  :range 25
+  :range 15
   :tags #{:technique :buildable}
   :requirements
   {:skills {:sorcery 4}}}
@@ -37,12 +41,20 @@
   :name "Abjuration"
   :description
   "Work sacred mysteries to exert force
-   or apply strangeness to oneself or allies."
+   or apply strangeness to oneself or allies.
+   
+   Spells apply effects with a magnitude
+   which is your Spirit plus the spell's number of successes.
+   Because Abjuration spells are normally friendly,
+   it's unusual to check against the target's defenses.
+   Instead, the general chaos of an encounter applies a flat
+   DC 11 check to any abjuration spell cast."
   :level 1
   :effect
   {:features #{:abjuration}}
   :cost {:ap 2 :madness 1}
-  :range 25
+  :checks [:sorcery :spirit]
+  :range 15
   :tags #{:technique :buildable}
   :requirements
   {:skills {:sorcery 3}}}]

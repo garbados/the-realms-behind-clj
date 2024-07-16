@@ -84,22 +84,6 @@
   {:use-skill-as {:performance :lore}}
   :requirements
   {:skills {:performance 5}}}
- {:id :silver-tongue
-  :name "Silver Tongue"
-  :level 3
-  :description
-  "Checks using social skills (Deception, Diplomacy, Insight, Performance, Presence)
-   gain one advantage."
-  :effect
-  {:skill-advantage #{:deception :diplomacy :insight
-                      :performance :presence}}
-  :requirements
-  {:or [{:skills {:deception 7}}
-        {:skills {:diplomacy 7}}
-        {:skills {:insight 7}}
-        {:skills {:performance 7}}
-        {:skills {:presence 7}}]}
-  :tags #{:talent}}
  {:id :imposing-figure
   :name "Imposing Figure"
   :level 1
@@ -110,7 +94,7 @@
    {:body [:spirit :presence]}}
   :requirements
   {:attributes {:body 3}
-   :skills {:presence 2}}
+   :skills {:presence 3}}
   :tags #{:talent}}
  {:id :dual-wielding
   :name "Dual-Wielding"
@@ -119,9 +103,21 @@
   "May use two one-handed weapons for Defense.
    If you attack with one of them during your turn,
    if the other weapon is light,
-   you may attack with it for 1 AP."
+   you may make a 2 AP attack with it for 1 AP instead."
   :effect
   {:dual-wielding true}
   :requirements
   {:attributes {:body 2}
-   :skills {:melee 4}}}]
+   :skills {:melee 4}}}
+ {:id "Gambler"
+  :name "Gambler"
+  :level 1
+  :description
+  "The fates favor your overconfidence.
+   When you gamble on a check and succeed,
+   gain an additional extra success
+   for each time you gambled."
+  :effect
+  {:potent-gambling true}
+  :requirements
+  {:attributes {:luck 3}}}]

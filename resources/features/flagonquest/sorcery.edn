@@ -4,11 +4,150 @@
   "Increase the Damage of this attack by 1.
    Clubs in the Suit Pool
    add an additional point of damage."
-  :level 1
+  :level 2
   :tags #{:evocation :flagon-quest}}
  {:id :arcane-lance
   :name "Arcane Lance"
   :description
   "Double the range of this spell."
   :level 1
-  :tags #{:evocation :flagon-quest}}]
+  :tags #{:evocation :flagon-quest}}
+ {:id :warding
+  :name "Warding"
+  :description
+  "When you cast this spell, name an element.
+   The target gains stacks of Warded equal to
+   your Spirit plus your successes."
+  :level 1
+  :tags #{:abjuration :flagon-quest}}
+ {:id :barraging
+  :name "Barraging"
+  :description
+  "This spell emits a flurry of projectiles
+   that foes must scramble to avoid.
+   This spell, even if it doesn't hit,
+   applies stacks of Harried equal to
+   your Spirit plus your successes."
+  :level 1
+  :tags #{:evocation :flagon-quest}}
+ {:id :sanguine
+  :name "Sanguine"
+  :description
+  "This spell corrupts the target's blood,
+   causing it to ooze from their skin.
+   The spell does not deal elemental damage,
+   but applies stacks of Bleeding equal to
+   twice the damage that would have been dealt."
+  :level 1
+  :tags #{:evocation :conjuration :flagon-quest}}
+ {:id :arcane-piercing
+  :name "Arcane Piercing"
+  :description
+  "Shear away an enemy's elemental defenses.
+   If this spell hits,
+   it inflicts stacks of Vulnerable,
+   of the element of this spell,
+   equal to your Spirit plus your successes."
+  :level 1
+  :tags #{:evocation :flagon-quest}}
+ {:id :necrotizing
+  :name "Necrotizing"
+  :description
+  "This spell saps the vitality of a foe,
+   causing their very flesh to rot away.
+   If this spell hits,
+   it inflicts stacks of Necrotic
+   equal to your Spirit plus your successes."
+  :level 1
+  :tags #{:evocation :conjuration :flagon-quest}}
+ {:id :kinetic
+  :name "Kinetic"
+  :description
+  "This spell strikes with force,
+   pushing foes away.
+   If this spell hits,
+   it forces the target to move away spaces
+   equal to your Spirit plus your successes."
+  :level 1
+  :tags #{:evocation :flagon-quest}}
+ {:id :frigid
+  :name "Frigid"
+  :description
+  "This spell's bitter cold freezes the target,
+   partially immobilizing them.
+   If this spell hits,
+   it applies stacks of Slowed
+   equal to your Spirit plus your successes.
+   You may only apply this feature
+   if the element of the spell is Frost."
+  :level 1
+  :tags #{:evocation :flagon-quest}}
+ {:id :explosive-debris
+  :name "Explosive Debris"
+  :description
+  "This spell leaves residue underfoot,
+   such as burning embers or sticky goo,
+   which impedes movement.
+   Every space occupied by a target
+   and all adjacent spaces
+   become Difficult terrain
+   for the rest of the encounter."
+  :level 1
+  :tags #{:evocation :conjuration :flagon-quest}}
+ {:id :cauterize
+  :name "Cauterize"
+  :description
+  "This spell gruesomely closes bleeding wounds,
+   inflicting grievous harm.
+   If this spell hits,
+   it removes stacks of Bleeding
+   equal to your Spirit plus your successes
+   and then deals twice that much damage."
+  :level 1
+  :tags #{:evocation :conjuration :flagon-quest}}
+ {:id :wild-magic
+  :name "Wild Magic"
+  :description
+  "This spell borrows heavily
+   against the Veil's strangeness,
+   attracting hungry spirits.
+   Increase the Madness cost of this spell by 1."
+  :level -1
+  :tags #{:evocation :conjuration :abjuration :flagon-quest}}
+ {:id :magic-missile
+  :name "Magic Missile"
+  :description
+  "This spell sends out unerring projectiles.
+   You have +1 Advantage on the casting check."
+  :level 2
+  :tags #{:evocation :flagon-quest}}
+ {:id :magic-missile
+  :name "Magic Missile"
+  :description
+  "This spell sends out unerring projectiles.
+   You have +1 Advantage on the casting check."
+  :level 2
+  :tags #{:evocation :flagon-quest}}
+ {:id :hungering
+  :name "Hungering"
+  :description
+  "This spell is empowered by hungry spirits.
+   If it would Down a target, you may draw a card,
+   and you gain 1 AP."
+  :level 2
+  :tags #{:evocation :conjuration :flagon-quest}}
+ {:id :shaped-spell
+  :name "Shaped Spell"
+  :description
+  "When you choose this feature, select a shape:
+   a line 15 spaces long,
+   an unfilled circle 7 spaces wide,
+   a filled circle 5 spaces wide,
+   a 45-degree cone 7 spaces long,
+   or an emanation centered on you 6 spaces wide.
+   This spell takes that shape rather than
+   targeting a specific being.
+   Use one check against all possible targets
+   in the area."
+  :level 2
+  :tags #{:evocation :conjuration :flagon-quest}}]

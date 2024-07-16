@@ -10,6 +10,10 @@ Checks pit the rank of the highest revealed card, plus any modifiers, against a 
 
 Some checks may demand a response in a certain suit. Ex: A poison check may demand a response in Hearts. An enchantment spell may demand a response in Spades. If you do not have that suit in hand, you must reveal the top card of your deck until you find an applicable suit or you become Stupefied. None of these discarded cards apply to the suit pool. You may spend a Fortune to respond in any suit.
 
+### Gambling
+
+You may voluntarily raise the DC of any check your character is facing, even when it is unknown to you, in order to gain extra successes on the outcome. You might compromise accuracy to inflict more damage, or confidently stride into a strategic statement of great import. In general, you can raise the DC by 2 to gain 1 extra success. You can do this any number of times.
+
 ### Advantage and Disadvantage
 
 Characters sometimes enjoy advantages on their checks, or suffer disadvantages. They cancel each other out, but can stack themselves.
@@ -37,7 +41,7 @@ See [Characters > Fungibles](./characters.md#fungibles) for more information.
 
 ### Damage
 
-Damage is calculated when an attack check succeeds. It is equal to the base damage of the attack, plus any Hearts in the Suit Pool, minus any relevant Resists on the target. The remainder is taken from Health.
+Damage is calculated when an attack check succeeds. It is equal to the base damage of the attack (normally a flat number plus some attribute), plus the number of Hearts in the Suit Pool, plus the number of any extra successes, minus any relevant Resists on the target. The remainder is taken from Health, first from Shallow and then from Deep.
 
 ### Days and Resting
 
