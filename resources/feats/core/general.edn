@@ -103,7 +103,8 @@
   "May use two one-handed weapons for Defense.
    If you attack with one of them during your turn,
    if the other weapon is light,
-   you may make a 2 AP attack with it for 1 AP instead."
+   you may make an attack with it for 1 AP less,
+   to a minimum of 1."
   :effect
   {:dual-wielding true}
   :requirements

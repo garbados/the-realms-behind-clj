@@ -28,4 +28,10 @@
    equal to your Luck plus your successes,
    plus the number of Spades in the Suit Pool."
   :level 1
-  :tags #{:abjuration :flagon-quest}}]
+  :tags #{:abjuration :flagon-quest}}
+ {:id :steadying
+  :name "Steadying"
+  :description
+  "Remove one stack of Slowed, Crippled, Taunted, or Frightened
+   from the target
+   equal to your Luck plus your successes."}]
